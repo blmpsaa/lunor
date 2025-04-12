@@ -10,15 +10,15 @@
     <style>
         /* Custom CSS for Loading Screen, Glowing Effects, Background, Card Hover, Scrollbar, and Script Image */
 
-        /* Apply custom cursor forcefully to body and common interactive elements */
-        body, a, button, .game-card, #script-image, input, textarea, select, label {
-            font-family: 'Inter', sans-serif;
-            /* Custom white glowing cursor - Original Size Pointer, Larger Canvas for Glow, Reduced Glow */
-            /* NOTE: Glow appearance is highly dependent on browser rendering. */
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><g transform="translate(4 4)" style="filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 8px rgba(255, 255, 255, 0.7));"><path fill="white" d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/></g></svg>') 8 8, auto !important; /* Adjusted hotspot for padding */
+        html {
+            scroll-behavior: smooth; /* Added for native smooth scrolling */
+             /* For Firefox (Limited Styling) */
+             scrollbar-width: thin; /* Can't set thickness precisely */
+             scrollbar-color: rgba(255, 255, 255, 0.8) transparent; /* thumb track */
         }
 
         body {
+            font-family: 'Inter', sans-serif;
             background-color: #050505;
             color: #ffffff;
             margin: 0;
@@ -26,15 +26,49 @@
             position: relative;
             overflow-x: hidden;
             overflow-y: hidden; /* Hide scrollbars during loading, JS will revert */
+            /* Hide default cursor for custom follower */
+             cursor: none !important;
+        }
+
+        /* Ensure interactive elements also hide default cursor */
+        a, button, .game-card, #script-image, input, textarea, select, label {
+             cursor: none !important;
+        }
+
+        /* Custom Cursor Follower Style */
+        #cursor-follower {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 32px; /* Size of the follower */
+            height: 32px;
+            /* Simpler white circle follower */
+            background-color: white;
+            border-radius: 50%;
+            pointer-events: none; /* Ignore mouse events */
+            z-index: 9999; /* Above everything */
+            mix-blend-mode: difference; /* Optional: makes it visible on different backgrounds */
+            /* Glow effect */
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 25px rgba(255, 255, 255, 0.7);
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
+            /* Initial hidden state */
+            opacity: 0;
+            transition: opacity 0.3s ease; /* Fade in */
+            will-change: transform; /* Performance hint */
+            transform: translate(-50%, -50%); /* Center on cursor position */
+        }
+
+        body:hover #cursor-follower {
+            opacity: 1; /* Show when mouse is over body */
         }
 
         /* Custom Text Selection Highlight */
         ::selection { background: rgba(255, 255, 255, 0.3); color: white; text-shadow: none; }
         ::-moz-selection { background: rgba(255, 255, 255, 0.3); color: white; text-shadow: none; }
 
-        /* --- Custom Scrollbar Styles (WebKit) - Redesigned --- */
+        /* --- Custom Scrollbar Styles (WebKit) - Redesigned & Wider --- */
         ::-webkit-scrollbar {
-            width: 16px; /* Thickness */
+            width: 18px; /* Thickness - Increased */
         }
         ::-webkit-scrollbar-track {
             background: transparent; /* Fully transparent track */
@@ -42,20 +76,17 @@
         }
         ::-webkit-scrollbar-thumb {
             background-color: rgba(255, 255, 255, 0.8); /* White thumb */
-            border-radius: 8px; /* Rounded corners */
-            border: 3px solid transparent; /* Creates padding */
+            border-radius: 9px; /* Rounded corners */
+            border: 4px solid transparent; /* Creates padding, adjusted for width */
             background-clip: content-box; /* Apply bg within padding */
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 16px rgba(255, 255, 255, 0.6); /* White glow */
+            /* Enhanced Blurred Glow */
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 25px rgba(255, 255, 255, 0.6);
             transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
         ::-webkit-scrollbar-thumb:hover {
             background-color: rgba(255, 255, 255, 1); /* Brighter on hover */
-             box-shadow: 0 0 14px rgba(255, 255, 255, 1), 0 0 22px rgba(255, 255, 255, 0.8); /* Stronger glow */
-        }
-        /* For Firefox (Limited Styling) */
-        html {
-             scrollbar-width: thin; /* Can't set thickness precisely */
-             scrollbar-color: rgba(255, 255, 255, 0.8) transparent; /* thumb track */
+            /* Stronger glow */
+            box-shadow: 0 0 18px rgba(255, 255, 255, 1), 0 0 30px rgba(255, 255, 255, 0.8);
         }
         /* --- End Custom Scrollbar Styles --- */
 
@@ -76,7 +107,8 @@
 
         /* --- Loading Screen Styles --- */
         #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; opacity: 1; transition: opacity 0.5s ease-out; }
-        #loading-icon { width: 240px; height: 240px; animation: bounceScale 1.5s ease-in-out infinite alternate; }
+        /* Increased loading icon size */
+        #loading-icon { width: 280px; height: 280px; animation: bounceScale 1.5s ease-in-out infinite alternate; }
         @keyframes bounceScale { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
         #loading-bar-container { width: 200px; height: 8px; background-color: rgba(255, 255, 255, 0.2); border-radius: 4px; margin-top: 20px; overflow: hidden; }
         #loading-bar { width: 0%; height: 100%; background-color: #ffffff; border-radius: 4px; animation: fillBar 2.1s linear forwards; }
@@ -96,6 +128,27 @@
         nav a:hover::after { transform: scaleX(1); }
         /* --- End Navbar Link Hover Animation --- */
 
+        /* Style for Section Titles with Icon */
+        .section-title {
+            display: flex; /* Use flexbox to align icon and text */
+            align-items: center;
+            justify-content: center; /* Center title and icon */
+        }
+
+        .section-title::before {
+             content: '';
+             display: inline-block;
+             width: 1.2em; /* Adjust size as needed */
+             height: 1.2em;
+             margin-right: 0.6em; /* Space between icon and text */
+             background-image: url('data:image/svg+xml;utf8,<svg fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>');
+             background-size: contain;
+             background-repeat: no-repeat;
+             background-position: center;
+             filter: drop-shadow(0 0 8px rgba(210, 210, 255, 0.7)); /* Blurry glow */
+             vertical-align: middle; /* Align icon vertically */
+        }
+
         /* --- REDESIGNED Game Card Styles --- */
         .game-card {
             position: relative; background-color: rgba(255, 255, 255, 0.07);
@@ -103,7 +156,6 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
             transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease, filter 0.4s ease;
             backdrop-filter: blur(12px); border-radius: 0.75rem; overflow: hidden;
-            /* Potential fix for rendering glitches during animation */
             transform-style: preserve-3d;
             backface-visibility: hidden;
         }
@@ -112,7 +164,6 @@
         .game-card-title { margin-bottom: 0.75rem; font-size: 1.25rem; font-weight: 600; color: #ffffff; }
         .game-details { max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.5s ease-out, opacity 0.4s ease-in 0.1s; }
 
-        /* Game Card Hover - Targets only the hovered card */
         .game-card:hover {
             transform: translateY(-8px) scale(1.03);
             box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7);
@@ -120,12 +171,6 @@
             filter: brightness(1.1);
         }
         .game-card:hover .game-card-image-internal { transform: scale(1.05); }
-        /* Game Details Hover - Targets details ONLY within the hovered card */
-        /* This CSS rule correctly ensures only the hovered card's details expand. */
-        /* The visual effect of content appearing might shift layout slightly, */
-        /* but other cards' details are NOT targeted or expanded by this rule. */
-        /* If all cards appear to expand, it might be a browser rendering issue */
-        /* or related to rapid mouse movement over the grid. */
         .game-card:hover .game-details { max-height: 400px; opacity: 1; }
         .feature-list { list-style: none; padding: 0; margin: 0; }
         .feature-list li::before { content: '✧'; color: #ffffff; margin-right: 8px; opacity: 0.8; }
@@ -137,10 +182,13 @@
         #script-image {
             display: block; max-width: 100%; width: 600px; height: auto; border-radius: 1rem;
             box-shadow: 0 10px 25px rgba(255, 255, 255, 0.15), 0 5px 15px rgba(255, 255, 255, 0.1); /* Enhanced white glow */
-            transition: transform 0.1s linear, box-shadow 0.3s ease;
+             /* Added transform to transition for smooth mouseleave */
+            transition: transform 0.3s ease-out, box-shadow 0.3s ease;
         }
         #script-image:hover {
-             box-shadow: 0 15px 40px rgba(255, 255, 255, 0.25), 0 8px 25px rgba(255, 255, 255, 0.15); /* Further enhanced white glow */
+             /* Keep hover box-shadow */
+             box-shadow: 0 15px 40px rgba(255, 255, 255, 0.25), 0 8px 25px rgba(255, 255, 255, 0.15);
+             /* JS will handle the transform on mousemove */
         }
         /* --- End Script Image Section Styles --- */
 
@@ -165,15 +213,38 @@
         .feature-content h3 { margin-bottom: 0.5rem; } /* Adjust spacing if needed */
 
         .footer { background-color: #111111; color: #a0a0a0; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+         /* Style for Footer Credit */
+         .footer-credit {
+             color: #ffffff; /* Special white text */
+             font-size: 0.9rem;
+             margin-top: 0.5rem;
+             font-weight: 500;
+             text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* Subtle glow */
+         }
 
-        /* --- Button Styles (Unchanged) --- */
-        .primary-button { background-color: #ffffff; color: #000000; padding: 0.75rem 2rem; border-radius: 9999px; font-weight: 600; transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, filter 0.3s ease; border: 1px solid #ffffff; box-shadow: 0 0 15px rgba(255, 255, 255, 0.3); }
-        .primary-button:hover { background-color: #cccccc; color: #000000; transform: scale(1.05); box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); filter: brightness(1.1); }
-        .discord-button { background-color: #5865F2; color: #ffffff; padding: 0.75rem 2rem; border-radius: 9999px; font-weight: 600; transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, filter 0.3s ease; box-shadow: 0 0 15px rgba(88, 101, 242, 0.4); }
+
+        /* --- Button Styles --- */
+        .primary-button {
+            background-color: #ffffff; color: #000000; padding: 0.75rem 2rem;
+            border-radius: 9999px; font-weight: 600;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, filter 0.3s ease;
+            border: 1px solid #ffffff;
+            /* Enhanced glow */
+            box-shadow: 0 0 18px rgba(255, 255, 255, 0.4), 0 0 8px rgba(255, 255, 255, 0.3);
+            display: inline-block; /* Ensure transform works */
+        }
+        .primary-button:hover {
+            background-color: #cccccc; color: #000000;
+            transform: scale(1.05);
+             /* More intense glow on hover */
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.6), 0 0 12px rgba(255, 255, 255, 0.4);
+            filter: brightness(1.1);
+        }
+        .discord-button { background-color: #5865F2; color: #ffffff; padding: 0.75rem 2rem; border-radius: 9999px; font-weight: 600; transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, filter 0.3s ease; box-shadow: 0 0 15px rgba(88, 101, 242, 0.4); display: inline-flex; align-items: center; } /* Added display/align */
         .discord-button:hover { background-color: #4752C4; transform: scale(1.05); box-shadow: 0 0 20px rgba(88, 101, 242, 0.6); filter: brightness(1.1); }
         /* --- End Button Styles --- */
 
-        /* --- Main Content Fade-in (Unchanged) --- */
+        /* --- Main Content Fade-in --- */
         .main-content { opacity: 0; transition: opacity 0.5s ease-in 0.2s; }
         .main-content.visible { opacity: 1; }
         /* --- End Main Content Styles --- */
@@ -181,6 +252,8 @@
     </style>
 </head>
 <body class="bg-black text-white">
+
+    <div id="cursor-follower"></div>
 
     <div id="background-moon-container">
         <svg id="background-moon-svg" fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -190,8 +263,9 @@
 
     <div id="loading-screen">
         <img id="loading-icon" src="loadingicon.png" alt="Loading..."
-             onerror="this.onerror=null; this.src='https://placehold.co/240x240/000000/ffffff?text=L';"
-             ondragstart="return false;" oncontextmenu="return false;"> <div id="loading-bar-container">
+             onerror="this.onerror=null; this.src='https://placehold.co/280x280/000000/ffffff?text=L';"
+             ondragstart="return false;" oncontextmenu="return false;">
+        <div id="loading-bar-container">
             <div id="loading-bar"></div>
         </div>
     </div>
@@ -199,7 +273,8 @@
     <div id="main-content" class="main-content">
         <header class="navbar py-4 px-6 fixed w-full top-0 z-50">
              <div class="container mx-auto flex items-center justify-between">
-                 <a href="#hero" class="flex items-center group" aria-label="Go to homepage"> <svg class="w-8 h-8 mr-3 glowing-icon" fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                 <a href="#hero" class="flex items-center group" aria-label="Go to homepage">
+                     <svg class="w-8 h-8 mr-3 glowing-icon" fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
                      <h1 class="text-2xl font-semibold text-white glowing-text">Lunor</h1>
                  </a>
                  <nav class="hidden md:flex items-center space-x-6">
@@ -226,7 +301,7 @@
 
         <main class="container mx-auto pt-24 px-4">
             <section id="hero" class="text-center py-24">
-                 <h2 class="text-5xl font-bold text-white mb-5 glowing-text">Welcome to Lunor</h2>
+                 <h2 class="text-5xl font-bold text-white mb-5 glowing-text section-title">Welcome to Lunor</h2>
                  <p class="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">Your definitive source for premium, undetected Roblox scripts designed for performance.</p>
                  <a href="#scripts" class="primary-button">
                      Explore Scripts
@@ -234,109 +309,114 @@
             </section>
 
             <section id="scripts" class="py-20">
-                <h2 class="text-4xl font-semibold text-white text-center mb-24 glowing-text">Available Scripts</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12">
-                    <div class="game-card">
-                        <img src="https://placehold.co/600x360/1f2937/ffffff?text=Phantom+Forces+Banner" alt="Phantom Forces" class="game-card-image-internal"
-                             onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=PF';"
-                             ondragstart="return false;" oncontextmenu="return false;">
-                        <div class="game-card-content-area">
-                            <h3 class="game-card-title">Phantom Forces</h3>
-                            <div class="game-details">
-                                <p class="text-gray-400 mb-3 text-sm">Script: Lunor PF Enhanced</p>
-                                <ul class="feature-list text-gray-200 space-y-1 text-sm">
-                                    <li>Advanced Aimbot</li>
-                                    <li>Wallhack (ESP)</li>
-                                    <li>Silent Aim</li>
-                                    <li>No Recoil/Spread</li>
-                                </ul>
-                                <button class="mt-4 w-full text-sm bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg transition-colors duration-300">Get Script</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="game-card">
-                         <img src="https://placehold.co/600x360/1f2937/ffffff?text=Blox+Fruits+Banner" alt="Blox Fruits" class="game-card-image-internal"
-                             onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=BF';"
-                             ondragstart="return false;" oncontextmenu="return false;">
+                 <h2 class="text-4xl font-semibold text-white text-center mb-24 glowing-text section-title">Available Scripts</h2>
+                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12">
+                     <div class="game-card">
+                         <img src="https://placehold.co/600x360/1f2937/ffffff?text=Phantom+Forces+Banner" alt="Phantom Forces" class="game-card-image-internal"
+                              onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=PF';"
+                              ondragstart="return false;" oncontextmenu="return false;">
                          <div class="game-card-content-area">
-                            <h3 class="game-card-title">Blox Fruits</h3>
-                            <div class="game-details">
-                                <p class="text-gray-400 mb-3 text-sm">Script: Lunor Fruit Finder</p>
-                                <ul class="feature-list text-gray-200 space-y-1 text-sm">
-                                    <li>Auto Farm Level</li>
-                                    <li>Devil Fruit Sniper</li>
-                                    <li>Auto Quest</li>
-                                    <li>Teleport</li>
-                                </ul>
+                             <h3 class="game-card-title">Phantom Forces</h3>
+                             <div class="game-details">
+                                 <p class="text-gray-400 mb-3 text-sm">Script: Lunor PF Enhanced</p>
+                                 <ul class="feature-list text-gray-200 space-y-1 text-sm">
+                                     <li>Advanced Aimbot</li>
+                                     <li>Wallhack (ESP)</li>
+                                     <li>Silent Aim</li>
+                                     <li>No Recoil/Spread</li>
+                                 </ul>
                                  <button class="mt-4 w-full text-sm bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg transition-colors duration-300">Get Script</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="game-card">
-                         <img src="https://placehold.co/600x360/1f2937/ffffff?text=Da+Hood+Banner" alt="Da Hood" class="game-card-image-internal"
-                             onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=DH';"
-                             ondragstart="return false;" oncontextmenu="return false;">
-                         <div class="game-card-content-area">
-                            <h3 class="game-card-title">Da Hood</h3>
-                            <div class="game-details">
-                                <p class="text-gray-400 mb-3 text-sm">Script: Lunor Hood Pro</p>
-                                <ul class="feature-list text-gray-200 space-y-1 text-sm">
-                                    <li>God Mode</li>
-                                    <li>Fly / Noclip</li>
-                                    <li>Infinite Stamina</li>
-                                    <li>Auto Rob</li>
-                                </ul>
-                                 <button class="mt-4 w-full text-sm bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg transition-colors duration-300">Get Script</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                             </div>
+                         </div>
+                     </div>
+                     <div class="game-card">
+                          <img src="https://placehold.co/600x360/1f2937/ffffff?text=Blox+Fruits+Banner" alt="Blox Fruits" class="game-card-image-internal"
+                               onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=BF';"
+                               ondragstart="return false;" oncontextmenu="return false;">
+                          <div class="game-card-content-area">
+                              <h3 class="game-card-title">Blox Fruits</h3>
+                              <div class="game-details">
+                                  <p class="text-gray-400 mb-3 text-sm">Script: Lunor Fruit Finder</p>
+                                  <ul class="feature-list text-gray-200 space-y-1 text-sm">
+                                      <li>Auto Farm Level</li>
+                                      <li>Devil Fruit Sniper</li>
+                                      <li>Auto Quest</li>
+                                      <li>Teleport</li>
+                                  </ul>
+                                   <button class="mt-4 w-full text-sm bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg transition-colors duration-300">Get Script</button>
+                              </div>
+                          </div>
+                     </div>
+                     <div class="game-card">
+                          <img src="https://placehold.co/600x360/1f2937/ffffff?text=Da+Hood+Banner" alt="Da Hood" class="game-card-image-internal"
+                               onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=DH';"
+                               ondragstart="return false;" oncontextmenu="return false;">
+                          <div class="game-card-content-area">
+                              <h3 class="game-card-title">Da Hood</h3>
+                              <div class="game-details">
+                                  <p class="text-gray-400 mb-3 text-sm">Script: Lunor Hood Pro</p>
+                                  <ul class="feature-list text-gray-200 space-y-1 text-sm">
+                                      <li>God Mode</li>
+                                      <li>Fly / Noclip</li>
+                                      <li>Infinite Stamina</li>
+                                      <li>Auto Rob</li>
+                                  </ul>
+                                   <button class="mt-4 w-full text-sm bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg transition-colors duration-300">Get Script</button>
+                              </div>
+                          </div>
+                     </div>
+                 </div>
             </section>
 
             <section id="script-preview" class="script-image-section">
-                <h2 class="text-4xl font-semibold text-white text-center mb-6 glowing-text">Script Sneak Peek</h2>
-                <p class="text-lg text-gray-300 mb-8 max-w-xl mx-auto">
-                    Hover over the image below to get an interactive glimpse of our script's structure.
-                </p>
-                <div class="script-image-container" id="script-container">
-                    <img id="script-image" alt="General script representation"
-                         ondragstart="return false;" oncontextmenu="return false;">
-                </div>
+                 <h2 class="text-4xl font-semibold text-white text-center mb-6 glowing-text section-title">Script Sneak Peek</h2>
+                 <p class="text-lg text-gray-300 mb-8 max-w-xl mx-auto">
+                     Hover over the image below to get an interactive glimpse of our script's structure.
+                 </p>
+                 <div class="script-image-container" id="script-container">
+                     <img id="script-image" alt="General script representation"
+                          ondragstart="return false;" oncontextmenu="return false;">
+                 </div>
             </section>
 
             <section id="discord" class="discord-section text-center rounded-lg">
-                 <h2 class="text-4xl font-semibold text-white mb-6 glowing-text">Join 40k+ Members</h2>
+                  <h2 class="text-4xl font-semibold text-white mb-6 glowing-text section-title">Join 40k+ Members</h2>
                  <p class="text-lg text-gray-300 mb-8 max-w-xl mx-auto">
                      Become part of our active Discord community for exclusive script access, support, giveaways, and updates!
                  </p>
-                 <a href="#" class="discord-button inline-flex items-center">
-                     <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495a18.298 18.298 0 00-5.4844 0 11.0362 11.0362 0 00-.6177-1.252.0767.0767 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0278C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8781-1.2962 1.229-1.9942a.076.076 0 00-.0416-.1057 15.1894 15.1894 0 01-1.4439-.8774.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0105c.119.099.245.1981.3708.2914a.077.077 0 01-.0066.1276 15.14 15.14 0 01-1.444.8774.0765.0765 0 00-.0406.1067c.3603.698.7867 1.3638 1.248 1.9942a.0777.0777 0 00.0842.0276c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-4.461-.8358-8.9869-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1569 2.419 0 1.3332-.966 2.4189-2.157 2.4189z"></path></svg>
+                 <a href="#" class="discord-button"> <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495a18.298 18.298 0 00-5.4844 0 11.0362 11.0362 0 00-.6177-1.252.0767.0767 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0278C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8781-1.2962 1.229-1.9942a.076.076 0 00-.0416-.1057 15.1894 15.1894 0 01-1.4439-.8774.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0105c.119.099.245.1981.3708.2914a.077.077 0 01-.0066.1276 15.14 15.14 0 01-1.444.8774.0765.0765 0 00-.0406.1067c.3603.698.7867 1.3638 1.248 1.9942a.0777.0777 0 00.0842.0276c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-4.461-.8358-8.9869-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1569 2.419 0 1.3332-.966 2.4189-2.157 2.4189z"></path></svg>
                      Join Discord
                  </a>
             </section>
 
             <section id="features" class="py-20">
-                 <h2 class="text-4xl font-semibold text-white text-center mb-16 glowing-text">Why Choose Lunor?</h2>
+                 <h2 class="text-4xl font-semibold text-white text-center mb-16 glowing-text section-title">Why Choose Lunor?</h2>
                  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                      <div class="feature-section-card">
-                         <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L1.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L25.5 5.25l-.813 2.846a4.5 4.5 0 00-3.09 3.09L18.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09L11.25 18.75l.813-2.846a4.5 4.5 0 003.09-3.09L18.25 12z" /></svg>
+                         <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                         </svg>
                          <div class="feature-content">
-                             <h3 class="text-xl font-semibold text-white">Top-Tier Scripts</h3>
-                             <p class="text-gray-300">Carefully developed and tested scripts, optimized for performance and undetectability.</p>
+                             <h3 class="text-xl font-semibold text-white">Cheap Premium</h3>
+                             <p class="text-gray-300">Access powerful premium features and scripts without breaking the bank.</p>
                          </div>
                      </div>
                      <div class="feature-section-card">
-                         <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" /></svg>
+                          <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+                         </svg>
                          <div class="feature-content">
-                             <h3 class="text-xl font-semibold text-white">Constant Updates</h3>
-                             <p class="text-gray-300">Scripts are frequently updated to stay ahead of game patches and anti-cheat measures.</p>
+                             <h3 class="text-xl font-semibold text-white">Wide Variety Of Premium Scripts</h3>
+                             <p class="text-gray-300">Explore a diverse collection of high-quality scripts for numerous popular Roblox games.</p>
                          </div>
                      </div>
                      <div class="feature-section-card">
-                          <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" /></svg>
+                          <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                         </svg>
                          <div class="feature-content">
-                             <h3 class="text-xl font-semibold text-white">Dedicated Support</h3>
-                             <p class="text-gray-300">Get assistance and answers from our knowledgeable staff and helpful community members.</p>
+                             <h3 class="text-xl font-semibold text-white">Scripts Updated Daily</h3>
+                             <p class="text-gray-300">Our scripts receive frequent updates to ensure compatibility and bypass detection.</p>
                          </div>
                      </div>
                  </div>
@@ -346,13 +426,16 @@
         <footer class="footer py-8 text-center mt-16">
             <p class="text-gray-400">© <span id="current-year"></span> Lunor. All rights reserved.</p>
             <p class="text-sm text-gray-500 mt-2">Designed for the Roblox Community</p>
+             <p class="footer-credit">Made by bleh2rich</p>
         </footer>
-    </div> <script>
+    </div>
+
+    <script>
         // --- Disable Right-Click Context Menu ---
         // Note: This can impact usability for some users.
         document.addEventListener('contextmenu', event => event.preventDefault());
 
-        // --- Loading Screen Logic (Unchanged) ---
+        // --- Loading Screen Logic ---
         window.addEventListener('load', () => {
             const loadingScreen = document.getElementById('loading-screen');
             const mainContent = document.getElementById('main-content');
@@ -361,10 +444,10 @@
                 document.body.style.overflowY = 'auto'; // Restore scrollbar
                 document.body.style.overflowX = 'hidden';
                 if (mainContent) mainContent.classList.add('visible');
-            }, 2100);
+            }, 2100); // Match loading bar animation duration
         });
 
-        // --- Mobile Menu Toggle (Unchanged) ---
+        // --- Mobile Menu Toggle ---
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
         if (mobileMenuButton && mobileMenu) {
@@ -379,36 +462,47 @@
             });
         }
 
-        // --- Update Footer Year (Unchanged) ---
+        // --- Update Footer Year ---
         const yearSpan = document.getElementById('current-year');
         if (yearSpan) yearSpan.textContent = new Date().getFullYear();
 
-        // --- Smooth Scrolling for Navbar Links (Unchanged) ---
+        // --- Smooth Scrolling for Navbar Links ---
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const targetId = this.getAttribute('href');
-                if (targetId === '#premium') {
-                     console.log('Premium link clicked - no scroll target.');
+
+                // Special case for links that might not have a target section
+                if (targetId === '#premium' || targetId === '#') {
+                     console.log('Non-scrolling link clicked:', targetId);
                      if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-                        mobileMenu.classList.add('hidden');
+                         mobileMenu.classList.add('hidden');
                      }
-                     return;
+                     return; // Don't try to scroll
                 }
+
                 const targetElement = document.querySelector(targetId);
                 if (targetElement) {
-                    const navbarHeight = document.querySelector('.navbar')?.offsetHeight || 60;
+                    const navbarHeight = document.querySelector('.navbar')?.offsetHeight || 60; // Get navbar height or default
                     const elementPosition = targetElement.getBoundingClientRect().top;
                     const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
-                    window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth" // JS smooth scroll for links
+                    });
+                } else {
+                    console.warn('Scroll target not found:', targetId);
                 }
+
+                // Close mobile menu after clicking a link
                 if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
                     mobileMenu.classList.add('hidden');
                 }
             });
         });
 
-        // --- Script Image Tilt Effect (Unchanged logic) ---
+        // --- Script Image Tilt Effect ---
         const scriptContainer = document.getElementById('script-container');
         const scriptImage = document.getElementById('script-image');
         const placeholderImageUrl = 'https://placehold.co/600x400/1a202c/4a5568?text=script.png';
@@ -416,33 +510,127 @@
         if (scriptContainer && scriptImage) {
             scriptContainer.addEventListener('mousemove', (e) => {
                 const rect = scriptContainer.getBoundingClientRect();
+                // Calculate mouse position relative to the center of the container
                 const mouseX = e.clientX - (rect.left + rect.width / 2);
                 const mouseY = e.clientY - (rect.top + rect.height / 2);
-                const rotateY = (mouseX / (rect.width / 2)) * 8;
-                const rotateX = -(mouseY / (rect.height / 2)) * 8;
-                scriptImage.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
+
+                // Calculate rotation degrees based on mouse position (adjust multiplier for sensitivity)
+                const rotateY = (mouseX / (rect.width / 2)) * 8; // Rotate left/right
+                const rotateX = -(mouseY / (rect.height / 2)) * 8; // Rotate up/down (inverted)
+
+                 // Apply the 3D rotation and a slight scale effect
+                 // Using translateZ(20px) can add a subtle depth effect on hover
+                scriptImage.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03) translateZ(20px)`;
             });
+
             scriptContainer.addEventListener('mouseleave', () => {
-                scriptImage.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+                 // Reset transform smoothly via CSS transition defined earlier
+                scriptImage.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1) translateZ(0px)';
             });
-             scriptImage.src = 'script.png';
-             scriptImage.onerror = function() {
+
+            // Load the actual image, with placeholder fallback
+            scriptImage.src = 'script.png';
+            scriptImage.onerror = function() {
                 console.warn("script.png could not be loaded. Displaying placeholder.");
                 scriptImage.src = placeholderImageUrl;
                 scriptImage.alt = "Script image placeholder";
-             };
+                 // Prevent tilt effect if placeholder is shown (optional)
+                 // scriptContainer.removeEventListener('mousemove', ...);
+                 // scriptContainer.removeEventListener('mouseleave', ...);
+            };
         } else {
             console.error("Script container or image element not found for tilt effect.");
         }
 
-        // --- Image Placeholders for Game Cards (Unchanged) ---
+        // --- Image Placeholders for Game Cards ---
         document.querySelectorAll('.game-card-image-internal').forEach(img => {
-            img.onerror = function() {
-                const gameName = this.alt || 'Game';
-                this.src = `https://placehold.co/600x360/2d3748/a0aec0?text=${encodeURIComponent(gameName)}`;
-                console.warn(`${this.alt} image failed to load. Displaying generic placeholder.`);
-            };
+             // Set initial error handler
+             const originalOnerror = img.onerror; // Store original if any
+             img.onerror = function() {
+                 // If already tried the placeholder, don't loop
+                 if (this.src.startsWith('https://placehold.co/')) return;
+
+                 const gameName = this.alt || 'Game'; // Use alt text or default
+                 console.warn(`${gameName} image failed to load. Displaying generic placeholder.`);
+                 this.src = `https://placehold.co/600x360/2d3748/a0aec0?text=${encodeURIComponent(gameName)}`;
+                 this.alt = `${gameName} placeholder`; // Update alt text
+
+                 // Optional: Restore original onerror after placeholder load attempt (to catch future errors?)
+                 // this.onerror = originalOnerror;
+             };
+             // Trigger load (if not already loaded) - browser usually handles this
+             // if (!img.complete) { img.src = img.src; }
         });
+
+
+        // --- Custom Cursor Follower Logic ---
+        const follower = document.getElementById('cursor-follower');
+        let mouseX = 0, mouseY = 0;
+        let followerX = 0, followerY = 0;
+        const smoothing = 0.1; // Adjust for desired delay/smoothness (0.1 = 10% towards target each frame)
+        let animationFrameId = null;
+
+        if (follower) {
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                // Start animation loop if not already running
+                if (!animationFrameId) {
+                    animationFrameId = requestAnimationFrame(updateFollower);
+                }
+            });
+
+             // Initialize follower position roughly center screen or last mouse pos if available
+             followerX = window.innerWidth / 2;
+             followerY = window.innerHeight / 2;
+
+             function updateFollower() {
+                 // Calculate distance to target
+                 const dx = mouseX - followerX;
+                 const dy = mouseY - followerY;
+
+                 // Move follower a fraction of the distance
+                 followerX += dx * smoothing;
+                 followerY += dy * smoothing;
+
+                 // Apply position using translate3d for potential performance improvement
+                 follower.style.transform = `translate3d(${followerX}px, ${followerY}px, 0)`;
+
+                 // Check if the follower is close enough to stop the loop (optional optimization)
+                 // if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) {
+                 //     cancelAnimationFrame(animationFrameId);
+                 //     animationFrameId = null;
+                 // } else {
+                     animationFrameId = requestAnimationFrame(updateFollower); // Continue loop
+                 // }
+             }
+
+             // Hide follower if mouse leaves the window
+             document.addEventListener('mouseleave', () => {
+                  follower.style.opacity = '0';
+                  if (animationFrameId) {
+                     cancelAnimationFrame(animationFrameId);
+                     animationFrameId = null;
+                  }
+             });
+
+              // Show follower if mouse enters the window
+             document.addEventListener('mouseenter', (e) => {
+                 // Instantly move follower to cursor position on enter to avoid jump
+                 mouseX = e.clientX;
+                 mouseY = e.clientY;
+                 followerX = mouseX;
+                 followerY = mouseY;
+                 follower.style.opacity = '1';
+                 if (!animationFrameId) {
+                     animationFrameId = requestAnimationFrame(updateFollower);
+                 }
+             });
+
+
+        } else {
+            console.error("Cursor follower element not found.");
+        }
 
     </script>
 </body>
