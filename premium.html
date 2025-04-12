@@ -26,7 +26,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
     <style>
-        /* Custom CSS */
+   
         :root {
             --gold-color: #FFD700;
             --gold-glow-1: rgba(255, 215, 0, 0.9);
@@ -39,7 +39,7 @@
              scrollbar-width: thin;
         }
 
-        /* --- Custom Golden Glowing Cursor --- */
+     
         body {
             font-family: 'Inter', sans-serif;
             background-color: #050505;
@@ -59,24 +59,24 @@
         ::selection { background: rgba(255, 215, 0, 0.3); color: white; text-shadow: none; }
         ::-moz-selection { background: rgba(255, 215, 0, 0.3); color: white; text-shadow: none; }
 
-        /* --- Custom Scrollbar Styles (WebKit) - Golden --- */
+       
         ::-webkit-scrollbar { width: 18px; }
         ::-webkit-scrollbar-track { background: transparent; border: none; border-radius: 0; }
         ::-webkit-scrollbar-thumb { background-color: rgba(255, 215, 0, 0.85); border-radius: 9px; border: 4px solid transparent; background-clip: content-box; box-shadow: 0 0 15px var(--gold-glow-1), 0 0 25px var(--gold-glow-2); transition: background-color 0.3s ease, box-shadow 0.3s ease; }
         ::-webkit-scrollbar-thumb:hover { background-color: var(--gold-color); box-shadow: 0 0 20px var(--gold-color), 0 0 35px var(--gold-glow-1); }
         ::-webkit-scrollbar-button { display: none; }
 
-        /* Background Moon SVG Container (Golden Glow) */
+       
         #background-moon-container { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: -2; overflow: hidden; pointer-events: none; }
         #background-moon-svg { width: 65vw; height: auto; opacity: 0.15; filter: blur(20px) drop-shadow(0 0 50px var(--gold-glow-2)); transform: rotate(-15deg); }
 
-        /* --- Background Static Dots --- */
+       
         body::after { content: ''; position: fixed; inset: 0; background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px); background-size: 30px 30px; opacity: 0; z-index: -1; pointer-events: none; animation: fadeInDots 5s ease-in-out forwards; }
         @keyframes fadeInDots { from { opacity: 0; } to { opacity: 0.15; } }
 
         #main-content { position: relative; z-index: 1; }
 
-        /* --- Loading Screen Styles --- */
+      
         #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; opacity: 1; transition: opacity 0.5s ease-out; }
         #loading-icon { width: 280px; height: 280px; animation: bounceScale 1.5s ease-in-out infinite alternate; filter: drop-shadow(0 0 15px var(--gold-glow-1)); }
         @keyframes bounceScale { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
@@ -85,7 +85,7 @@
         @keyframes fillBar { from { width: 0%; } to { width: 100%; } }
         #loading-screen.loaded { opacity: 0; pointer-events: none; }
 
-        /* --- Navbar Styles --- */
+       
         .navbar { background-color: rgba(10, 10, 10, 0.8); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255, 215, 0, 0.2); }
         .navbar-title { color: var(--gold-color); text-shadow: 0 0 12px var(--gold-glow-1); }
         .navbar .glowing-icon { fill: var(--gold-color); filter: drop-shadow(0 0 10px var(--gold-glow-2)); transition: filter 0.4s ease-out, transform 0.4s ease-out; }
@@ -101,7 +101,7 @@
         @keyframes shimmer { 0% { background-position: -250%; } 100% { background-position: 250%; } }
         .premium-link:hover::after { background-color: var(--gold-color); }
 
-        /* --- Premium Page Specific Styles --- */
+      
         .premium-hero-title { color: var(--gold-color); text-shadow: 0 0 15px var(--gold-glow-1), 0 0 25px var(--gold-glow-2); display: flex; align-items: center; justify-content: center; text-align: center; }
         .premium-hero-title::before { content: ''; display: inline-block; width: 1em; height: 1em; margin-right: 0.5em; background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill="%23FFD700" d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>'); background-size: contain; background-repeat: no-repeat; background-position: center; filter: drop-shadow(0 0 10px var(--gold-glow-2)); vertical-align: middle; flex-shrink: 0; }
 
@@ -111,9 +111,9 @@
         .premium-feature-title { color: var(--gold-color); font-size: 1.3rem; font-weight: 600; margin-bottom: 0.75rem; }
         .premium-feature-text { color: #e5e7eb; opacity: 0.9; line-height: 1.6; font-size: 0.95rem; }
 
-        /* --- Purchase Card Styles --- */
+      
         .purchase-card-container { display: flex; flex-direction: column; align-items: center; margin: 4rem auto 6rem auto; max-width: 450px; }
-        /* Added position: relative to wrapper */
+    
         #purchase-card-wrapper { position: relative; width: 100%; }
         .bouncing-arrow { color: var(--gold-color); width: 2rem; height: 2rem; margin-bottom: 1rem; animation: bounce 2s infinite ease-in-out; }
         @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-15px); } 60% { transform: translateY(-8px); } }
@@ -128,8 +128,8 @@
         .purchase-button { background-color: var(--gold-color); color: #000000; padding: 0.75rem 2rem; border-radius: 9999px; font-weight: 600; transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, filter 0.3s ease, border-color 0.3s ease; border: 2px solid #1a1a1a; box-shadow: 0 0 20px var(--gold-glow-2); display: inline-block; text-decoration: none; }
         .purchase-button:hover { background-color: var(--gold-darker); color: #000000; transform: scale(1.05); box-shadow: 0 0 25px var(--gold-glow-1); filter: brightness(1.1); border-color: #000; }
 
-        /* Sparkle Effect */
-        .sparkle-plus { position: absolute; color: var(--gold-color); font-size: 1rem; font-weight: bold; user-select: none; pointer-events: none; z-index: -1; /* Behind card content, but visible through transparency */ opacity: 0; animation: sparkleAnim 1.2s ease-out forwards; }
+      
+        .sparkle-plus { position: absolute; color: var(--gold-color); font-size: 1rem; font-weight: bold; user-select: none; pointer-events: none; z-index: -1;  opacity: 0; animation: sparkleAnim 1.2s ease-out forwards; }
         @keyframes sparkleAnim { 0% { opacity: 1; transform: translate(0, 0) scale(0.5); } 100% { opacity: 0; transform: translate(var(--tx, 0px), var(--ty, -40px)) scale(1.5); } }
 
         .footer { background-color: #111111; color: #a0a0a0; border-top: 1px solid rgba(255, 215, 0, 0.2); }
@@ -286,7 +286,7 @@
             const minLoadTime = 2100;
             setTimeout(() => {
                 if (loadingScreen) loadingScreen.classList.add('loaded');
-                document.body.style.overflowY = 'auto'; // Restore scrollbar
+                document.body.style.overflowY = 'auto'; 
                 document.body.style.overflowX = 'hidden';
                 if (mainContent) mainContent.classList.add('visible');
             }, minLoadTime);
@@ -309,7 +309,7 @@
         const yearSpan = document.getElementById('current-year');
         if (yearSpan) yearSpan.textContent = new Date().getFullYear();
 
-        // Smooth scroll for # links
+        
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 const targetId = this.getAttribute('href');
@@ -338,7 +338,7 @@
             });
         });
 
-        // Lenis Smooth Scrolling
+     
         try {
             const lenis = new Lenis({
                 lerp: 0.08, wheelMultiplier: 0.8, smoothWheel: true, smoothTouch: true,
@@ -348,7 +348,7 @@
             window.lenisInstance = lenis;
         } catch (error) { console.error("Failed to initialize Lenis:", error); }
 
-        // Copy Discord ID
+       
         function copyDiscordId() {
             const discordId = "1300475971081732127";
             navigator.clipboard.writeText(discordId).then(() => {
@@ -367,7 +367,7 @@
             }).catch(err => { console.error('Failed to copy: ', err); alert("Could not copy automatically. Please copy manually: " + discordId); });
         }
 
-         // --- Sparkle Effect for Purchase Card ---
+       
          const purchaseCardWrapper = document.getElementById('purchase-card-wrapper');
          let sparkleInterval = null;
 
@@ -376,45 +376,45 @@
 
              const sparkle = document.createElement('span');
              sparkle.classList.add('sparkle-plus');
-             sparkle.innerHTML = '+'; // Use '+' character
+             sparkle.innerHTML = '+'; 
 
              const cardElement = purchaseCardWrapper.querySelector('.purchase-card');
-             if (!cardElement) return; // Card must exist
+             if (!cardElement) return; 
 
-             // Dimensions of the card itself relative to the wrapper
+           
              const cardWidth = cardElement.offsetWidth;
              const cardHeight = cardElement.offsetHeight;
-             // Assume card is positioned at 0,0 relative to wrapper (adjust if wrapper has padding)
+             
              const cardTopOffset = cardElement.offsetTop;
              const cardLeftOffset = cardElement.offsetLeft;
 
-             const side = Math.floor(Math.random() * 4); // 0: top, 1: right, 2: bottom, 3: left
+             const side = Math.floor(Math.random() * 4);
              let x, y;
-             const offset = 8; // How far out from the edge the sparkle starts (adjust)
+             const offset = 8; 
 
              switch (side) {
-                 case 0: // Top edge
+                 case 0:
                      x = cardLeftOffset + Math.random() * cardWidth;
                      y = cardTopOffset - offset;
                      break;
-                 case 1: // Right edge
+                 case 1: 
                      x = cardLeftOffset + cardWidth + offset;
                      y = cardTopOffset + Math.random() * cardHeight;
                      break;
-                 case 2: // Bottom edge
+                 case 2:
                      x = cardLeftOffset + Math.random() * cardWidth;
                      y = cardTopOffset + cardHeight + offset;
                      break;
-                 case 3: // Left edge
+                 case 3: 
                  default:
                      x = cardLeftOffset - offset;
                      y = cardTopOffset + Math.random() * cardHeight;
                      break;
              }
 
-              // Randomize animation direction slightly
-             const tx = (Math.random() - 0.5) * 50; // Horizontal drift +/- 25px
-             const ty = (Math.random() * -40) - 15; // Upward movement between -15px and -55px
+             
+             const tx = (Math.random() - 0.5) * 50;
+             const ty = (Math.random() * -40) - 15; 
 
              sparkle.style.left = `${x}px`;
              sparkle.style.top = `${y}px`;
@@ -423,43 +423,39 @@
 
              purchaseCardWrapper.appendChild(sparkle);
 
-             // Remove sparkle after animation
+         
              setTimeout(() => {
-                 // Check if the element still exists before removing
+                
                  if (sparkle.parentNode === purchaseCardWrapper) {
                     purchaseCardWrapper.removeChild(sparkle);
                  }
-             }, 1200); // Matches animation duration
+             }, 1200);
          }
 
-         // Start/Stop sparkles based on visibility or interaction (optional)
-         // For simplicity, we start it when the script runs after load
-         // Ensure the purchase card wrapper exists before starting interval
+       
          const checkWrapperAndStartSparkles = () => {
             const wrapper = document.getElementById('purchase-card-wrapper');
             if (wrapper) {
-                if (!sparkleInterval) { // Prevent multiple intervals
-                   sparkleInterval = setInterval(createSparkle, 200); // Generate sparkle every 200ms
+                if (!sparkleInterval) { 
+                   sparkleInterval = setInterval(createSparkle, 200); 
                    console.log("Sparkles started");
                 }
             } else {
-                // If wrapper not found yet, try again shortly
+                
                 setTimeout(checkWrapperAndStartSparkles, 100);
             }
          };
 
-         // Wait until after loading screen logic might finish
-         setTimeout(checkWrapperAndStartSparkles, 2000); // Start after ~2s
+         
+         setTimeout(checkWrapperAndStartSparkles, 2000); 
 
 
-         // --- Script Image Tilt Effect (Placeholder - element not on this page) ---
-        // The element #script-image doesn't exist here, so this code block will simply
-        // log an error and do nothing, which is fine. It could be removed.
+       
         const scriptContainer = document.getElementById('script-container');
         const scriptImage = document.getElementById('script-image');
         if (!scriptContainer || !scriptImage) {
-            // console.log("Script image container/element not found on this page.");
-        } // else { /* ... original tilt logic ... */ }
+         
+        } 
 
     </script>
 </body>
