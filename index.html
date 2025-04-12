@@ -97,7 +97,6 @@
              from { opacity: 0; }
              to { opacity: 0.15; } /* Adjust final transparency */
         }
-        /* Removed moveMoons keyframes */
         /* --- End Background Dots --- */
 
 
@@ -120,11 +119,79 @@
         .glowing-icon { filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8)); transition: filter 0.4s ease-out, transform 0.4s ease-out; }
         a.group:hover .glowing-icon { filter: drop-shadow(0 0 14px rgba(255, 255, 255, 1)) drop-shadow(0 0 22px rgba(255, 255, 255, 0.8)); transform: scale(1.15) rotate(10deg); }
 
-        /* Navbar Link Hover Animation */
-        nav a { position: relative; padding-bottom: 4px; overflow: hidden; }
-        nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background-color: rgba(255, 255, 255, 0.8); transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease-out; }
-        nav a:hover::after { transform: scaleX(1); }
-        /* --- End Navbar Link Hover Animation --- */
+        /* --- Navbar Link Styles --- */
+        nav a {
+            position: relative;
+            padding-bottom: 4px;
+            overflow: hidden;
+            /* Default text color for non-special links */
+            color: #d1d5db; /* Tailwind gray-300 */
+            transition: color 0.3s ease;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: rgba(255, 255, 255, 0.8); /* Default underline: white */
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease-out, background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #fff; /* Default hover: white */
+        }
+
+        nav a:hover::after {
+            transform: scaleX(1);
+        }
+
+        /* Discord Link Styling */
+        .discord-link {
+            color: #5865F2 !important; /* Use !important if needed to override Tailwind */
+        }
+        /* Keep hover text white or change if desired */
+        /* .discord-link:hover { color: #707cf5 !important; } */
+
+        .discord-link:hover::after {
+            background-color: #5865F2; /* Purple underline */
+        }
+
+        /* Premium Link Styling */
+        .premium-link {
+            color: #FFD700 !important; /* Golden color */
+            /* Shimmer effect */
+            background-image: linear-gradient(
+                90deg,
+                rgba(255, 215, 0, 0.2) 25%, /* Less visible start */
+                rgba(255, 215, 0, 1) 40%,   /* More opaque middle */
+                rgba(255, 215, 0, 1) 60%,   /* More opaque middle */
+                rgba(255, 215, 0, 0.2) 75%  /* Less visible end */
+            );
+            background-size: 250% auto; /* Make gradient wider */
+            background-clip: text;
+            -webkit-background-clip: text;
+            text-fill-color: transparent;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 3s linear infinite; /* Slower animation */
+            font-weight: 600; /* Slightly bolder */
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -250%; } /* Start further left */
+            100% { background-position: 250%; } /* End further right */
+        }
+         /* Keep hover text golden or change if desired */
+        /* .premium-link:hover { filter: brightness(1.1); } */
+
+        .premium-link:hover::after {
+            background-color: #FFD700; /* Golden underline */
+        }
+        /* --- End Navbar Link Styles --- */
 
         /* Style for Section Titles with Icon */
         .section-title {
@@ -167,6 +234,8 @@
             opacity: 0;
             overflow: hidden;
             transition: max-height 0.5s ease-out, opacity 0.4s ease-in 0.1s;
+             /* Hint for browser optimization, may help perceived smoothness */
+            will-change: max-height, opacity;
         }
 
         .game-card:hover {
@@ -177,8 +246,9 @@
         }
         .game-card:hover .game-card-image-internal { transform: scale(1.05); }
 
+         /* This CSS rule correctly targets ONLY the details section within the hovered card */
         .game-card:hover .game-details {
-            max-height: 400px;
+            max-height: 400px; /* Adjust if content needs more space */
             opacity: 1;
         }
 
@@ -280,10 +350,13 @@
                      <h1 class="text-2xl font-semibold text-white glowing-text">Lunor</h1>
                  </a>
                  <nav class="hidden md:flex items-center space-x-6">
-                     <a href="#hero" class="text-gray-300 hover:text-white transition-colors duration-300">Main</a>
-                     <a href="#discord" class="text-gray-300 hover:text-white transition-colors duration-300">Discord</a>
-                     <a href="#features" class="text-gray-300 hover:text-white transition-colors duration-300">Features</a>
-                     <a href="#premium" class="text-gray-300 hover:text-white transition-colors duration-300">Premium</a>
+                     {/* Default links use standard hover */}
+                     <a href="#hero" >Main</a>
+                     {/* Discord link with specific class */}
+                     <a href="#discord" class="discord-link">Discord</a>
+                     <a href="#features">Features</a>
+                     {/* Premium link with specific class */}
+                     <a href="#premium" class="premium-link">Premium</a>
                  </nav>
                  <div class="md:hidden">
                      <button id="mobile-menu-button" class="text-gray-300 hover:text-white focus:outline-none">
@@ -312,7 +385,9 @@
 
             <section id="scripts" class="py-20">
                  <h2 class="text-4xl font-semibold text-white text-center mb-24 glowing-text section-title">Available Scripts</h2>
+                 {/* Grid using 6 columns on large screens */}
                  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-x-10 gap-y-12">
+                     {/* Row 1 */}
                      <div class="game-card lg:col-span-2">
                          <img src="fisch.png" alt="Fisch Script" class="game-card-image-internal"
                               onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=Fisch';"
@@ -322,11 +397,7 @@
                              <div class="game-details">
                                  <p class="text-gray-400 mb-3 text-sm">Script: Lunor Free & Premium</p>
                                  <ul class="feature-list text-gray-200 space-y-1 text-sm">
-                                     <li>Placeholder</li>
-                                     <li>Placeholder</li>
-                                     <li>Placeholder</li>
-                                     <li>Placeholder</li>
-                                     <li>Placeholder</li>
+                                     <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li>
                                  </ul>
                                  <button class="mt-4 w-full text-sm bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg transition-colors duration-300">Get Script</button>
                              </div>
@@ -341,11 +412,7 @@
                               <div class="game-details">
                                   <p class="text-gray-400 mb-3 text-sm">Script: Lunor Free & Premium</p>
                                   <ul class="feature-list text-gray-200 space-y-1 text-sm">
-                                      <li>Placeholder</li>
-                                      <li>Placeholder</li>
-                                      <li>Placeholder</li>
-                                      <li>Placeholder</li>
-                                      <li>Placeholder</li>
+                                      <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li>
                                   </ul>
                                    <button class="mt-4 w-full text-sm bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg transition-colors duration-300">Get Script</button>
                               </div>
@@ -360,114 +427,104 @@
                               <div class="game-details">
                                   <p class="text-gray-400 mb-3 text-sm">Script: Lunor Free & Premium</p>
                                   <ul class="feature-list text-gray-200 space-y-1 text-sm">
-                                      <li>Placeholder</li>
-                                      <li>Placeholder</li>
-                                      <li>Placeholder</li>
-                                      <li>Placeholder</li>
-                                      <li>Placeholder</li>
+                                      <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li>
                                   </ul>
                                    <button class="mt-4 w-full text-sm bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg transition-colors duration-300">Get Script</button>
                               </div>
                           </div>
                      </div>
 
+                     {/* Row 2 - Centered Cards */}
                      <div class="game-card lg:col-start-2 lg:col-span-2">
-                          <img src="placeholder4.png" alt="New Script 1" class="game-card-image-internal"
-                               onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=Script+4';"
+                          <img src="gum.png" alt="Bubble Gum Simulator Infinity" class="game-card-image-internal"
+                               onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=Gum';"
                                ondragstart="return false;" oncontextmenu="return false;">
                           <div class="game-card-content-area">
-                              <h3 class="game-card-title">New Script 1</h3>
+                              <h3 class="game-card-title">Bubble Gum Simulator Infinity</h3>
                               <div class="game-details">
-                                  <p class="text-gray-400 mb-3 text-sm">Script: Lunor Free & Premium</p>
+                                  <p class="text-gray-400 mb-3 text-sm">Script: Lunor Free & Paid</p>
                                   <ul class="feature-list text-gray-200 space-y-1 text-sm">
-                                      <li>Placeholder</li>
-                                      <li>Placeholder</li>
-                                      <li>Placeholder</li>
-                                      <li>Placeholder</li>
-                                      <li>Placeholder</li>
+                                     <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li>
                                   </ul>
                                    <button class="mt-4 w-full text-sm bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg transition-colors duration-300">Get Script</button>
                               </div>
                           </div>
                      </div>
-
                      <div class="game-card lg:col-start-4 lg:col-span-2">
-                          <img src="placeholder5.png" alt="New Script 2" class="game-card-image-internal"
-                               onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=Script+5';"
+                          <img src="hunter.png" alt="Hunters" class="game-card-image-internal"
+                               onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=Hunter';"
                                ondragstart="return false;" oncontextmenu="return false;">
                           <div class="game-card-content-area">
-                              <h3 class="game-card-title">New Script 2</h3>
+                              <h3 class="game-card-title">Hunters</h3>
                               <div class="game-details">
-                                  <p class="text-gray-400 mb-3 text-sm">Script: Lunor Free & Premium</p>
+                                  <p class="text-gray-400 mb-3 text-sm">Script: Lunor Free & Paid</p>
                                   <ul class="feature-list text-gray-200 space-y-1 text-sm">
-                                      <li>Placeholder</li>
-                                      <li>Placeholder</li>
-                                      <li>Placeholder</li>
-                                      <li>Placeholder</li>
-                                      <li>Placeholder</li>
+                                      <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li>
                                   </ul>
                                    <button class="mt-4 w-full text-sm bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg transition-colors duration-300">Get Script</button>
                               </div>
                           </div>
                      </div>
-
                  </div>
             </section>
 
+            {/* Rest of the sections (Script Preview, Discord, Features) remain the same */}
             <section id="script-preview" class="script-image-section">
-                 <h2 class="text-4xl font-semibold text-white text-center mb-6 glowing-text section-title">Script Sneak Peek</h2>
-                 <p class="text-lg text-gray-300 mb-8 max-w-xl mx-auto">
-                     Hover over the image below to get an interactive glimpse of our script's structure.
-                 </p>
-                 <div class="script-image-container" id="script-container">
-                     <img id="script-image" alt="General script representation"
-                          ondragstart="return false;" oncontextmenu="return false;">
-                 </div>
-            </section>
+                <h2 class="text-4xl font-semibold text-white text-center mb-6 glowing-text section-title">Script Sneak Peek</h2>
+                <p class="text-lg text-gray-300 mb-8 max-w-xl mx-auto">
+                    Hover over the image below to get an interactive glimpse of our script's structure.
+                </p>
+                <div class="script-image-container" id="script-container">
+                    <img id="script-image" alt="General script representation"
+                         ondragstart="return false;" oncontextmenu="return false;">
+                </div>
+           </section>
 
-            <section id="discord" class="discord-section text-center rounded-lg">
-                 <h2 class="text-4xl font-semibold text-white mb-6 glowing-text section-title">Join 40k+ Members</h2>
-                 <p class="text-lg text-gray-300 mb-8 max-w-xl mx-auto">
-                     Become part of our active Discord community for exclusive script access, support, giveaways, and updates!
-                 </p>
-                 <a href="#" class="discord-button">
-                     <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495a18.298 18.298 0 00-5.4844 0 11.0362 11.0362 0 00-.6177-1.252.0767.0767 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0278C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8781-1.2962 1.229-1.9942a.076.076 0 00-.0416-.1057 15.1894 15.1894 0 01-1.4439-.8774.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0105c.119.099.245.1981.3708.2914a.077.077 0 01-.0066.1276 15.14 15.14 0 01-1.444.8774.0765.0765 0 00-.0406.1067c.3603.698.7867 1.3638 1.248 1.9942a.0777.0777 0 00.0842.0276c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-4.461-.8358-8.9869-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1569 2.419 0 1.3332-.966 2.4189-2.157 2.4189z"></path></svg>
-                     Join Discord
-                 </a>
-            </section>
+           <section id="discord" class="discord-section text-center rounded-lg">
+                <h2 class="text-4xl font-semibold text-white mb-6 glowing-text section-title">Join 40k+ Members</h2>
+                <p class="text-lg text-gray-300 mb-8 max-w-xl mx-auto">
+                    Become part of our active Discord community for exclusive script access, support, giveaways, and updates!
+                </p>
+                <a href="#" class="discord-button">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495a18.298 18.298 0 00-5.4844 0 11.0362 11.0362 0 00-.6177-1.252.0767.0767 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0278C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8781-1.2962 1.229-1.9942a.076.076 0 00-.0416-.1057 15.1894 15.1894 0 01-1.4439-.8774.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0105c.119.099.245.1981.3708.2914a.077.077 0 01-.0066.1276 15.14 15.14 0 01-1.444.8774.0765.0765 0 00-.0406.1067c.3603.698.7867 1.3638 1.248 1.9942a.0777.0777 0 00.0842.0276c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-4.461-.8358-8.9869-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1569 2.419 0 1.3332-.966 2.4189-2.157 2.4189z"></path></svg>
+                    Join Discord
+                </a>
+           </section>
 
-            <section id="features" class="py-20">
-                 <h2 class="text-4xl font-semibold text-white text-center mb-16 glowing-text section-title">Why Choose Lunor?</h2>
-                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                     <div class="feature-section-card">
-                         <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                         </svg>
-                         <div class="feature-content">
-                             <h3 class="text-xl font-semibold text-white">Cheap Premium</h3>
-                             <p class="text-gray-300">Access powerful premium features and scripts without breaking the bank.</p>
-                         </div>
-                     </div>
-                     <div class="feature-section-card">
-                         <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
-                         </svg>
-                         <div class="feature-content">
-                             <h3 class="text-xl font-semibold text-white">Wide Variety Of Premium Scripts</h3>
-                             <p class="text-gray-300">Explore a diverse collection of high-quality scripts for numerous popular Roblox games.</p>
-                         </div>
-                     </div>
-                     <div class="feature-section-card">
-                         <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
-                         </svg>
-                         <div class="feature-content">
-                             <h3 class="text-xl font-semibold text-white">Scripts Updated Daily</h3>
-                             <p class="text-gray-300">Our scripts receive frequent updates to ensure compatibility and bypass detection.</p>
-                         </div>
-                     </div>
-                 </div>
-            </section>
+           <section id="features" class="py-20">
+                <h2 class="text-4xl font-semibold text-white text-center mb-16 glowing-text section-title">Why Choose Lunor?</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {/* Feature Cards remain the same */}
+                    <div class="feature-section-card">
+                        <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <div class="feature-content">
+                            <h3 class="text-xl font-semibold text-white">Cheap Premium</h3>
+                            <p class="text-gray-300">Access powerful premium features and scripts without breaking the bank.</p>
+                        </div>
+                    </div>
+                    <div class="feature-section-card">
+                        <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                           <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+                        </svg>
+                        <div class="feature-content">
+                            <h3 class="text-xl font-semibold text-white">Wide Variety Of Premium Scripts</h3>
+                            <p class="text-gray-300">Explore a diverse collection of high-quality scripts for numerous popular Roblox games.</p>
+                        </div>
+                    </div>
+                    <div class="feature-section-card">
+                        <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                           <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                        </svg>
+                        <div class="feature-content">
+                            <h3 class="text-xl font-semibold text-white">Scripts Updated Daily</h3>
+                            <p class="text-gray-300">Our scripts receive frequent updates to ensure compatibility and bypass detection.</p>
+                        </div>
+                    </div>
+                </div>
+           </section>
+
         </main>
 
         <footer class="footer py-8 text-center mt-16">
@@ -519,20 +576,20 @@
                 const targetId = this.getAttribute('href');
                 let targetElement = null;
                 try {
-                    targetElement = document.querySelector(targetId);
+                    // Check if it's a valid selector and not just "#"
+                    if (targetId && targetId.length > 1 && targetId.startsWith('#')) {
+                        targetElement = document.querySelector(targetId);
+                    }
                 } catch (err) {
                     console.warn(`Invalid selector for anchor: ${targetId}`);
-                    // Allow default behavior for potentially external links if selector is invalid
-                    return;
+                    return; // Allow default if selector is invalid
                 }
-
 
                 if (targetElement) {
                     e.preventDefault(); // Prevent default jump only if target exists
 
                      if (window.lenisInstance) {
                          const navbar = document.querySelector('.navbar');
-                         // Use 0 offset if navbar is not found or has no height
                          const navbarHeight = navbar ? navbar.offsetHeight : 0;
                          window.lenisInstance.scrollTo(targetElement, { offset: -navbarHeight });
                      } else {
@@ -540,17 +597,20 @@
                          targetElement.scrollIntoView({ behavior: 'smooth' });
                      }
 
-                } else if (targetId === '#premium' || targetId === '#') {
+                } else if (targetId === '#') {
+                    // Prevent default for links that are just "#"
                      e.preventDefault();
                      console.log('Non-scrolling link clicked:', targetId);
                 }
-                // Allow default behavior if targetElement is null (e.g., link to another page)
+                // Allow default behavior for links not starting with # or invalid selectors
 
+                // Close mobile menu after any link click
                 if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
                     mobileMenu.classList.add('hidden');
                 }
             });
         });
+
 
         // --- Script Image Tilt Effect ---
         const scriptContainer = document.getElementById('script-container');
@@ -623,8 +683,9 @@
                  if (this.src.startsWith(placeholderPrefix) || this.src !== originalSrc) return;
 
                  const gameName = this.alt || 'Game';
-                 const placeholderText = gameName.split(' ')[0];
+                 const placeholderText = gameName.split(' ')[0]; // Use first word
                  console.warn(`${gameName} image (${originalSrc}) failed to load. Displaying placeholder.`);
+                 // Generate placeholder URL
                  this.src = `${placeholderPrefix}600x360/1f2937/ffffff?text=${encodeURIComponent(placeholderText)}`;
                  this.alt = `${gameName} placeholder`;
              };
@@ -642,8 +703,8 @@
         // --- Lenis Smooth Scrolling Initialization ---
         try {
             const lenis = new Lenis({
-                lerp: 0.08,
-                wheelMultiplier: 0.8,
+                lerp: 0.08, // Lower = smoother/more delay
+                wheelMultiplier: 0.8, // Adjust scroll speed
                 smoothWheel: true,
                 smoothTouch: true,
             });
