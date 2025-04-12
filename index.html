@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <meta name="theme-color" content="#ffffff" />
     <meta name="robots" content="noindex, nofollow" />
     <link rel="canonical" href="https://lunor.lol" />
@@ -20,7 +20,7 @@
     <meta name="twitter:image:alt" content="Profile Picture" />
     <meta name="twitter:image:width" content="1419" />
     <meta name="twitter:image:height" content="750" />
-    
+
     <title>Lunor - Roblox Script Hub</title>
     <link rel="icon" href="icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -28,6 +28,7 @@
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 
     <style>
+        /* --- Existing Styles --- */
         body::-webkit-scrollbar { width: 12px; }
         body::-webkit-scrollbar-track { background: #050505; border-radius: 6px; }
         body::-webkit-scrollbar-thumb { background-color: #ffffff; border-radius: 6px; border: 2px solid #1a1a2e; box-shadow: 0 0 10px rgba(0, 245, 212, 0.6); }
@@ -43,10 +44,13 @@
             background-color: #050505;
             color: #ffffff;
             margin: 0;
-            padding: 0;
+            padding: 0; /* Remove potential default padding */
+             /* Adjust padding-top to accommodate navbar AND ticker bar */
+             /* This will be set by JS, but have a fallback */
+            padding-top: 150px; /* Fallback: approx navbar + ticker height */
             position: relative;
             overflow-x: hidden;
-            overflow-y: hidden;
+            overflow-y: hidden; /* Hide scrollbars during loading */
             cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><g filter="drop-shadow(0 0 3px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 5px rgba(255, 255, 255, 0.7))"><path fill="white" d="M4 4l18 11.4-7.3 1.6L9.4 28 4 4z"/><path fill="black" stroke="black" stroke-width="0.5" d="M5.5 5.5l15 9.4-5.8 1.3L10 26.2 5.5 5.5z"/></g></svg>') 4 4, auto !important;
         }
 
@@ -57,54 +61,19 @@
         ::selection { background: rgba(255, 255, 255, 0.3); color: white; text-shadow: none; }
         ::-moz-selection { background: rgba(255, 255, 255, 0.3); color: white; text-shadow: none; }
 
-        ::-webkit-scrollbar {
-            width: 18px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-            border: none;
-            border-radius: 0;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background-color: rgba(255, 255, 255, 0.85);
-            border-radius: 9px;
-            border: 4px solid transparent;
-            background-clip: content-box;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 25px rgba(255, 255, 255, 0.7);
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background-color: rgba(255, 255, 255, 1);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 1), 0 0 35px rgba(255, 255, 255, 0.8);
-        }
-
-        ::-webkit-scrollbar-button {
-            display: none;
-        }
+        ::-webkit-scrollbar { width: 18px; }
+        ::-webkit-scrollbar-track { background: transparent; border: none; border-radius: 0; }
+        ::-webkit-scrollbar-thumb { background-color: rgba(255, 255, 255, 0.85); border-radius: 9px; border: 4px solid transparent; background-clip: content-box; box-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 25px rgba(255, 255, 255, 0.7); transition: background-color 0.3s ease, box-shadow 0.3s ease; }
+        ::-webkit-scrollbar-thumb:hover { background-color: rgba(255, 255, 255, 1); box-shadow: 0 0 20px rgba(255, 255, 255, 1), 0 0 35px rgba(255, 255, 255, 0.8); }
+        ::-webkit-scrollbar-button { display: none; }
 
         #background-moon-container { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: -2; overflow: hidden; pointer-events: none; }
         #background-moon-svg { width: 65vw; height: auto; opacity: 0.15; filter: blur(20px) drop-shadow(0 0 50px rgba(210, 210, 255, 0.7)); transform: rotate(-15deg); }
 
-        body::after {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-            background-size: 30px 30px;
-            opacity: 0;
-            z-index: -1;
-            pointer-events: none;
-            animation: fadeInDots 5s ease-in-out forwards;
-        }
-        @keyframes fadeInDots {
-             from { opacity: 0; }
-             to { opacity: 0.15; }
-        }
+        body::after { content: ''; position: fixed; inset: 0; background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px); background-size: 30px 30px; opacity: 0; z-index: -1; pointer-events: none; animation: fadeInDots 5s ease-in-out forwards; }
+        @keyframes fadeInDots { from { opacity: 0; } to { opacity: 0.15; } }
 
-        #main-content { position: relative; z-index: 1; }
+        #main-content { position: relative; z-index: 1; padding-top: 0 !important; /* Ensure main content itself has no extra top padding */}
 
         #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; opacity: 1; transition: opacity 0.5s ease-out; }
         #loading-icon { width: 280px; height: 280px; animation: bounceScale 1.5s ease-in-out infinite alternate; }
@@ -114,194 +83,123 @@
         @keyframes fillBar { from { width: 0%; } to { width: 100%; } }
         #loading-screen.loaded { opacity: 0; pointer-events: none; }
 
-        .navbar { background-color: rgba(10, 10, 10, 0.8); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .navbar { background-color: rgba(10, 10, 10, 0.8); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255, 255, 255, 0.1); position: fixed; width: 100%; top: 0; z-index: 50;} /* Ensure navbar is fixed */
         .glowing-text { text-shadow: 0 0 10px rgba(255, 255, 255, 0.9); }
         .glowing-icon { filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8)); transition: filter 0.4s ease-out, transform 0.4s ease-out; }
         a.group:hover .glowing-icon { filter: drop-shadow(0 0 14px rgba(255, 255, 255, 1)) drop-shadow(0 0 22px rgba(255, 255, 255, 0.8)); transform: scale(1.15) rotate(10deg); }
 
-        nav a {
-            position: relative;
-            padding-bottom: 4px;
-            overflow: hidden;
-            color: #d1d5db;
-            transition: color 0.3s ease;
-        }
+        nav a { position: relative; padding-bottom: 4px; overflow: hidden; color: #d1d5db; transition: color 0.3s ease; }
+        nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background-color: rgba(255, 255, 255, 0.8); transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease-out, background-color 0.3s ease; }
+        nav a:hover { color: #fff; }
+        nav a:hover::after { transform: scaleX(1); }
+        .discord-link { color: #5865F2 !important; }
+        .discord-link:hover::after { background-color: #5865F2; }
+        .premium-link { color: #FFD700 !important; background-image: linear-gradient( 90deg, rgba(255, 215, 0, 0.2) 25%, rgba(255, 215, 0, 1) 40%, rgba(255, 215, 0, 1) 60%, rgba(255, 215, 0, 0.2) 75% ); background-size: 250% auto; background-clip: text; -webkit-background-clip: text; text-fill-color: transparent; -webkit-text-fill-color: transparent; animation: shimmer 3s linear infinite; font-weight: 600; }
+        @keyframes shimmer { 0% { background-position: -250%; } 100% { background-position: 250%; } }
+        .premium-link:hover::after { background-color: #FFD700; }
 
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: rgba(255, 255, 255, 0.8);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s ease-out, background-color 0.3s ease;
-        }
+        .section-title { display: flex; align-items: center; justify-content: center; text-align: center; }
+        .section-title::before { content: ''; display: inline-block; width: 1.2em; height: 1.2em; margin-right: 0.6em; background-image: url('data:image/svg+xml;utf8,<svg fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>'); background-size: contain; background-repeat: no-repeat; background-position: center; filter: drop-shadow(0 0 8px rgba(210, 210, 255, 0.7)); vertical-align: middle; flex-shrink: 0; }
 
-        nav a:hover {
-            color: #fff;
-        }
-
-        nav a:hover::after {
-            transform: scaleX(1);
-        }
-
-        .discord-link {
-            color: #5865F2 !important;
-        }
-
-        .discord-link:hover::after {
-            background-color: #5865F2;
-        }
-
-        .premium-link {
-            color: #FFD700 !important;
-            background-image: linear-gradient(
-                90deg,
-                rgba(255, 215, 0, 0.2) 25%,
-                rgba(255, 215, 0, 1) 40%,
-                rgba(255, 215, 0, 1) 60%,
-                rgba(255, 215, 0, 0.2) 75%
-            );
-            background-size: 250% auto;
-            background-clip: text;
-            -webkit-background-clip: text;
-            text-fill-color: transparent;
-            -webkit-text-fill-color: transparent;
-            animation: shimmer 3s linear infinite;
-            font-weight: 600;
-        }
-        .premium-link:hover {
-        }
-
-        @keyframes shimmer {
-            0% { background-position: -250%; }
-            100% { background-position: 250%; }
-        }
-
-        .premium-link:hover::after {
-            background-color: #FFD700;
-        }
-
-        .section-title {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-
-        .section-title::before {
-             content: '';
-             display: inline-block;
-             width: 1.2em;
-             height: 1.2em;
-             margin-right: 0.6em;
-             background-image: url('data:image/svg+xml;utf8,<svg fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>');
-             background-size: contain;
-             background-repeat: no-repeat;
-             background-position: center;
-             filter: drop-shadow(0 0 8px rgba(210, 210, 255, 0.7));
-             vertical-align: middle;
-             flex-shrink: 0;
-        }
-
-        .game-card {
-            position: relative; background-color: rgba(255, 255, 255, 0.07);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-            transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease, filter 0.4s ease;
-            backdrop-filter: blur(12px); border-radius: 0.75rem; overflow: hidden;
-            transform-style: preserve-3d;
-            backface-visibility: hidden;
-        }
+        .game-card { position: relative; background-color: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease, filter 0.4s ease; backdrop-filter: blur(12px); border-radius: 0.75rem; overflow: hidden; transform-style: preserve-3d; backface-visibility: hidden; }
         .game-card-image-internal { display: block; width: 100%; height: 180px; object-fit: cover; transition: transform 0.4s ease; background-color: #1f2937; }
         .game-card-content-area { padding: 1rem 1.25rem 1.25rem; }
         .game-card-title { margin-bottom: 0.75rem; font-size: 1.25rem; font-weight: 600; color: #ffffff; }
-        .game-details {
-            max-height: 0;
-            opacity: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease-out, opacity 0.4s ease-in 0.1s;
-            will-change: max-height, opacity;
-        }
-
-        .game-card:hover {
-            transform: translateY(-8px) scale(1.03);
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7);
-            border-color: rgba(255, 255, 255, 0.4);
-            filter: brightness(1.1);
-        }
+        .game-details { max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.5s ease-out, opacity 0.4s ease-in 0.1s; will-change: max-height, opacity; }
+        .game-card:hover { transform: translateY(-8px) scale(1.03); box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7); border-color: rgba(255, 255, 255, 0.4); filter: brightness(1.1); }
         .game-card:hover .game-card-image-internal { transform: scale(1.05); }
-
-        .game-card:hover .game-details {
-            max-height: 400px;
-            opacity: 1;
-        }
-
+        .game-card:hover .game-details { max-height: 400px; opacity: 1; }
         .feature-list { list-style: none; padding: 0; margin: 0; }
         .feature-list li::before { content: '✧'; color: #ffffff; margin-right: 8px; opacity: 0.8; }
 
         .script-image-section { padding: 4rem 1rem 6rem; text-align: center; }
         .script-image-container { perspective: 1000px; display: inline-block; margin-top: 2rem; position: relative; }
-        #script-image {
-            display: block; max-width: 100%; width: 600px; height: auto; border-radius: 1rem;
-            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.15), 0 5px 15px rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s ease-out, box-shadow 0.3s ease;
-            background-color: #1a202c;
-        }
-        #script-image:hover {
-             box-shadow: 0 15px 40px rgba(255, 255, 255, 0.25), 0 8px 25px rgba(255, 255, 255, 0.15);
-        }
+        #script-image { display: block; max-width: 100%; width: 600px; height: auto; border-radius: 1rem; box-shadow: 0 10px 25px rgba(255, 255, 255, 0.15), 0 5px 15px rgba(255, 255, 255, 0.1); transition: transform 0.3s ease-out, box-shadow 0.3s ease; background-color: #1a202c; }
+        #script-image:hover { box-shadow: 0 15px 40px rgba(255, 255, 255, 0.25), 0 8px 25px rgba(255, 255, 255, 0.15); }
 
         .discord-section { background-color: rgba(255, 255, 255, 0.03); padding: 5rem 1rem; margin-top: 6rem; border-top: 1px solid rgba(255,255,255,0.15); backdrop-filter: blur(8px); }
-        .feature-section-card {
-             background-color: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1);
-             border-radius: 0.75rem; padding: 1.5rem; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-             transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-             display: flex;
-             align-items: flex-start;
-        }
+        .feature-section-card { background-color: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 0.75rem; padding: 1.5rem; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; display: flex; align-items: flex-start; }
         .feature-section-card:hover { transform: translateY(-6px); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); border-color: rgba(255, 255, 255, 0.25); }
-        .feature-icon {
-             width: 1.75rem;
-             height: 1.75rem;
-             margin-right: 1rem;
-             flex-shrink: 0;
-             margin-top: 0.1rem;
-             filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.7));
-        }
+        .feature-icon { width: 1.75rem; height: 1.75rem; margin-right: 1rem; flex-shrink: 0; margin-top: 0.1rem; filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.7)); }
         .feature-content h3 { margin-bottom: 0.5rem; }
 
         .footer { background-color: #111111; color: #a0a0a0; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-         .footer-credit {
-             color: #ffffff;
-             font-size: 0.9rem;
-             margin-top: 0.5rem;
-             font-weight: 500;
-             text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-         }
+        .footer-credit { color: #ffffff; font-size: 0.9rem; margin-top: 0.5rem; font-weight: 500; text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
 
-        .primary-button {
-            background-color: #ffffff; color: #000000; padding: 0.75rem 2rem;
-            border-radius: 9999px; font-weight: 600;
-            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, filter 0.3s ease;
-            border: 1px solid #ffffff;
-            box-shadow: 0 0 18px rgba(255, 255, 255, 0.4), 0 0 8px rgba(255, 255, 255, 0.3);
-            display: inline-block;
-        }
-        .primary-button:hover {
-            background-color: #cccccc; color: #000000;
-            transform: scale(1.05);
-            box-shadow: 0 0 25px rgba(255, 255, 255, 0.6), 0 0 12px rgba(255, 255, 255, 0.4);
-            filter: brightness(1.1);
-        }
+        .primary-button { background-color: #ffffff; color: #000000; padding: 0.75rem 2rem; border-radius: 9999px; font-weight: 600; transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, filter 0.3s ease; border: 1px solid #ffffff; box-shadow: 0 0 18px rgba(255, 255, 255, 0.4), 0 0 8px rgba(255, 255, 255, 0.3); display: inline-block; }
+        .primary-button:hover { background-color: #cccccc; color: #000000; transform: scale(1.05); box-shadow: 0 0 25px rgba(255, 255, 255, 0.6), 0 0 12px rgba(255, 255, 255, 0.4); filter: brightness(1.1); }
         .discord-button { background-color: #5865F2; color: #ffffff; padding: 0.75rem 2rem; border-radius: 9999px; font-weight: 600; transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, filter 0.3s ease; box-shadow: 0 0 15px rgba(88, 101, 242, 0.4); display: inline-flex; align-items: center; }
         .discord-button:hover { background-color: #4752C4; transform: scale(1.05); box-shadow: 0 0 20px rgba(88, 101, 242, 0.6); filter: brightness(1.1); }
 
         .main-content { opacity: 0; transition: opacity 0.5s ease-in 0.2s; }
         .main-content.visible { opacity: 1; }
+
+        /* --- Executor Ticker Styles --- */
+        #executor-ticker-bar {
+            position: fixed;
+            left: 0;
+            width: 100%;
+            background-color: rgba(10, 10, 10, 0.85); /* Slightly different from navbar */
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 45; /* Below navbar (50), above content */
+            padding: 0.75rem 0; /* Adjust vertical padding for height */
+            overflow: hidden; /* Mask the scrolling content */
+            white-space: nowrap; /* Prevent items from wrapping */
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+             /* Top position will be set by JS */
+        }
+
+        .ticker-wrap {
+             /* Not strictly needed if #executor-ticker-bar handles overflow */
+             display: inline-block; /* Or flex depending on animation method */
+        }
+
+        .ticker-content {
+            display: inline-block; /* Allows transform animation */
+            /* Animation: name duration timing-function iteration-count */
+            animation: ticker-scroll 40s linear infinite; /* Adjust duration for speed */
+             padding-left: 100%; /* Start the second set off-screen */
+        }
+
+        .ticker-item {
+            display: inline-flex; /* Align icon and text */
+            align-items: center;
+            vertical-align: middle; /* Align items vertically in the line */
+            padding: 0 2rem; /* Spacing between items */
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .ticker-item:hover {
+            opacity: 1;
+        }
+
+        .ticker-item img {
+            width: 64px; /* Fixed width */
+            height: 64px; /* Fixed height */
+            object-fit: contain; /* Prevent stretching */
+            margin-right: 0.75rem; /* Space between icon and text */
+            flex-shrink: 0; /* Prevent icon shrinking */
+        }
+
+        .ticker-item span {
+            color: #e0e0e0; /* Light gray text */
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        /* Pause animation on hover */
+        #executor-ticker-bar:hover .ticker-content {
+            animation-play-state: paused;
+        }
+
+        @keyframes ticker-scroll {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); } /* Scrolls one full copy */
+        }
+        /* --- End Executor Ticker Styles --- */
+
 
     </style>
 </head>
@@ -351,8 +249,41 @@
              </div>
         </header>
 
-        <main class="container mx-auto pt-24 px-4">
-            <section id="hero" class="text-center py-24">
+         <div id="executor-ticker-bar">
+             <div class="ticker-content">
+                 <div class="ticker-item">
+                     <img src="/executors/placeholder1.png" alt="Executor One" onerror="this.style.display='none'"> <span>Executor One</span>
+                 </div>
+                 <div class="ticker-item">
+                     <img src="/executors/placeholder2.png" alt="Executor Two" onerror="this.style.display='none'"> <span>Executor Two</span>
+                 </div>
+                 <div class="ticker-item">
+                     <img src="/executors/placeholder3.png" alt="Executor Three" onerror="this.style.display='none'"> <span>Executor Three</span>
+                 </div>
+                 <div class="ticker-item">
+                     <img src="/executors/placeholder4.png" alt="Executor Four" onerror="this.style.display='none'"> <span>Executor Four</span>
+                 </div>
+                 <div class="ticker-item">
+                     <img src="/executors/placeholder5.png" alt="Executor Five" onerror="this.style.display='none'"> <span>Executor Five</span>
+                 </div>
+                 <div class="ticker-item">
+                     <img src="/executors/placeholder1.png" alt="Executor One" onerror="this.style.display='none'"> <span>Executor One</span>
+                 </div>
+                 <div class="ticker-item">
+                     <img src="/executors/placeholder2.png" alt="Executor Two" onerror="this.style.display='none'"> <span>Executor Two</span>
+                 </div>
+                 <div class="ticker-item">
+                     <img src="/executors/placeholder3.png" alt="Executor Three" onerror="this.style.display='none'"> <span>Executor Three</span>
+                 </div>
+                 <div class="ticker-item">
+                     <img src="/executors/placeholder4.png" alt="Executor Four" onerror="this.style.display='none'"> <span>Executor Four</span>
+                 </div>
+                 <div class="ticker-item">
+                     <img src="/executors/placeholder5.png" alt="Executor Five" onerror="this.style.display='none'"> <span>Executor Five</span>
+                 </div>
+             </div>
+         </div>
+         <main class="container mx-auto pt-0 px-4"> <section id="hero" class="text-center py-24">
                  <h2 class="text-5xl font-bold text-white mb-5 glowing-text section-title">Welcome to Lunor</h2>
                  <p class="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">Your full moon to roblox scripting.</p>
                  <a href="/features" class="primary-button">
@@ -519,6 +450,10 @@
                 document.body.style.overflowY = 'auto';
                 document.body.style.overflowX = 'hidden';
                 if (mainContent) mainContent.classList.add('visible');
+
+                // --- Position Ticker Bar after load ---
+                 positionTickerBar();
+
             }, minLoadTime);
         });
 
@@ -558,9 +493,19 @@
                      if (window.lenisInstance) {
                          const navbar = document.querySelector('.navbar');
                          const navbarHeight = navbar ? navbar.offsetHeight : 0;
-                         window.lenisInstance.scrollTo(targetElement, { offset: -navbarHeight });
+                         // Adjust offset if ticker bar exists
+                          const tickerBar = document.getElementById('executor-ticker-bar');
+                          const totalOffset = navbarHeight + (tickerBar ? tickerBar.offsetHeight : 0);
+                         window.lenisInstance.scrollTo(targetElement, { offset: -totalOffset });
                      } else {
-                         targetElement.scrollIntoView({ behavior: 'smooth' });
+                        // Basic fallback needs offset calculation too
+                         const navbar = document.querySelector('.navbar');
+                         const navbarHeight = navbar ? navbar.offsetHeight : 0;
+                         const tickerBar = document.getElementById('executor-ticker-bar');
+                         const totalOffset = navbarHeight + (tickerBar ? tickerBar.offsetHeight : 0);
+                         const elementPosition = targetElement.getBoundingClientRect().top;
+                         const offsetPosition = elementPosition + window.pageYOffset - totalOffset;
+                         window.scrollTo({ top: offsetPosition, behavior: "smooth" });
                      }
 
                 } else if (targetId === '#') {
@@ -574,10 +519,10 @@
             });
         });
 
-      
+
         const scriptContainer = document.getElementById('script-container');
         const scriptImage = document.getElementById('script-image');
-       
+
         const scriptImageUrl = 'script.png';
         const placeholderImageUrl = 'https://placehold.co/600x400/1a202c/4a5568?text=Preview';
         let tiltEnabled = false;
@@ -593,7 +538,7 @@
                 const rotateY = (mouseX / (rect.width / 2)) * maxTilt;
                 const rotateX = -(mouseY / (rect.height / 2)) * maxTilt;
                 requestAnimationFrame(() => {
-                    scriptImage.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03) translateZ(20px)`;
+                    scriptImage.style.transform = `perspective(1000px) rotateX(<span class="math-inline">\{rotateX\}deg\) rotateY\(</span>{rotateY}deg) scale(1.03) translateZ(20px)`;
                 });
             }
 
@@ -619,19 +564,19 @@
                 scriptContainer.removeEventListener('mouseleave', handleMouseLeave);
             };
 
-           
+
             scriptImage.src = scriptImageUrl;
 
-          
+
              if (scriptImage.complete && scriptImage.naturalWidth > 0) {
                  scriptImage.onload();
              } else if (scriptImage.complete && scriptImage.naturalWidth === 0 && scriptImage.src !== placeholderImageUrl) {
-                
+
                  scriptImage.onerror();
              }
 
         } else {
-            console.error("Script container or image element not found for tilt effect.");
+            // console.error("Script container or image element not found for tilt effect."); // Comment out error for other pages
         }
 
         document.querySelectorAll('.game-card-image-internal').forEach(img => {
@@ -725,6 +670,27 @@
                 alert("Could not copy automatically. Please copy manually: " + discordId);
             });
         }
+
+        // --- Function to position ticker bar ---
+         function positionTickerBar() {
+             const navbar = document.querySelector('.navbar');
+             const tickerBar = document.getElementById('executor-ticker-bar');
+             if (navbar && tickerBar) {
+                 const navbarHeight = navbar.offsetHeight;
+                 tickerBar.style.top = `${navbarHeight}px`;
+                 // Adjust body padding top to prevent content from hiding under navbar AND ticker
+                 document.body.style.paddingTop = `${navbarHeight + tickerBar.offsetHeight}px`;
+             } else {
+                 // Fallback if elements aren't ready immediately
+                 // May need refinement if elements load very late
+                 setTimeout(positionTickerBar, 100);
+             }
+         }
+
+         // Call position function initially and on resize
+         positionTickerBar();
+         window.addEventListener('resize', positionTickerBar);
+
 
     </script>
 </body>
