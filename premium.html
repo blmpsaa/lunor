@@ -9,6 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
     <style>
+        /* Custom CSS */
         :root {
             --gold-color: #FFD700;
             --gold-glow-1: rgba(255, 215, 0, 0.9);
@@ -21,6 +22,7 @@
              scrollbar-width: thin;
         }
 
+        /* --- Custom Golden Glowing Cursor --- */
         body {
             font-family: 'Inter', sans-serif;
             background-color: #050505;
@@ -29,8 +31,9 @@
             padding: 0;
             position: relative;
             overflow-x: hidden;
-            overflow-y: hidden; /* Initially hide scrollbar */
-             cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><g filter="drop-shadow(0 0 3px rgba(255, 215, 0, 0.9)) drop-shadow(0 0 5px rgba(255, 215, 0, 0.7))"><path fill="white" d="M4 4l18 11.4-7.3 1.6L9.4 28 4 4z"/><path fill="%23FFD700" stroke="%23FFC300" stroke-width="0.5" d="M5.5 5.5l15 9.4-5.8 1.3L10 26.2 5.5 5.5z"/></g></svg>') 4 4, auto !important;
+            /* Hide scrollbar initially until load */
+            overflow-y: hidden;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><g filter="drop-shadow(0 0 3px rgba(255, 215, 0, 0.9)) drop-shadow(0 0 5px rgba(255, 215, 0, 0.7))"><path fill="white" d="M4 4l18 11.4-7.3 1.6L9.4 28 4 4z"/><path fill="%23FFD700" stroke="%23FFC300" stroke-width="0.5" d="M5.5 5.5l15 9.4-5.8 1.3L10 26.2 5.5 5.5z"/></g></svg>') 4 4, auto !important;
         }
 
         a, button, .premium-feature-box, input, textarea, select, label {
@@ -40,37 +43,49 @@
         ::selection { background: rgba(255, 215, 0, 0.3); color: white; text-shadow: none; }
         ::-moz-selection { background: rgba(255, 215, 0, 0.3); color: white; text-shadow: none; }
 
+        /* --- Custom Scrollbar Styles (WebKit) - Golden --- */
         ::-webkit-scrollbar { width: 18px; }
         ::-webkit-scrollbar-track { background: transparent; border: none; border-radius: 0; }
         ::-webkit-scrollbar-thumb { background-color: rgba(255, 215, 0, 0.85); border-radius: 9px; border: 4px solid transparent; background-clip: content-box; box-shadow: 0 0 15px var(--gold-glow-1), 0 0 25px var(--gold-glow-2); transition: background-color 0.3s ease, box-shadow 0.3s ease; }
         ::-webkit-scrollbar-thumb:hover { background-color: var(--gold-color); box-shadow: 0 0 20px var(--gold-color), 0 0 35px var(--gold-glow-1); }
         ::-webkit-scrollbar-button { display: none; }
 
+        /* Background Moon SVG Container (Golden Glow) */
         #background-moon-container { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: -2; overflow: hidden; pointer-events: none; }
         #background-moon-svg { width: 65vw; height: auto; opacity: 0.15; filter: blur(20px) drop-shadow(0 0 50px var(--gold-glow-2)); transform: rotate(-15deg); }
 
+        /* --- Background Static Dots --- */
         body::after { content: ''; position: fixed; inset: 0; background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px); background-size: 30px 30px; opacity: 0; z-index: -1; pointer-events: none; animation: fadeInDots 5s ease-in-out forwards; }
         @keyframes fadeInDots { from { opacity: 0; } to { opacity: 0.15; } }
 
         #main-content { position: relative; z-index: 1; }
 
+        /* --- Loading Screen Styles --- */
         #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; opacity: 1; transition: opacity 0.5s ease-out; }
-        #loading-icon-svg { /* Changed ID/styles for SVG */
+        #loading-icon {
             width: 280px;
             height: 280px;
             animation: bounceScale 1.5s ease-in-out infinite alternate;
-            color: var(--gold-color); /* Set SVG color */
-            filter: drop-shadow(0 0 15px var(--gold-glow-1)); /* Add glow */
+            /* Add gold glow to loading icon */
+            filter: drop-shadow(0 0 15px var(--gold-glow-1));
         }
         @keyframes bounceScale { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
-        #loading-bar-container { width: 200px; height: 8px; background-color: rgba(255, 215, 0, 0.2); border-radius: 4px; margin-top: 20px; overflow: hidden; } /* Slightly gold background */
-        #loading-bar { width: 0%; height: 100%; background-color: var(--gold-color); border-radius: 4px; animation: fillBar 2.1s linear forwards; box-shadow: 0 0 8px var(--gold-glow-2); } /* Gold bar with glow */
+        #loading-bar-container { width: 200px; height: 8px; background-color: rgba(255, 215, 0, 0.2); border-radius: 4px; margin-top: 20px; overflow: hidden; } /* Gold tint bg */
+        #loading-bar {
+            width: 0%;
+            height: 100%;
+            background-color: var(--gold-color); /* Gold loading bar */
+            border-radius: 4px;
+            animation: fillBar 2.1s linear forwards;
+            box-shadow: 0 0 8px var(--gold-glow-2); /* Gold glow on bar */
+         }
         @keyframes fillBar { from { width: 0%; } to { width: 100%; } }
         #loading-screen.loaded { opacity: 0; pointer-events: none; }
 
+        /* --- Navbar Styles --- */
         .navbar { background-color: rgba(10, 10, 10, 0.8); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255, 215, 0, 0.2); }
         .navbar-title { color: var(--gold-color); text-shadow: 0 0 12px var(--gold-glow-1); }
-        .navbar .glowing-icon { filter: drop-shadow(0 0 10px var(--gold-glow-2)); transition: filter 0.4s ease-out, transform 0.4s ease-out; }
+        .navbar .glowing-icon { fill: var(--gold-color); filter: drop-shadow(0 0 10px var(--gold-glow-2)); transition: filter 0.4s ease-out, transform 0.4s ease-out; }
         .navbar a.group:hover .glowing-icon { filter: drop-shadow(0 0 16px var(--gold-color)) drop-shadow(0 0 25px var(--gold-glow-1)); transform: scale(1.15) rotate(10deg); }
 
         nav a { position: relative; padding-bottom: 4px; overflow: hidden; color: #d1d5db; transition: color 0.3s ease; }
@@ -85,70 +100,214 @@
         @keyframes shimmer { 0% { background-position: -250%; } 100% { background-position: 250%; } }
         .premium-link:hover::after { background-color: var(--gold-color); }
 
-        .premium-hero-title { color: var(--gold-color); text-shadow: 0 0 15px var(--gold-glow-1), 0 0 25px var(--gold-glow-2); display: flex; align-items: center; justify-content: center; text-align: center; }
-        .premium-hero-title::before { content: ''; display: inline-block; width: 1em; height: 1em; margin-right: 0.5em; background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill="%23FFD700" d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>'); background-size: contain; background-repeat: no-repeat; background-position: center; filter: drop-shadow(0 0 10px var(--gold-glow-2)); vertical-align: middle; flex-shrink: 0; }
+        /* --- Premium Page Specific Styles --- */
+        .premium-hero-title {
+            color: var(--gold-color);
+            text-shadow: 0 0 15px var(--gold-glow-1), 0 0 25px var(--gold-glow-2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .premium-hero-title::before {
+             content: '';
+             display: inline-block;
+             width: 1em;
+             height: 1em;
+             margin-right: 0.5em;
+             background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill="%23FFD700" d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>');
+             background-size: contain;
+             background-repeat: no-repeat;
+             background-position: center;
+             filter: drop-shadow(0 0 10px var(--gold-glow-2));
+             vertical-align: middle;
+             flex-shrink: 0;
+        }
 
-        .premium-feature-box { background-color: rgba(40, 35, 0, 0.2); border: 1px solid rgba(255, 215, 0, 0.2); border-radius: 0.75rem; padding: 2rem 1.5rem; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; backdrop-filter: blur(8px); display: flex; flex-direction: column; align-items: center; text-align: center; }
-        .premium-feature-box:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6); border-color: rgba(255, 215, 0, 0.5); }
-        .premium-feature-icon { width: 3rem; height: 3rem; margin-bottom: 1.5rem; flex-shrink: 0; color: var(--gold-color); filter: drop-shadow(0 0 10px var(--gold-glow-1)); }
-        .premium-feature-title { color: var(--gold-color); font-size: 1.3rem; font-weight: 600; margin-bottom: 0.75rem; }
-        .premium-feature-text { color: #e5e7eb; opacity: 0.9; line-height: 1.6; font-size: 0.95rem; }
+        /* --- Premium Feature Box Styles --- */
+        .premium-feature-box {
+             background-color: rgba(40, 35, 0, 0.2);
+             border: 1px solid rgba(255, 215, 0, 0.2);
+             border-radius: 0.75rem;
+             padding: 2rem 1.5rem;
+             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+             transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+             backdrop-filter: blur(8px);
+             display: flex;
+             flex-direction: column;
+             align-items: center;
+             text-align: center;
+        }
+        .premium-feature-box:hover {
+             transform: translateY(-8px) scale(1.02);
+             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+             border-color: rgba(255, 215, 0, 0.5);
+        }
+        .premium-feature-icon {
+             width: 3rem;
+             height: 3rem;
+             margin-bottom: 1.5rem;
+             flex-shrink: 0;
+             color: var(--gold-color);
+             filter: drop-shadow(0 0 10px var(--gold-glow-1));
+        }
+        .premium-feature-title {
+             color: var(--gold-color);
+             font-size: 1.3rem;
+             font-weight: 600;
+             margin-bottom: 0.75rem;
+        }
+        .premium-feature-text {
+             color: #e5e7eb;
+             opacity: 0.9;
+             line-height: 1.6;
+             font-size: 0.95rem;
+        }
 
-        .purchase-card-container { display: flex; flex-direction: column; align-items: center; margin: 4rem auto 6rem auto; max-width: 450px; position: relative; /* Needed for pseudo-element */ }
+        /* --- Purchase Card Styles --- */
+        .purchase-card-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 4rem auto 6rem auto;
+            max-width: 450px;
+        }
+        /* Wrapper for positioning sparkles relative to card */
+         #purchase-card-wrapper {
+             position: relative;
+             width: 100%; /* Ensure wrapper takes width */
+         }
+        .bouncing-arrow {
+            color: var(--gold-color);
+            width: 2rem;
+            height: 2rem;
+            margin-bottom: 1rem;
+            animation: bounce 2s infinite ease-in-out;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-15px); }
+            60% { transform: translateY(-8px); }
+        }
+
+        .purchase-card {
+            background-color: rgba(40, 35, 0, 0.3);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            border-radius: 0.75rem;
+            padding: 2.5rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            width: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative; /* Needed for absolute sparkles */
+            overflow: hidden; /* Hide sparkles going too far out */
+        }
+        .purchase-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 12px 35px rgba(50, 40, 0, 0.7);
+        }
+        .purchase-card h3 {
+            color: var(--gold-color);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            text-shadow: 0 0 10px var(--gold-glow-2);
+        }
+        .purchase-card .price {
+            color: #ffffff;
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+        .purchase-card .features-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 2rem 0;
+            color: #d1d5db;
+            font-size: 0.9rem;
+            text-align: left;
+            max-width: 85%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .purchase-card .features-list li {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+        .purchase-card .features-list li::before {
+            content: '★';
+            color: var(--gold-color);
+            margin-right: 0.75rem;
+            font-size: 1.1em;
+            line-height: 1; /* Adjust alignment */
+        }
+        .purchase-button {
+            background-color: var(--gold-color);
+            color: #000000;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, filter 0.3s ease, border-color 0.3s ease;
+            border: 2px solid #1a1a1a; /* Dark outline */
+            box-shadow: 0 0 20px var(--gold-glow-2);
+            display: inline-block;
+            text-decoration: none;
+        }
+        .purchase-button:hover {
+            background-color: var(--gold-darker);
+            color: #000000;
+            transform: scale(1.05);
+            box-shadow: 0 0 25px var(--gold-glow-1);
+            filter: brightness(1.1);
+             border-color: #000; /* Darker outline on hover */
+        }
 
         /* Sparkle Effect */
-        .purchase-card-container::before {
-            content: '';
+        .sparkle-plus {
             position: absolute;
-            inset: -4px; /* Position slightly outside the container */
-            border-radius: calc(0.75rem + 4px); /* Match card radius + inset */
-            z-index: -1; /* Behind the card */
-            background: repeating-conic-gradient(var(--gold-glow-2) 0% 1%, transparent 1% 10%);
-            background-size: 20px 20px; /* Size of the sparkle pattern */
+            color: var(--gold-color);
+            font-size: 1rem; /* Adjust size */
+            font-weight: bold;
+            user-select: none;
+            pointer-events: none;
+            z-index: 10; /* Above card content */
             opacity: 0;
-            animation: sparkle 4s linear infinite, fadeInSparkle 1s ease forwards;
-            animation-delay: 0.5s; /* Delay sparkle appearance slightly */
-        }
-        @keyframes sparkle {
-            100% { transform: rotate(360deg); }
-        }
-        @keyframes fadeInSparkle {
-            to { opacity: 0.6; } /* Final sparkle opacity */
+            animation: sparkleAnim 1.2s ease-out forwards;
         }
 
-        .bouncing-arrow { color: var(--gold-color); width: 2rem; height: 2rem; margin-bottom: 1rem; animation: bounce 2s infinite ease-in-out; filter: drop-shadow(0 0 8px var(--gold-glow-2)); }
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-15px); } 60% { transform: translateY(-8px); } }
-
-        .purchase-card { background-color: rgba(40, 35, 0, 0.3); border: 1px solid rgba(255, 215, 0, 0.4); border-radius: 0.75rem; padding: 2.5rem; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6); backdrop-filter: blur(10px); text-align: center; width: 100%; transition: transform 0.3s ease, box-shadow 0.3s ease; position: relative; overflow: hidden; /* Clip pseudo-element */ }
-        .purchase-card:hover { transform: scale(1.03); box-shadow: 0 12px 35px rgba(50, 40, 0, 0.7); }
-        .purchase-card h3 { color: var(--gold-color); font-size: 1.8rem; font-weight: 700; margin-bottom: 0.75rem; text-shadow: 0 0 10px var(--gold-glow-2); }
-        .purchase-card .price { color: #ffffff; font-size: 2.8rem; font-weight: 700; margin-bottom: 1.5rem; display: block; }
-        .purchase-card .features-list { list-style: none; padding: 0; margin: 0 0 2rem 0; color: #d1d5db; font-size: 0.9rem; text-align: left; max-width: 80%; margin-left: auto; margin-right: auto; }
-        .purchase-card .features-list li { margin-bottom: 0.5rem; display: flex; align-items: center; }
-        .purchase-card .features-list li::before { content: '★'; color: var(--gold-color); margin-right: 0.75rem; font-size: 1.1em; }
-        .purchase-button { background-color: var(--gold-color); color: #000000; padding: 0.75rem 2rem; border-radius: 9999px; font-weight: 600; transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, filter 0.3s ease, border-color 0.3s ease; border: 2px solid #000000; box-shadow: 0 0 20px var(--gold-glow-2); display: inline-block; text-decoration: none; }
-        .purchase-button:hover { background-color: var(--gold-darker); color: #000000; transform: scale(1.05); box-shadow: 0 0 25px var(--gold-glow-1); filter: brightness(1.1); border-color: #111; }
+        @keyframes sparkleAnim {
+            0% { opacity: 1; transform: translate(0, 0) scale(0.5); }
+            100% { opacity: 0; transform: translate(var(--tx, 0px), var(--ty, -40px)) scale(1.5); } /* Float up/out */
+        }
+        /* --- End Premium Styles --- */
 
         .footer { background-color: #111111; color: #a0a0a0; border-top: 1px solid rgba(255, 215, 0, 0.2); }
-         .footer-credit { color: var(--gold-color); font-size: 0.9rem; margin-top: 0.5rem; font-weight: 500; text-shadow: 0 0 5px var(--gold-glow-2); }
+         .footer-credit {
+             color: var(--gold-color); /* Gold text */
+             font-size: 0.9rem;
+             margin-top: 0.5rem;
+             font-weight: 500;
+             text-shadow: 0 0 5px var(--gold-glow-2); /* Gold glow */
+         }
 
         .main-content { opacity: 0; transition: opacity 0.5s ease-in 0.2s; }
         .main-content.visible { opacity: 1; }
 
     </style>
 </head>
-<body class="bg-black text-white">
-
-    <div id="background-moon-container">
+<body class="bg-black text-white"> <div id="background-moon-container">
         <svg id="background-moon-svg" fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
             <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
         </svg>
     </div>
 
     <div id="loading-screen">
-         <svg id="loading-icon-svg" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-             <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-         </svg>
+        <img id="loading-icon" src="loadingicon.png" alt="Loading..."
+             onerror="this.onerror=null; this.src='https://placehold.co/280x280/000000/ffffff?text=L';"
+             ondragstart="return false;" oncontextmenu="return false;">
         <div id="loading-bar-container">
             <div id="loading-bar"></div>
         </div>
@@ -194,7 +353,7 @@
                     <div class="premium-feature-box">
                          <svg class="premium-feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                         </svg>
+                          </svg>
                          <h3 class="premium-feature-title">No Temporary Keys</h3>
                          <p class="premium-feature-text">Enjoy uninterrupted access without the hassle of renewing keys every 12 hours.</p>
                     </div>
@@ -207,15 +366,15 @@
                          <p class="premium-feature-text">Switch devices freely with unlimited hardware ID resets whenever you need.</p>
                     </div>
 
-                     <div class="premium-feature-box">
-                          <svg class="premium-feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" />
-                          </svg>
+                    <div class="premium-feature-box">
+                         <svg class="premium-feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                           <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" />
+                         </svg>
                          <h3 class="premium-feature-title">Updates Before Free Users</h3>
                          <p class="premium-feature-text">Gain early access to the latest script updates and new features ahead of the curve.</p>
                     </div>
 
-                     <div class="premium-feature-box">
+                    <div class="premium-feature-box">
                          <svg class="premium-feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                          </svg>
@@ -242,26 +401,28 @@
                 </div>
             </section>
 
-             <section id="purchase" class="pt-10 pb-20">
+            <section id="purchase" class="pt-10 pb-20">
                  <div class="purchase-card-container">
                      <div class="bouncing-arrow">
                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                              <path stroke-linecap="round" stroke-linejoin="round" d="m9 12.75 3 3m0 0 3-3m-3 3v-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                          </svg>
                      </div>
-                     <div class="purchase-card">
-                         <h3>Wanna buy?</h3>
-                         <span class="price">$10</span>
-                         <ul class="features-list">
-                             <li>No Temporary Keys</li>
-                             <li>Unlimited HWID Resets</li>
-                             <li>Early Updates</li>
-                             <li>More Features</li>
-                             <li>More Game Support</li>
-                             <li>Priority Support</li>
-                         </ul>
-                         <a href="#" class="purchase-button">Buy Now</a>
-                     </div>
+                     <div id="purchase-card-wrapper">
+                         <div class="purchase-card">
+                             <h3>Wanna buy?</h3>
+                             <span class="price">$10</span>
+                             <ul class="features-list">
+                                 <li>No Temporary Keys</li>
+                                 <li>Unlimited HWID Resets</li>
+                                 <li>Early Updates</li>
+                                 <li>More Features</li>
+                                 <li>More Game Support</li>
+                                 <li>Priority Support</li>
+                             </ul>
+                             <a href="#" class="purchase-button">Buy Now</a>
+                         </div>
+                      </div>
                  </div>
              </section>
 
@@ -283,7 +444,7 @@
             const minLoadTime = 1500;
             setTimeout(() => {
                 if (loadingScreen) loadingScreen.classList.add('loaded');
-                document.body.style.overflowY = 'auto'; // Restore scrollbar
+                document.body.style.overflowY = 'auto'; // Restore scrollbar visibility
                 document.body.style.overflowX = 'hidden';
                 if (mainContent) mainContent.classList.add('visible');
             }, minLoadTime);
@@ -306,6 +467,7 @@
         const yearSpan = document.getElementById('current-year');
         if (yearSpan) yearSpan.textContent = new Date().getFullYear();
 
+        // Smooth scroll for # links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 const targetId = this.getAttribute('href');
@@ -334,6 +496,7 @@
             });
         });
 
+        // Lenis Smooth Scrolling
         try {
             const lenis = new Lenis({
                 lerp: 0.08, wheelMultiplier: 0.8, smoothWheel: true, smoothTouch: true,
@@ -343,6 +506,7 @@
             window.lenisInstance = lenis;
         } catch (error) { console.error("Failed to initialize Lenis:", error); }
 
+        // Copy Discord ID
         function copyDiscordId() {
             const discordId = "1300475971081732127";
             navigator.clipboard.writeText(discordId).then(() => {
@@ -360,6 +524,114 @@
                 }, 2000);
             }).catch(err => { console.error('Failed to copy: ', err); alert("Could not copy automatically. Please copy manually: " + discordId); });
         }
+
+        // --- Sparkle Effect for Purchase Card ---
+        const purchaseCardWrapper = document.getElementById('purchase-card-wrapper');
+        let sparkleInterval = null;
+
+        function createSparkle() {
+            if (!purchaseCardWrapper) return;
+
+            const sparkle = document.createElement('span');
+            sparkle.classList.add('sparkle-plus');
+            sparkle.innerHTML = '+'; // Use '+' character
+
+            const wrapperRect = purchaseCardWrapper.getBoundingClientRect();
+            const cardElement = purchaseCardWrapper.querySelector('.purchase-card');
+            if (!cardElement) return; // Make sure card exists
+            const cardRect = cardElement.getBoundingClientRect();
+
+            // Calculate position relative to the wrapper, but along the card's edge
+            const wrapperScrollX = window.scrollX;
+            const wrapperScrollY = window.scrollY;
+
+            const cardTop = cardRect.top + wrapperScrollY - wrapperRect.top;
+            const cardLeft = cardRect.left + wrapperScrollX - wrapperRect.left;
+            const cardWidth = cardRect.width;
+            const cardHeight = cardRect.height;
+
+            const side = Math.floor(Math.random() * 4); // 0: top, 1: right, 2: bottom, 3: left
+            let x, y;
+            const offset = 10; // How far out the sparkle starts
+
+            switch (side) {
+                case 0: // Top edge
+                    x = cardLeft + Math.random() * cardWidth;
+                    y = cardTop - offset;
+                    break;
+                case 1: // Right edge
+                    x = cardLeft + cardWidth + offset;
+                    y = cardTop + Math.random() * cardHeight;
+                    break;
+                case 2: // Bottom edge
+                    x = cardLeft + Math.random() * cardWidth;
+                    y = cardTop + cardHeight + offset;
+                    break;
+                case 3: // Left edge
+                default:
+                    x = cardLeft - offset;
+                    y = cardTop + Math.random() * cardHeight;
+                    break;
+            }
+
+             // Randomize animation direction slightly
+            const tx = (Math.random() - 0.5) * 60; // Horizontal drift +/- 30px
+            const ty = (Math.random() * -50) - 20; // Upward movement between -20px and -70px
+
+            sparkle.style.left = `${x}px`;
+            sparkle.style.top = `${y}px`;
+            sparkle.style.setProperty('--tx', `${tx}px`);
+            sparkle.style.setProperty('--ty', `${ty}px`);
+
+            purchaseCardWrapper.appendChild(sparkle);
+
+            // Remove sparkle after animation
+            setTimeout(() => {
+                if (sparkle.parentNode === purchaseCardWrapper) {
+                   purchaseCardWrapper.removeChild(sparkle);
+                }
+            }, 1200); // Matches animation duration
+        }
+
+        // Start sparkles when the main content is visible after loading
+        const observer = new MutationObserver((mutationsList, observer) => {
+            for(let mutation of mutationsList) {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    const mainContent = document.getElementById('main-content');
+                    if (mainContent && mainContent.classList.contains('visible')) {
+                         if (!sparkleInterval && purchaseCardWrapper) { // Start only once
+                             sparkleInterval = setInterval(createSparkle, 150); // Generate sparkle every 150ms
+                             console.log("Sparkles started");
+                         }
+                         // Optional: Stop observing once started
+                         // observer.disconnect();
+                    } else {
+                        // Optional: Clear interval if content becomes hidden again?
+                         if (sparkleInterval) {
+                             clearInterval(sparkleInterval);
+                             sparkleInterval = null;
+                              console.log("Sparkles stopped");
+                         }
+                    }
+                }
+            }
+        });
+
+        // Observe the main content element for class changes
+        const mainContentElement = document.getElementById('main-content');
+        if(mainContentElement) {
+            observer.observe(mainContentElement, { attributes: true });
+        } else {
+             // Fallback: Start sparkles after a delay if observer fails
+             setTimeout(() => {
+                 if (!sparkleInterval && purchaseCardWrapper) {
+                      sparkleInterval = setInterval(createSparkle, 150);
+                      console.log("Sparkles started via fallback timeout");
+                 }
+             }, 2500); // Start slightly after estimated load complete
+        }
+
+
     </script>
 </body>
 </html>
