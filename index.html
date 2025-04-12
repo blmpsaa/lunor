@@ -195,6 +195,29 @@
         }
         /* --- End Navbar Link Styles --- */
 
+        /* Style for Section Titles with Icon */
+        .section-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .section-title::before {
+             content: '';
+             display: inline-block;
+             width: 1.2em;
+             height: 1.2em;
+             margin-right: 0.6em;
+             background-image: url('data:image/svg+xml;utf8,<svg fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>');
+             background-size: contain;
+             background-repeat: no-repeat;
+             background-position: center;
+             filter: drop-shadow(0 0 8px rgba(210, 210, 255, 0.7));
+             vertical-align: middle;
+             flex-shrink: 0;
+        }
+
         /* --- Game Card Styles --- */
         .game-card {
             position: relative; background-color: rgba(255, 255, 255, 0.07);
@@ -417,7 +440,7 @@
                               <div class="game-details">
                                   <p class="text-gray-400 mb-3 text-sm">Script: Lunor Free & Paid</p>
                                   <ul class="feature-list text-gray-200 space-y-1 text-sm">
-                                      <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li>
+                                     <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li>
                                   </ul>
                                    <button class="mt-4 w-full text-sm bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg transition-colors duration-300">Get Script</button>
                               </div>
@@ -440,61 +463,60 @@
                      </div>
                  </div> </section>
 
-    
             <section id="script-preview" class="script-image-section">
-                <h2 class="text-4xl font-semibold text-white text-center mb-6 glowing-text section-title">Script Sneak Peek</h2>
-                <p class="text-lg text-gray-300 mb-8 max-w-xl mx-auto">
-                    A quick glimpse at the script and it's amazing UI.
-                </p>
-                <div class="script-image-container" id="script-container">
-                    <img id="script-image" alt="General script representation"
-                         ondragstart="return false;" oncontextmenu="return false;">
-                </div>
-           </section>
+                 <h2 class="text-4xl font-semibold text-white text-center mb-6 glowing-text section-title">Script Sneak Peek</h2>
+                 <p class="text-lg text-gray-300 mb-8 max-w-xl mx-auto">
+                     A quick glimpse at the script and it's amazing UI.
+                 </p>
+                 <div class="script-image-container" id="script-container">
+                     <img id="script-image" alt="General script representation"
+                          ondragstart="return false;" oncontextmenu="return false;">
+                 </div>
+            </section>
 
-           <section id="discord" class="discord-section text-center rounded-lg">
-                <h2 class="text-4xl font-semibold text-white mb-6 glowing-text section-title">Join 40k+ Members</h2>
-                <p class="text-lg text-gray-300 mb-8 max-w-xl mx-auto">
-                    Become part of our active Discord community for exclusive script access, support, giveaways, and updates!
-                </p>
-                <a href="#" class="discord-button">
-                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495a18.298 18.298 0 00-5.4844 0 11.0362 11.0362 0 00-.6177-1.252.0767.0767 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0278C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8781-1.2962 1.229-1.9942a.076.0765 0 00-.0406.1067c.3603.698.7867 1.3638 1.248 1.9942a.0777.0777 0 00.0842.0276c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-4.461-.8358-8.9869-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1569 2.419 0 1.3332-.966 2.4189-2.157 2.4189z"></path></svg>
+            <section id="discord" class="discord-section text-center rounded-lg">
+                 <h2 class="text-4xl font-semibold text-white mb-6 glowing-text section-title">Join 40k+ Members</h2>
+                 <p class="text-lg text-gray-300 mb-8 max-w-xl mx-auto">
+                     Become part of our active Discord community for exclusive script access, support, giveaways, and updates!
+                 </p>
+                 <a href="#" class="discord-button">
+                     <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495a18.298 18.298 0 00-5.4844 0 11.0362 11.0362 0 00-.6177-1.252.0767.0767 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0278C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8781-1.2962 1.229-1.9942a.076.076 0 00-.0416-.1057 15.1894 15.1894 0 01-1.4439-.8774.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0105c.119.099.245.1981.3708.2914a.077.077 0 01-.0066.1276 15.14 15.14 0 01-1.444.8774.0765.0765 0 00-.0406.1067c.3603.698.7867 1.3638 1.248 1.9942a.0777.0777 0 00.0842.0276c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-4.461-.8358-8.9869-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1569 2.419 0 1.3332-.966 2.4189-2.157 2.4189z"/></svg>
                      Join Discord
                  </a>
             </section>
 
             <section id="features" class="py-20">
-                <h2 class="text-4xl font-semibold text-white text-center mb-16 glowing-text section-title">Why Choose Lunor?</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="feature-section-card">
-                        <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <div class="feature-content">
-                            <h3 class="text-xl font-semibold text-white">Cheap Premium</h3>
-                            <p class="text-gray-300">Access powerful premium features and scripts without breaking the bank.</p>
-                        </div>
-                    </div>
-                    <div class="feature-section-card">
-                        <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                           <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
-                        </svg>
-                        <div class="feature-content">
-                            <h3 class="text-xl font-semibold text-white">Wide Variety Of Premium Scripts</h3>
-                            <p class="text-gray-300">Explore a diverse collection of high-quality scripts for numerous popular Roblox games.</p>
-                        </div>
-                    </div>
-                    <div class="feature-section-card">
-                        <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                 <h2 class="text-4xl font-semibold text-white text-center mb-16 glowing-text section-title">Why Choose Lunor?</h2>
+                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                     <div class="feature-section-card">
+                         <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                         </svg>
+                         <div class="feature-content">
+                             <h3 class="text-xl font-semibold text-white">Cheap Premium</h3>
+                             <p class="text-gray-300">Access powerful premium features and scripts without breaking the bank.</p>
+                         </div>
+                     </div>
+                     <div class="feature-section-card">
+                         <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+                         </svg>
+                         <div class="feature-content">
+                             <h3 class="text-xl font-semibold text-white">Wide Variety Of Premium Scripts</h3>
+                             <p class="text-gray-300">Explore a diverse collection of high-quality scripts for numerous popular Roblox games.</p>
+                         </div>
+                     </div>
+                     <div class="feature-section-card">
+                         <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
-                        </svg>
-                        <div class="feature-content">
-                            <h3 class="text-xl font-semibold text-white">Scripts Updated Daily</h3>
-                            <p class="text-gray-300">Our scripts receive frequent updates to ensure compatibility and bypass detection.</p>
-                        </div>
-                    </div>
-                </div>
-           </section>
+                         </svg>
+                         <div class="feature-content">
+                             <h3 class="text-xl font-semibold text-white">Scripts Updated Daily</h3>
+                             <p class="text-gray-300">Our scripts receive frequent updates to ensure compatibility and bypass detection.</p>
+                         </div>
+                     </div>
+                 </div>
+            </section>
 
         </main>
 
@@ -542,6 +564,8 @@
         if (yearSpan) yearSpan.textContent = new Date().getFullYear();
 
         // --- Smooth Scrolling for Navbar Links (Using Lenis Instance) ---
+        // This code only handles scrolling for internal # links
+        // Regular links like /features will navigate normally
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 const targetId = this.getAttribute('href');
@@ -555,7 +579,6 @@
                     console.warn(`Invalid selector for anchor: ${targetId}`);
                     return; // Allow default if selector is invalid
                 }
-
 
                 if (targetElement) {
                     e.preventDefault(); // Prevent default jump only if target exists
@@ -694,39 +717,63 @@
             console.error("Failed to initialize Lenis smooth scrolling:", error);
         }
 
+        // --- Copy Discord ID Function ---
         function copyDiscordId() {
             const discordId = "1300475971081732127";
             navigator.clipboard.writeText(discordId).then(() => {
-                // Create a temporary message element
+                // --- Create and display notification ---
+                let existingNotification = document.getElementById('copy-notification');
+                if (existingNotification) { // Remove old one if it exists
+                    document.body.removeChild(existingNotification);
+                }
+
                 const message = document.createElement('div');
+                message.id = 'copy-notification'; // Add ID for potential removal
                 message.style.position = 'fixed';
                 message.style.top = '20px';
                 message.style.left = '50%';
                 message.style.transform = 'translateX(-50%)';
-                message.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+                message.style.backgroundColor = 'rgba(30, 30, 30, 0.85)'; // Darker semi-transparent bg
                 message.style.color = '#fff';
-                message.style.padding = '10px 20px';
-                message.style.borderRadius = '5px';
-                message.style.zIndex = '10000'; // Ensure it's on top
-                message.textContent = "Copied discord user ID!";
-                message.style.transition = 'opacity 0.5s ease-in-out, transform 0.5s ease-out';
+                message.style.padding = '10px 25px'; // Adjusted padding
+                message.style.borderRadius = '8px'; // Slightly more rounded
+                message.style.boxShadow = '0 4px 15px rgba(0,0,0,0.3)'; // Add shadow
+                message.style.zIndex = '10000';
+                message.style.fontSize = '0.9rem';
+                message.style.textAlign = 'center';
+                message.textContent = "Copied Discord User ID!";
+                // Subtle initial animation
+                message.style.opacity = '0';
+                message.style.transform = 'translate(-50%, -10px)'; // Start slightly above
+                message.style.transition = 'opacity 0.3s ease-out, transform 0.3s ease-out';
                 document.body.appendChild(message);
 
-                // Start fade out and move up animation
+                // Animate in
+                setTimeout(() => {
+                    message.style.opacity = '1';
+                    message.style.transform = 'translate(-50%, 0)';
+                }, 50); // Short delay to allow transition
+
+                // Start fade out
                 setTimeout(() => {
                     message.style.opacity = '0';
-                    message.style.transform = 'translate(-50%, -80px)';
+                    message.style.transform = 'translate(-50%, -10px)'; // Move back up slightly on fade
                     // Remove the element after the animation
                     setTimeout(() => {
-                        document.body.removeChild(message);
-                    }, 500); // 500ms matches the CSS transition
-                }, 2000); // Message disappears after 2 seconds
+                        // Check if the element still exists before removing
+                        if (message.parentNode === document.body) {
+                            document.body.removeChild(message);
+                        }
+                    }, 300); // Matches CSS transition duration
+                }, 2000); // Message display duration (2 seconds)
 
             }).catch(err => {
                 console.error('Failed to copy: ', err);
-                alert("Failed to copy Discord ID. Please copy it manually: " + discordId);
+                // Provide a fallback for users
+                alert("Could not copy automatically. Please copy manually: " + discordId);
             });
         }
+
 
     </script>
 </body>
