@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lunor - Roblox Script Hub</title>
-    <link rel="icon" href="icon.png"> <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Custom CSS for Loading Screen, Glowing Effects, Background, Card Hover, Scrollbar, and Script Image */
@@ -18,35 +19,46 @@
             position: relative;
             overflow-x: hidden;
             overflow-y: hidden; /* Hide scrollbars during loading, JS will revert */
-            /* Custom white glowing cursor */
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="white" style="filter: drop-shadow(0 0 6px rgba(255, 255, 255, 1)) drop-shadow(0 0 12px rgba(255, 255, 255, 0.6));"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/></svg>') 4 4, auto !important;
+            /* Custom white glowing cursor - Enhanced Glow */
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="white" style="filter: drop-shadow(0 0 8px rgba(255, 255, 255, 1)) drop-shadow(0 0 16px rgba(255, 255, 255, 0.7)) drop-shadow(0 0 2px rgba(255, 255, 255, 1));"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/></svg>') 4 4, auto !important;
+        }
+
+        /* Custom Text Selection Highlight */
+        ::selection {
+            background: rgba(255, 255, 255, 0.3); /* Semi-transparent white background */
+            color: white; /* Keep text white */
+            text-shadow: none; /* Remove text shadow during selection */
+        }
+        ::-moz-selection { /* Firefox */
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            text-shadow: none;
         }
 
         /* --- Custom Scrollbar Styles (WebKit) --- */
         ::-webkit-scrollbar {
-            width: 10px; /* Width of the scrollbar */
+            width: 12px; /* Slightly wider */
         }
         ::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.3); /* Track color */
-            border-radius: 5px;
+            background: rgba(10, 10, 10, 0.5); /* Darker track */
+            border-radius: 6px;
         }
         ::-webkit-scrollbar-thumb {
-            background-color: rgba(255, 255, 255, 0.6); /* Scrollbar handle color */
-            border-radius: 5px;
-            border: 2px solid transparent; /* Creates padding around thumb */
+            background-color: rgba(255, 255, 255, 0.7); /* Brighter thumb */
+            border-radius: 6px;
+            border: 3px solid transparent;
             background-clip: content-box;
-             /* Glowing effect */
-            box-shadow: 0 0 8px rgba(255, 255, 255, 0.5), 0 0 12px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 16px rgba(255, 255, 255, 0.5); /* Enhanced glow */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Added transition */
         }
         ::-webkit-scrollbar-thumb:hover {
-            background-color: rgba(255, 255, 255, 0.8); /* Slightly brighter on hover */
-             box-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 15px rgba(255, 255, 255, 0.5);
+            background-color: rgba(255, 255, 255, 0.9);
+             box-shadow: 0 0 12px rgba(255, 255, 255, 0.9), 0 0 20px rgba(255, 255, 255, 0.7);
         }
         /* For Firefox (Limited Styling) */
-        /* Note: Firefox only supports color and width changes, no complex styling like glow */
         html {
-             scrollbar-width: thin; /* "auto" or "thin" */
-             scrollbar-color: rgba(255, 255, 255, 0.6) rgba(0, 0, 0, 0.3); /* thumb track */
+             scrollbar-width: thin;
+             scrollbar-color: rgba(255, 255, 255, 0.7) rgba(10, 10, 10, 0.5); /* thumb track */
         }
         /* --- End Custom Scrollbar Styles --- */
 
@@ -62,13 +74,42 @@
             transform: rotate(-15deg);
         }
 
+        /* NEW: Background Dots */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 30px 30px; /* Size of the dot pattern */
+            opacity: 0;
+            z-index: -1; /* Between moon and content */
+            pointer-events: none;
+            animation: fadeInDots 5s ease-in-out forwards, moveDots 60s linear infinite alternate;
+        }
+
+        @keyframes fadeInDots {
+            from { opacity: 0; }
+            to { opacity: 0.5; } /* Fade to subtle opacity */
+        }
+
+        @keyframes moveDots {
+             from { background-position: 0 0; }
+             to { background-position: 100px 100px; } /* Slow movement */
+        }
+        /* --- End Background Dots --- */
+
+
         /* Ensure main content is above the background */
         #main-content { position: relative; z-index: 1; }
 
-        /* --- Loading Screen Styles (Unchanged) --- */
+        /* --- Loading Screen Styles --- */
         #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; opacity: 1; transition: opacity 0.5s ease-out; }
-        #loading-icon { width: 80px; height: 80px; animation: bounceScale 1.5s ease-in-out infinite alternate; }
-        @keyframes bounceScale { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+        #loading-icon {
+            width: 240px; /* Increased size (80px * 3) */
+            height: 240px; /* Increased size */
+            animation: bounceScale 1.5s ease-in-out infinite alternate;
+        }
+        @keyframes bounceScale { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } } /* Adjusted scale */
         #loading-bar-container { width: 200px; height: 8px; background-color: rgba(255, 255, 255, 0.2); border-radius: 4px; margin-top: 20px; overflow: hidden; }
         #loading-bar { width: 0%; height: 100%; background-color: #ffffff; border-radius: 4px; animation: fillBar 2.1s linear forwards; }
         @keyframes fillBar { from { width: 0%; } to { width: 100%; } }
@@ -78,8 +119,8 @@
         /* --- Main Content Styles (Navbar, Text, Icons) --- */
         .navbar { background-color: rgba(10, 10, 10, 0.8); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
         .glowing-text { text-shadow: 0 0 10px rgba(255, 255, 255, 0.9); }
-        .glowing-icon { filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8)); transition: filter 0.3s ease; /* Added transition */ }
-        .glowing-icon:hover { filter: drop-shadow(0 0 12px rgba(255, 255, 255, 1)); /* Enhanced glow on hover */ }
+        .glowing-icon { filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8)); transition: filter 0.3s ease; }
+        .glowing-icon:hover { filter: drop-shadow(0 0 12px rgba(255, 255, 255, 1)); }
 
         /* Navbar Link Hover Animation */
         nav a { position: relative; padding-bottom: 4px; overflow: hidden; }
@@ -89,47 +130,45 @@
 
         /* --- REDESIGNED Game Card Styles --- */
         .game-card {
-            position: relative; background-color: rgba(255, 255, 255, 0.04);
+            position: relative; background-color: rgba(255, 255, 255, 0.06); /* Slightly whiter tint */
             border: 1px solid rgba(255, 255, 255, 0.15);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-            /* Added filter to transitions */
             transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease, filter 0.4s ease;
-            backdrop-filter: blur(10px); border-radius: 0.75rem; overflow: hidden;
+            backdrop-filter: blur(12px); /* Slightly more blur */
+            border-radius: 0.75rem; overflow: hidden;
         }
-        .game-card-image-internal { display: block; width: 100%; height: 180px; object-fit: cover; transition: transform 0.4s ease; /* Added transition for image zoom */ }
+        .game-card-image-internal { display: block; width: 100%; height: 180px; object-fit: cover; transition: transform 0.4s ease; }
         .game-card-content-area { padding: 1rem 1.25rem 1.25rem; }
         .game-card-title { margin-bottom: 0.75rem; font-size: 1.25rem; font-weight: 600; color: #ffffff; }
         .game-details { max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.5s ease-out, opacity 0.4s ease-in 0.1s; }
 
-        /* This :hover rule targets ONLY the specific card being hovered */
-        /* It applies lift, scale, shadow, border, and brightness changes */
+        /* Game Card Hover - Targets only the hovered card */
         .game-card:hover {
             transform: translateY(-8px) scale(1.03);
             box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7);
             border-color: rgba(255, 255, 255, 0.4);
-            filter: brightness(1.1); /* Slight brightness increase */
+            filter: brightness(1.1);
         }
-        /* Image zoom effect on card hover */
-        .game-card:hover .game-card-image-internal {
-            transform: scale(1.05);
-        }
-        /* This :hover rule targets ONLY the details inside the specific card being hovered */
-        /* It should NOT affect other cards. */
-        .game-card:hover .game-details {
-            max-height: 400px; /* Reveal content */
-            opacity: 1;
-        }
+        .game-card:hover .game-card-image-internal { transform: scale(1.05); }
+        /* Game Details Hover - Targets details ONLY within the hovered card */
+        /* This CSS rule correctly ensures only the hovered card's details expand. */
+        .game-card:hover .game-details { max-height: 400px; opacity: 1; }
         .feature-list { list-style: none; padding: 0; margin: 0; }
         .feature-list li::before { content: '✧'; color: #ffffff; margin-right: 8px; opacity: 0.8; }
         /* --- End REDESIGNED Game Card Styles --- */
 
-        /* --- Script Image Section Styles (Unchanged logic) --- */
+        /* --- Script Image Section Styles --- */
         .script-image-section { padding: 4rem 1rem 6rem; text-align: center; }
         .script-image-container { perspective: 1000px; display: inline-block; margin-top: 2rem; position: relative; }
-        #script-image { display: block; max-width: 100%; width: 600px; height: auto; border-radius: 1rem; box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4); transition: transform 0.1s linear, box-shadow 0.3s ease; }
-        /* Add hover effect to script image */
+        #script-image {
+            display: block; max-width: 100%; width: 600px; height: auto; border-radius: 1rem;
+            /* White glow effect */
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.1), 0 5px 15px rgba(255, 255, 255, 0.05);
+            transition: transform 0.1s linear, box-shadow 0.3s ease;
+        }
         #script-image:hover {
-             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5); /* Enhance shadow */
+             /* Enhanced white glow */
+             box-shadow: 0 15px 35px rgba(255, 255, 255, 0.2), 0 8px 20px rgba(255, 255, 255, 0.1);
         }
         /* --- End Script Image Section Styles --- */
 
@@ -138,16 +177,12 @@
         .feature-section-card {
              background-color: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1);
              border-radius: 0.75rem; padding: 1.5rem; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-             transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; /* Added transition */
+             transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
         }
-        .feature-section-card:hover { /* Added hover effect */
-             transform: translateY(-6px);
-             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-             border-color: rgba(255, 255, 255, 0.25);
-        }
+        .feature-section-card:hover { transform: translateY(-6px); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); border-color: rgba(255, 255, 255, 0.25); }
         .footer { background-color: #111111; color: #a0a0a0; border-top: 1px solid rgba(255, 255, 255, 0.1); }
 
-        /* --- Button Styles (Added subtle brightness hover) --- */
+        /* --- Button Styles (Unchanged) --- */
         .primary-button { background-color: #ffffff; color: #000000; padding: 0.75rem 2rem; border-radius: 9999px; font-weight: 600; transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, filter 0.3s ease; border: 1px solid #ffffff; box-shadow: 0 0 15px rgba(255, 255, 255, 0.3); }
         .primary-button:hover { background-color: #cccccc; color: #000000; transform: scale(1.05); box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); filter: brightness(1.1); }
         .discord-button { background-color: #5865F2; color: #ffffff; padding: 0.75rem 2rem; border-radius: 9999px; font-weight: 600; transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, filter 0.3s ease; box-shadow: 0 0 15px rgba(88, 101, 242, 0.4); }
@@ -170,9 +205,9 @@
     </div>
 
     <div id="loading-screen">
-        <img id="loading-icon" src="icon.png" alt="Loading..."
-             onerror="this.onerror=null; this.src='https://placehold.co/80x80/000000/ffffff?text=L';">
-        <div id="loading-bar-container">
+        <img id="loading-icon" src="loadingicon.png" alt="Loading..."
+             onerror="this.onerror=null; this.src='https://placehold.co/240x240/000000/ffffff?text=L';"
+             ondragstart="return false;" oncontextmenu="return false;"> <div id="loading-bar-container">
             <div id="loading-bar"></div>
         </div>
     </div>
@@ -180,15 +215,15 @@
     <div id="main-content" class="main-content">
         <header class="navbar py-4 px-6 fixed w-full top-0 z-50">
              <div class="container mx-auto flex items-center justify-between">
-                 <div class="flex items-center">
-                     <svg class="w-8 h-8 mr-3 glowing-icon" fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                 <a href="#hero" class="flex items-center group" aria-label="Go to homepage"> <svg class="w-8 h-8 mr-3 glowing-icon group-hover:filter group-hover:drop-shadow(0 0 12px rgba(255, 255, 255, 1))" fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
                      <h1 class="text-2xl font-semibold text-white glowing-text">Lunor</h1>
-                 </div>
+                 </a>
                  <nav class="hidden md:flex items-center space-x-6">
                      <a href="#hero" class="text-gray-300 hover:text-white transition-colors duration-300">Main</a>
                      <a href="#discord" class="text-gray-300 hover:text-white transition-colors duration-300">Discord</a>
                      <a href="#features" class="text-gray-300 hover:text-white transition-colors duration-300">Features</a>
-                     <a href="#premium" class="text-gray-300 hover:text-white transition-colors duration-300">Premium</a> </nav>
+                     <a href="#premium" class="text-gray-300 hover:text-white transition-colors duration-300">Premium</a>
+                 </nav>
                  <div class="md:hidden">
                      <button id="mobile-menu-button" class="text-gray-300 hover:text-white focus:outline-none">
                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -201,7 +236,8 @@
                  <a href="#hero" class="block text-gray-300 hover:text-white transition-colors duration-300">Main</a>
                  <a href="#discord" class="block text-gray-300 hover:text-white transition-colors duration-300">Discord</a>
                  <a href="#features" class="block text-gray-300 hover:text-white transition-colors duration-300">Features</a>
-                 <a href="#premium" class="block text-gray-300 hover:text-white transition-colors duration-300">Premium</a> </div>
+                 <a href="#premium" class="block text-gray-300 hover:text-white transition-colors duration-300">Premium</a>
+             </div>
         </header>
 
         <main class="container mx-auto pt-24 px-4">
@@ -218,8 +254,8 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12">
                     <div class="game-card">
                         <img src="https://placehold.co/600x360/1f2937/ffffff?text=Phantom+Forces+Banner" alt="Phantom Forces" class="game-card-image-internal"
-                             onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=PF';">
-                        <div class="game-card-content-area">
+                             onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=PF';"
+                             ondragstart="return false;" oncontextmenu="return false;"> <div class="game-card-content-area">
                             <h3 class="game-card-title">Phantom Forces</h3>
                             <div class="game-details">
                                 <p class="text-gray-400 mb-3 text-sm">Script: Lunor PF Enhanced</p>
@@ -235,8 +271,8 @@
                     </div>
                     <div class="game-card">
                          <img src="https://placehold.co/600x360/1f2937/ffffff?text=Blox+Fruits+Banner" alt="Blox Fruits" class="game-card-image-internal"
-                             onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=BF';">
-                         <div class="game-card-content-area">
+                             onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=BF';"
+                             ondragstart="return false;" oncontextmenu="return false;"> <div class="game-card-content-area">
                             <h3 class="game-card-title">Blox Fruits</h3>
                             <div class="game-details">
                                 <p class="text-gray-400 mb-3 text-sm">Script: Lunor Fruit Finder</p>
@@ -252,8 +288,8 @@
                     </div>
                     <div class="game-card">
                          <img src="https://placehold.co/600x360/1f2937/ffffff?text=Da+Hood+Banner" alt="Da Hood" class="game-card-image-internal"
-                             onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=DH';">
-                         <div class="game-card-content-area">
+                             onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=DH';"
+                             ondragstart="return false;" oncontextmenu="return false;"> <div class="game-card-content-area">
                             <h3 class="game-card-title">Da Hood</h3>
                             <div class="game-details">
                                 <p class="text-gray-400 mb-3 text-sm">Script: Lunor Hood Pro</p>
@@ -276,8 +312,8 @@
                     Hover over the image below to get an interactive glimpse of our script's structure.
                 </p>
                 <div class="script-image-container" id="script-container">
-                    <img id="script-image" alt="General script representation">
-                </div>
+                    <img id="script-image" alt="General script representation"
+                         ondragstart="return false;" oncontextmenu="return false;"> </div>
             </section>
 
             <section id="discord" class="discord-section text-center rounded-lg">
@@ -351,15 +387,12 @@
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const targetId = this.getAttribute('href');
-                // Handle placeholder link
                 if (targetId === '#premium') {
                      console.log('Premium link clicked - no scroll target.');
-                     // Optionally, display a message or redirect
-                     // alert('Premium section coming soon!');
                      if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
                         mobileMenu.classList.add('hidden');
                      }
-                     return; // Stop further processing for this link
+                     return;
                 }
                 const targetElement = document.querySelector(targetId);
                 if (targetElement) {
