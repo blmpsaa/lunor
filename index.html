@@ -10,8 +10,15 @@
     <style>
         /* Custom CSS for Loading Screen, Glowing Effects, Background, Card Hover, Scrollbar, and Script Image */
 
-        body {
+        /* Apply custom cursor forcefully to body and common interactive elements */
+        body, a, button, .game-card, #script-image, input, textarea, select, label {
             font-family: 'Inter', sans-serif;
+            /* Custom white glowing cursor - Reverted Size, Enhanced Glow */
+            /* NOTE: Achieving a perfect diffuse glow unbound by the cursor box is limited by browser rendering of CSS cursors */
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g style="filter: drop-shadow(0 0 7px rgba(255, 255, 255, 1)) drop-shadow(0 0 12px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 2px rgba(255, 255, 255, 1));"><path fill="white" d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/></g></svg>') 4 4, auto !important;
+        }
+
+        body {
             background-color: #050505;
             color: #ffffff;
             margin: 0;
@@ -19,8 +26,6 @@
             position: relative;
             overflow-x: hidden;
             overflow-y: hidden; /* Hide scrollbars during loading, JS will revert */
-            /* Custom white glowing cursor - Enhanced Glow, Larger SVG Canvas */
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 32 32"><g style="filter: drop-shadow(0 0 10px rgba(255, 255, 255, 1)) drop-shadow(0 0 18px rgba(255, 255, 255, 0.8)) drop-shadow(0 0 3px rgba(255, 255, 255, 1));"><path fill="white" d="M6 6l11.31 27.15 4.02-11.82 11.82-4.02L6 6z"/></g></svg>') 8 8, auto !important; /* Adjusted hotspot slightly for larger canvas */
         }
 
         /* Custom Text Selection Highlight */
@@ -37,29 +42,29 @@
 
         /* --- Custom Scrollbar Styles (WebKit) --- */
         ::-webkit-scrollbar {
-            width: 14px; /* Thicker scrollbar */
+            width: 16px; /* Even thicker scrollbar */
         }
         ::-webkit-scrollbar-track {
-            background: rgba(10, 10, 10, 0.3); /* Slightly more transparent track */
-            border-radius: 7px;
-            border: 1px solid rgba(255, 255, 255, 0.05); /* Subtle border */
+            background: #080808; /* Match body bg or slightly darker, hide default track */
+            border-radius: 8px;
+            border: none; /* Remove border */
         }
         ::-webkit-scrollbar-thumb {
-            background-color: rgba(255, 255, 255, 0.8); /* Brighter thumb */
-            border-radius: 7px;
-            border: 4px solid transparent; /* Increase border for padding */
-            background-clip: content-box;
-            box-shadow: 0 0 12px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6); /* Enhanced glow */
+            background-color: rgba(255, 255, 255, 0.75); /* Slightly less opaque base */
+            border-radius: 8px;
+            border: 4px solid #080808; /* Use track color for border to create padding */
+            background-clip: padding-box; /* Clip background to padding edge */
+            box-shadow: 0 0 14px rgba(255, 255, 255, 0.9), 0 0 24px rgba(255, 255, 255, 0.7); /* Enhanced glow */
             transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background-color: rgba(255, 255, 255, 1); /* Fully white on hover */
-             box-shadow: 0 0 15px rgba(255, 255, 255, 1), 0 0 25px rgba(255, 255, 255, 0.8); /* Stronger glow */
+            background-color: rgba(255, 255, 255, 0.95); /* Brighter on hover */
+             box-shadow: 0 0 18px rgba(255, 255, 255, 1), 0 0 30px rgba(255, 255, 255, 0.8); /* Stronger glow */
         }
         /* For Firefox (Limited Styling) */
         html {
-             scrollbar-width: thin; /* Firefox doesn't support thickness value */
-             scrollbar-color: rgba(255, 255, 255, 0.8) rgba(10, 10, 10, 0.3); /* thumb track */
+             scrollbar-width: thin;
+             scrollbar-color: rgba(255, 255, 255, 0.75) #080808; /* thumb track */
         }
         /* --- End Custom Scrollbar Styles --- */
 
@@ -124,8 +129,8 @@
 
         /* --- REDESIGNED Game Card Styles --- */
         .game-card {
-            position: relative; background-color: rgba(255, 255, 255, 0.07); /* Even lighter tint */
-            border: 1px solid rgba(255, 255, 255, 0.2); /* Slightly more visible border */
+            position: relative; background-color: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
             transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease, filter 0.4s ease;
             backdrop-filter: blur(12px); border-radius: 0.75rem; overflow: hidden;
