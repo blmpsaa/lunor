@@ -39,7 +39,7 @@
             color: #ffffff;
             margin: 0;
             padding: 0;
-            padding-top: 130px;
+            padding-top: 100px;
             position: relative;
             overflow-x: hidden;
             overflow-y: hidden;
@@ -82,14 +82,14 @@
         .premium-link:hover::after { background-color: #FFD700; }
         .section-title { display: flex; align-items: center; justify-content: center; text-align: center; }
         .section-title::before { content: ''; display: inline-block; width: 1.2em; height: 1.2em; margin-right: 0.6em; background-image: url('data:image/svg+xml;utf8,<svg fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>'); background-size: contain; background-repeat: no-repeat; background-position: center; filter: drop-shadow(0 0 8px rgba(210, 210, 255, 0.7)); vertical-align: middle; flex-shrink: 0; }
-        #executor-ticker-bar { position: fixed; left: 0; width: 100%; background-color: rgba(10, 10, 10, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.1); z-index: 45; padding: 0.4rem 0; display: flex; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        #executor-ticker-bar { position: fixed; left: 0; width: 100%; background-color: rgba(10, 10, 10, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.1); z-index: 45; padding: 0.25rem 0; display: flex; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
         .ticker-label { color: #ffffff; text-shadow: 0 0 8px rgba(255, 255, 255, 0.7); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; padding-left: 1.5rem; padding-right: 1.5rem; flex-shrink: 0; white-space: nowrap; }
-        .ticker-wrap { flex-grow: 1; overflow: hidden; height: 48px; display: flex; align-items: center; }
+        .ticker-wrap { flex-grow: 1; overflow: hidden; height: 24px; display: flex; align-items: center; }
         .ticker-content { display: flex; flex-wrap: nowrap; animation: ticker-scroll 130s linear infinite; }
         .ticker-item { display: flex; align-items: center; padding: 0 1.5rem; opacity: 0.7; transition: opacity 0.3s ease; flex-shrink: 0; }
         .ticker-item:hover { opacity: 1; }
-        .ticker-item img { width: 48px; height: 48px; object-fit: contain; margin-right: 0.75rem; flex-shrink: 0; }
-        .ticker-item span { color: #e0e0e0; font-size: 0.85rem; font-weight: 500; white-space: nowrap; }
+        .ticker-item img { width: 1.2em; height: 1.2em; object-fit: contain; margin-right: 0.5rem; flex-shrink: 0; vertical-align: middle; /* Better align with text */ }
+        .ticker-item span { color: #e0e0e0; font-size: 0.85rem; font-weight: 500; white-space: nowrap; line-height: 1.2em; /* Match icon height */ }
         #executor-ticker-bar:hover .ticker-content { animation-play-state: paused; }
         @keyframes ticker-scroll { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
         .game-card { position: relative; background-color: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease, filter 0.4s ease; backdrop-filter: blur(12px); border-radius: 0.75rem; overflow: hidden; transform-style: preserve-3d; backface-visibility: hidden; }
@@ -214,7 +214,6 @@
                       <div class="ticker-item"><img src="/executors/exec19.png" alt="Executor 19" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Executor 19</span></div>
                       <div class="ticker-item"><img src="/executors/exec20.png" alt="Executor 20" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Executor 20</span></div>
                       <div class="ticker-item"><img src="/executors/exec21.png" alt="Executor 21" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Executor 21</span></div>
-
                   </div>
               </div>
          </div>
@@ -473,7 +472,6 @@
                 scriptContainer.addEventListener('mouseleave', handleMouseLeave);
             };
             scriptImage.onerror = function() {
-                console.warn(`'${scriptImageUrl}' could not be loaded. Displaying placeholder. Tilt effect disabled.`);
                 this.src = placeholderImageUrl;
                 this.alt = "Script image placeholder";
                 tiltEnabled = false;
@@ -494,7 +492,6 @@
                  if (this.src.startsWith(placeholderPrefix) || this.src !== originalSrc) return;
                  const gameName = this.alt || 'Game';
                  const placeholderText = gameName.split(' ')[0];
-                 console.warn(`${gameName} image (${originalSrc}) failed to load. Displaying placeholder.`);
                  this.src = `${placeholderPrefix}600x360/1f2937/ffffff?text=${encodeURIComponent(placeholderText)}`;
                  this.alt = `${gameName} placeholder`;
              };
@@ -509,7 +506,6 @@
             function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
             requestAnimationFrame(raf);
             window.lenisInstance = lenis;
-            console.log("Lenis smooth scrolling initialized.");
         } catch (error) { console.error("Failed to initialize Lenis smooth scrolling:", error); }
         function copyDiscordId() {
             const discordId = "1300475971081732127";
