@@ -8,21 +8,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
-    
+
     <style>
         body::-webkit-scrollbar { width: 12px; }
         body::-webkit-scrollbar-track { background: #050505; border-radius: 6px; }
         body::-webkit-scrollbar-thumb { background-color: #ffffff; border-radius: 6px; border: 2px solid #1a1a2e; box-shadow: 0 0 10px rgba(0, 245, 212, 0.6); }
         body::-webkit-scrollbar-thumb:hover { background-color: #030202; box-shadow: 0 0 15px rgba(0, 245, 212, 0.8); }
-        /* Custom CSS */
 
         html {
-             /* For Firefox: Thumb Color, Track Color */
              scrollbar-color: rgba(255, 255, 255, 0.85) transparent;
-             scrollbar-width: thin; /* Options: auto, thin, none */
+             scrollbar-width: thin;
         }
 
-        /* --- Custom Windows-like Glowing Cursor w/ Contrast --- */
         body {
             font-family: 'Inter', sans-serif;
             background-color: #050505;
@@ -31,84 +28,66 @@
             padding: 0;
             position: relative;
             overflow-x: hidden;
-            overflow-y: hidden; /* Hide scrollbars during loading/initial state */
+            overflow-y: hidden;
             cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><g filter="drop-shadow(0 0 3px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 5px rgba(255, 255, 255, 0.7))"><path fill="white" d="M4 4l18 11.4-7.3 1.6L9.4 28 4 4z"/><path fill="black" stroke="black" stroke-width="0.5" d="M5.5 5.5l15 9.4-5.8 1.3L10 26.2 5.5 5.5z"/></g></svg>') 4 4, auto !important;
         }
 
         a, button, .game-card, #script-image, input, textarea, select, label {
              cursor: inherit !important;
         }
-        /* --- End Custom Cursor --- */
 
-        /* Custom Text Selection Highlight */
         ::selection { background: rgba(255, 255, 255, 0.3); color: white; text-shadow: none; }
         ::-moz-selection { background: rgba(255, 255, 255, 0.3); color: white; text-shadow: none; }
 
-        /* --- Custom Scrollbar Styles (WebKit) - Fully Custom --- */
         ::-webkit-scrollbar {
-            width: 18px; /* Adjust thickness */
+            width: 18px;
         }
 
         ::-webkit-scrollbar-track {
-            background: transparent; /* Fully transparent track */
+            background: transparent;
             border: none;
             border-radius: 0;
         }
 
         ::-webkit-scrollbar-thumb {
-            background-color: rgba(255, 255, 255, 0.85); /* Slightly less transparent white */
-            border-radius: 9px; /* Rounded corners for thumb */
-            /* Border creates padding, making visual thumb thinner than scrollbar width */
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 9px;
             border: 4px solid transparent;
             background-clip: content-box;
-            /* Stronger Glow */
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 25px rgba(255, 255, 255, 0.7);
             transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background-color: rgba(255, 255, 255, 1); /* Solid white on hover */
-            /* Even stronger glow */
+            background-color: rgba(255, 255, 255, 1);
             box-shadow: 0 0 20px rgba(255, 255, 255, 1), 0 0 35px rgba(255, 255, 255, 0.8);
         }
 
-        /* Hide up/down scrollbar buttons */
         ::-webkit-scrollbar-button {
             display: none;
         }
-        /* --- End Custom Scrollbar Styles --- */
 
-
-        /* Background Moon SVG Container */
         #background-moon-container { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: -2; overflow: hidden; pointer-events: none; }
         #background-moon-svg { width: 65vw; height: auto; opacity: 0.15; filter: blur(20px) drop-shadow(0 0 50px rgba(210, 210, 255, 0.7)); transform: rotate(-15deg); }
 
-        /* --- Background Static Dots --- */
         body::after {
             content: '';
             position: fixed;
             inset: 0;
-            /* Tiny white dots using radial gradient */
             background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-            /* Square grid spacing */
-            background-size: 30px 30px; /* Adjust size for desired density */
-            opacity: 0; /* Start hidden */
+            background-size: 30px 30px;
+            opacity: 0;
             z-index: -1;
             pointer-events: none;
-            /* Only fade in, no movement animation */
             animation: fadeInDots 5s ease-in-out forwards;
         }
         @keyframes fadeInDots {
              from { opacity: 0; }
-             to { opacity: 0.15; } /* Adjust final transparency */
+             to { opacity: 0.15; }
         }
-        /* --- End Background Dots --- */
 
-
-        /* Ensure main content is above the background */
         #main-content { position: relative; z-index: 1; }
 
-        /* --- Loading Screen Styles --- */
         #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; opacity: 1; transition: opacity 0.5s ease-out; }
         #loading-icon { width: 280px; height: 280px; animation: bounceScale 1.5s ease-in-out infinite alternate; }
         @keyframes bounceScale { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
@@ -116,21 +95,17 @@
         #loading-bar { width: 0%; height: 100%; background-color: #ffffff; border-radius: 4px; animation: fillBar 2.1s linear forwards; }
         @keyframes fillBar { from { width: 0%; } to { width: 100%; } }
         #loading-screen.loaded { opacity: 0; pointer-events: none; }
-        /* --- End Loading Screen Styles --- */
 
-        /* --- Main Content Styles (Navbar, Text, Icons) --- */
         .navbar { background-color: rgba(10, 10, 10, 0.8); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
         .glowing-text { text-shadow: 0 0 10px rgba(255, 255, 255, 0.9); }
         .glowing-icon { filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8)); transition: filter 0.4s ease-out, transform 0.4s ease-out; }
         a.group:hover .glowing-icon { filter: drop-shadow(0 0 14px rgba(255, 255, 255, 1)) drop-shadow(0 0 22px rgba(255, 255, 255, 0.8)); transform: scale(1.15) rotate(10deg); }
 
-        /* --- Navbar Link Styles --- */
         nav a {
             position: relative;
             padding-bottom: 4px;
             overflow: hidden;
-            /* Default text color for non-special links */
-            color: #d1d5db; /* Tailwind gray-300 */
+            color: #d1d5db;
             transition: color 0.3s ease;
         }
 
@@ -141,66 +116,57 @@
             left: 0;
             width: 100%;
             height: 2px;
-            background-color: rgba(255, 255, 255, 0.8); /* Default underline: white */
+            background-color: rgba(255, 255, 255, 0.8);
             transform: scaleX(0);
             transform-origin: left;
             transition: transform 0.3s ease-out, background-color 0.3s ease;
         }
 
         nav a:hover {
-            color: #fff; /* Default hover: white */
+            color: #fff;
         }
 
         nav a:hover::after {
             transform: scaleX(1);
         }
 
-        /* Discord Link Styling */
         .discord-link {
-            color: #5865F2 !important; /* Discord purple - Added !important for specificity if needed */
+            color: #5865F2 !important;
         }
-        /* Keep hover text white or change if desired */
-        /* .discord-link:hover { color: #707cf5 !important; } */
 
         .discord-link:hover::after {
-            background-color: #5865F2; /* Purple underline on hover */
+            background-color: #5865F2;
         }
 
-        /* Premium Link Styling */
         .premium-link {
-            color: #FFD700 !important; /* Golden color */
-            /* Shimmer/sparkle effect */
+            color: #FFD700 !important;
             background-image: linear-gradient(
                 90deg,
-                rgba(255, 215, 0, 0.2) 25%, /* Less visible start */
-                rgba(255, 215, 0, 1) 40%,   /* More opaque middle */
-                rgba(255, 215, 0, 1) 60%,   /* More opaque middle */
-                rgba(255, 215, 0, 0.2) 75%  /* Less visible end */
+                rgba(255, 215, 0, 0.2) 25%,
+                rgba(255, 215, 0, 1) 40%,
+                rgba(255, 215, 0, 1) 60%,
+                rgba(255, 215, 0, 0.2) 75%
             );
-            background-size: 250% auto; /* Make gradient wider */
+            background-size: 250% auto;
             background-clip: text;
             -webkit-background-clip: text;
             text-fill-color: transparent;
             -webkit-text-fill-color: transparent;
-            animation: shimmer 3s linear infinite; /* Slower animation */
-            font-weight: 600; /* Slightly bolder */
+            animation: shimmer 3s linear infinite;
+            font-weight: 600;
         }
         .premium-link:hover {
-             /* Optionally slightly brighten text color itself on hover */
-             /* Needs careful handling with background-clip */
         }
 
         @keyframes shimmer {
-            0% { background-position: -250%; } /* Start further left */
-            100% { background-position: 250%; } /* End further right */
+            0% { background-position: -250%; }
+            100% { background-position: 250%; }
         }
 
         .premium-link:hover::after {
-            background-color: #FFD700; /* Golden underline on hover */
+            background-color: #FFD700;
         }
-        /* --- End Navbar Link Styles --- */
 
-        /* Style for Section Titles with Icon */
         .section-title {
             display: flex;
             align-items: center;
@@ -223,7 +189,6 @@
              flex-shrink: 0;
         }
 
-        /* --- Game Card Styles --- */
         .game-card {
             position: relative; background-color: rgba(255, 255, 255, 0.07);
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -241,7 +206,6 @@
             opacity: 0;
             overflow: hidden;
             transition: max-height 0.5s ease-out, opacity 0.4s ease-in 0.1s;
-             /* Hint for browser optimization, may help perceived smoothness */
             will-change: max-height, opacity;
         }
 
@@ -253,17 +217,14 @@
         }
         .game-card:hover .game-card-image-internal { transform: scale(1.05); }
 
-         /* This CSS rule correctly targets ONLY the details section within the hovered card */
         .game-card:hover .game-details {
-            max-height: 400px; /* Adjust if content needs more space */
+            max-height: 400px;
             opacity: 1;
         }
 
         .feature-list { list-style: none; padding: 0; margin: 0; }
         .feature-list li::before { content: '✧'; color: #ffffff; margin-right: 8px; opacity: 0.8; }
-        /* --- End Game Card Styles --- */
 
-        /* --- Script Image Section Styles --- */
         .script-image-section { padding: 4rem 1rem 6rem; text-align: center; }
         .script-image-container { perspective: 1000px; display: inline-block; margin-top: 2rem; position: relative; }
         #script-image {
@@ -275,9 +236,7 @@
         #script-image:hover {
              box-shadow: 0 15px 40px rgba(255, 255, 255, 0.25), 0 8px 25px rgba(255, 255, 255, 0.15);
         }
-        /* --- End Script Image Section Styles --- */
 
-        /* --- Discord/Feature/Footer Styles --- */
         .discord-section { background-color: rgba(255, 255, 255, 0.03); padding: 5rem 1rem; margin-top: 6rem; border-top: 1px solid rgba(255,255,255,0.15); backdrop-filter: blur(8px); }
         .feature-section-card {
              background-color: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1);
@@ -306,7 +265,6 @@
              text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
          }
 
-        /* --- Button Styles --- */
         .primary-button {
             background-color: #ffffff; color: #000000; padding: 0.75rem 2rem;
             border-radius: 9999px; font-weight: 600;
@@ -323,12 +281,9 @@
         }
         .discord-button { background-color: #5865F2; color: #ffffff; padding: 0.75rem 2rem; border-radius: 9999px; font-weight: 600; transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, filter 0.3s ease; box-shadow: 0 0 15px rgba(88, 101, 242, 0.4); display: inline-flex; align-items: center; }
         .discord-button:hover { background-color: #4752C4; transform: scale(1.05); box-shadow: 0 0 20px rgba(88, 101, 242, 0.6); filter: brightness(1.1); }
-        /* --- End Button Styles --- */
 
-        /* --- Main Content Fade-in --- */
         .main-content { opacity: 0; transition: opacity 0.5s ease-in 0.2s; }
         .main-content.visible { opacity: 1; }
-        /* --- End Main Content Styles --- */
 
     </style>
 </head>
@@ -466,7 +421,9 @@
                               </div>
                           </div>
                      </div>
-                 </div> </section>
+                 </div>
+            </section>
+
 
             <section id="script-preview" class="script-image-section">
                  <h2 class="text-4xl font-semibold text-white text-center mb-6 glowing-text section-title">Script Sneak Peek</h2>
@@ -533,10 +490,8 @@
     </div>
 
     <script>
-        // --- Disable Right-Click Context Menu ---
         document.addEventListener('contextmenu', event => event.preventDefault());
 
-        // --- Loading Screen Logic ---
         window.addEventListener('load', () => {
             const loadingScreen = document.getElementById('loading-screen');
             const mainContent = document.getElementById('main-content');
@@ -549,7 +504,6 @@
             }, minLoadTime);
         });
 
-        // --- Mobile Menu Toggle ---
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
         if (mobileMenuButton && mobileMenu) {
@@ -564,58 +518,46 @@
             });
         }
 
-        // --- Update Footer Year ---
         const yearSpan = document.getElementById('current-year');
         if (yearSpan) yearSpan.textContent = new Date().getFullYear();
 
-        // --- Smooth Scrolling for Navbar Links (Using Lenis Instance) ---
-        // This code only handles scrolling for internal # links
-        // Regular links like /features will navigate normally
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 const targetId = this.getAttribute('href');
                 let targetElement = null;
                 try {
-                    // Check if it's a valid selector and not just "#"
                     if (targetId && targetId.length > 1 && targetId.startsWith('#')) {
                         targetElement = document.querySelector(targetId);
                     }
                 } catch (err) {
                     console.warn(`Invalid selector for anchor: ${targetId}`);
-                    return; // Allow default if selector is invalid
+                    return;
                 }
 
                 if (targetElement) {
-                    e.preventDefault(); // Prevent default jump only if target exists
+                    e.preventDefault();
 
                      if (window.lenisInstance) {
                          const navbar = document.querySelector('.navbar');
                          const navbarHeight = navbar ? navbar.offsetHeight : 0;
                          window.lenisInstance.scrollTo(targetElement, { offset: -navbarHeight });
                      } else {
-                         // Basic fallback (less smooth, no offset handling without recalculating)
                          targetElement.scrollIntoView({ behavior: 'smooth' });
                      }
 
                 } else if (targetId === '#') {
-                    // Prevent default for links that are just "#"
                      e.preventDefault();
                      console.log('Non-scrolling link clicked:', targetId);
                 }
-                // Allow default behavior for links not starting with # or invalid selectors
 
-                // Close mobile menu after any link click
                 if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
                     mobileMenu.classList.add('hidden');
                 }
             });
         });
 
-
-        // --- Script Image Tilt Effect ---
         const scriptContainer = document.getElementById('script-container');
         const scriptImage = document.getElementById('script-image');
-        // Path assumes script.png is in the same directory as index.html
         const scriptImageUrl = 'script.png';
         const placeholderImageUrl = 'https://placehold.co/600x400/1a202c/4a5568?text=Preview';
         let tiltEnabled = false;
@@ -631,7 +573,7 @@
                 const rotateY = (mouseX / (rect.width / 2)) * maxTilt;
                 const rotateX = -(mouseY / (rect.height / 2)) * maxTilt;
                 requestAnimationFrame(() => {
-                    scriptImage.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03) translateZ(20px)`;
+                    scriptImage.style.transform = `perspective(1000px) rotateX(<span class="math-inline">\{rotateX\}deg\) rotateY\(</span>{rotateY}deg) scale(1.03) translateZ(20px)`;
                 });
             }
 
@@ -657,14 +599,11 @@
                 scriptContainer.removeEventListener('mouseleave', handleMouseLeave);
             };
 
-            // Set the src AFTER defining onload/onerror
             scriptImage.src = scriptImageUrl;
 
-             // Handle cached images
              if (scriptImage.complete && scriptImage.naturalWidth > 0) {
                  scriptImage.onload();
              } else if (scriptImage.complete && scriptImage.naturalWidth === 0 && scriptImage.src !== placeholderImageUrl) {
-                 // If cached but broken, and not already placeholder
                  scriptImage.onerror();
              }
 
@@ -672,39 +611,32 @@
             console.error("Script container or image element not found for tilt effect.");
         }
 
-        // --- Image Placeholders for Game Cards ---
         document.querySelectorAll('.game-card-image-internal').forEach(img => {
-            const originalSrc = img.getAttribute('src'); // Get initial src attribute
+            const originalSrc = img.getAttribute('src');
             const placeholderPrefix = 'https://placehold.co/';
 
              img.onerror = function() {
-                 // Check if the current src is already a placeholder to prevent loops
-                 // Also check against originalSrc in case onerror fires multiple times quickly
                  if (this.src.startsWith(placeholderPrefix) || this.src !== originalSrc) return;
 
                  const gameName = this.alt || 'Game';
-                 const placeholderText = gameName.split(' ')[0]; // Use first word
-                 console.warn(`${gameName} image (${originalSrc}) failed to load. Displaying placeholder.`);
-                 // Generate placeholder URL
-                 this.src = `${placeholderPrefix}600x360/1f2937/ffffff?text=${encodeURIComponent(placeholderText)}`;
+                 const placeholderText = gameName.split(' ')[0];
+                 console.warn(`<span class="math-inline">\{gameName\} image \(</span>{originalSrc}) failed to load. Displaying placeholder.`);
+                 this.src = `<span class="math-inline">\{placeholderPrefix\}600x360/1f2937/ffffff?text\=</span>{encodeURIComponent(placeholderText)}`;
                  this.alt = `${gameName} placeholder`;
              };
 
-             // Check for already broken cached images after a short delay
              setTimeout(() => {
-                // Check if src hasn't already been changed by onerror
                 if (img.naturalWidth === 0 && img.naturalHeight === 0 && img.complete && img.src === originalSrc) {
                     img.onerror();
                 }
-             }, 100); // Slightly increased delay
+             }, 100);
         });
 
 
-        // --- Lenis Smooth Scrolling Initialization ---
         try {
             const lenis = new Lenis({
-                lerp: 0.08, // Lower = smoother/more delay
-                wheelMultiplier: 0.8, // Adjust scroll speed
+                lerp: 0.08,
+                wheelMultiplier: 0.8,
                 smoothWheel: true,
                 smoothTouch: true,
             });
@@ -715,70 +647,61 @@
             }
 
             requestAnimationFrame(raf);
-            window.lenisInstance = lenis; // Make instance available for anchor link scrolling
+            window.lenisInstance = lenis;
             console.log("Lenis smooth scrolling initialized.");
 
         } catch (error) {
             console.error("Failed to initialize Lenis smooth scrolling:", error);
         }
 
-        // --- Copy Discord ID Function ---
         function copyDiscordId() {
             const discordId = "1300475971081732127";
             navigator.clipboard.writeText(discordId).then(() => {
-                // --- Create and display notification ---
                 let existingNotification = document.getElementById('copy-notification');
-                if (existingNotification) { // Remove old one if it exists
+                if (existingNotification) {
                     document.body.removeChild(existingNotification);
                 }
 
                 const message = document.createElement('div');
-                message.id = 'copy-notification'; // Add ID for potential removal
+                message.id = 'copy-notification';
                 message.style.position = 'fixed';
                 message.style.top = '20px';
                 message.style.left = '50%';
                 message.style.transform = 'translateX(-50%)';
-                message.style.backgroundColor = 'rgba(30, 30, 30, 0.85)'; // Darker semi-transparent bg
+                message.style.backgroundColor = 'rgba(30, 30, 30, 0.85)';
                 message.style.color = '#fff';
-                message.style.padding = '10px 25px'; // Adjusted padding
-                message.style.borderRadius = '8px'; // Slightly more rounded
-                message.style.boxShadow = '0 4px 15px rgba(0,0,0,0.3)'; // Add shadow
+                message.style.padding = '10px 25px';
+                message.style.borderRadius = '8px';
+                message.style.boxShadow = '0 4px 15px rgba(0,0,0,0.3)';
                 message.style.zIndex = '10000';
                 message.style.fontSize = '0.9rem';
                 message.style.textAlign = 'center';
                 message.textContent = "Copied Discord User ID!";
-                // Subtle initial animation
                 message.style.opacity = '0';
-                message.style.transform = 'translate(-50%, -10px)'; // Start slightly above
+                message.style.transform = 'translate(-50%, -10px)';
                 message.style.transition = 'opacity 0.3s ease-out, transform 0.3s ease-out';
                 document.body.appendChild(message);
 
-                // Animate in
                 setTimeout(() => {
                     message.style.opacity = '1';
                     message.style.transform = 'translate(-50%, 0)';
-                }, 50); // Short delay to allow transition
+                }, 50);
 
-                // Start fade out
                 setTimeout(() => {
                     message.style.opacity = '0';
-                    message.style.transform = 'translate(-50%, -10px)'; // Move back up slightly on fade
-                    // Remove the element after the animation
+                    message.style.transform = 'translate(-50%, -10px)';
                     setTimeout(() => {
-                        // Check if the element still exists before removing
                         if (message.parentNode === document.body) {
                             document.body.removeChild(message);
                         }
-                    }, 300); // Matches CSS transition duration
-                }, 2000); // Message display duration (2 seconds)
+                    }, 300);
+                }, 2000);
 
             }).catch(err => {
                 console.error('Failed to copy: ', err);
-                // Provide a fallback for users
                 alert("Could not copy automatically. Please copy manually: " + discordId);
             });
         }
-
 
     </script>
 </body>
