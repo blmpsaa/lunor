@@ -31,7 +31,6 @@
             padding: 0;
             position: relative;
             overflow-x: hidden;
-            /* Hide scrollbar initially until load */
             overflow-y: hidden;
             cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><g filter="drop-shadow(0 0 3px rgba(255, 215, 0, 0.9)) drop-shadow(0 0 5px rgba(255, 215, 0, 0.7))"><path fill="white" d="M4 4l18 11.4-7.3 1.6L9.4 28 4 4z"/><path fill="%23FFD700" stroke="%23FFC300" stroke-width="0.5" d="M5.5 5.5l15 9.4-5.8 1.3L10 26.2 5.5 5.5z"/></g></svg>') 4 4, auto !important;
         }
@@ -62,23 +61,10 @@
 
         /* --- Loading Screen Styles --- */
         #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; opacity: 1; transition: opacity 0.5s ease-out; }
-        #loading-icon {
-            width: 280px;
-            height: 280px;
-            animation: bounceScale 1.5s ease-in-out infinite alternate;
-            /* Add gold glow to loading icon */
-            filter: drop-shadow(0 0 15px var(--gold-glow-1));
-        }
+        #loading-icon { width: 280px; height: 280px; animation: bounceScale 1.5s ease-in-out infinite alternate; filter: drop-shadow(0 0 15px var(--gold-glow-1)); }
         @keyframes bounceScale { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
-        #loading-bar-container { width: 200px; height: 8px; background-color: rgba(255, 215, 0, 0.2); border-radius: 4px; margin-top: 20px; overflow: hidden; } /* Gold tint bg */
-        #loading-bar {
-            width: 0%;
-            height: 100%;
-            background-color: var(--gold-color); /* Gold loading bar */
-            border-radius: 4px;
-            animation: fillBar 2.1s linear forwards;
-            box-shadow: 0 0 8px var(--gold-glow-2); /* Gold glow on bar */
-         }
+        #loading-bar-container { width: 200px; height: 8px; background-color: rgba(255, 215, 0, 0.2); border-radius: 4px; margin-top: 20px; overflow: hidden; }
+        #loading-bar { width: 0%; height: 100%; background-color: var(--gold-color); border-radius: 4px; animation: fillBar 2.1s linear forwards; box-shadow: 0 0 8px var(--gold-glow-2); }
         @keyframes fillBar { from { width: 0%; } to { width: 100%; } }
         #loading-screen.loaded { opacity: 0; pointer-events: none; }
 
@@ -92,206 +78,45 @@
         nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background-color: rgba(255, 255, 255, 0.8); transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease-out, background-color 0.3s ease; }
         nav a:hover { color: #fff; }
         nav a:hover::after { transform: scaleX(1); }
-
         .discord-link { color: #5865F2 !important; }
         .discord-link:hover::after { background-color: #5865F2; }
-
         .premium-link { color: var(--gold-color) !important; background-image: linear-gradient( 90deg, rgba(255, 215, 0, 0.2) 25%, rgba(255, 215, 0, 1) 40%, rgba(255, 215, 0, 1) 60%, rgba(255, 215, 0, 0.2) 75% ); background-size: 250% auto; background-clip: text; -webkit-background-clip: text; text-fill-color: transparent; -webkit-text-fill-color: transparent; animation: shimmer 3s linear infinite; font-weight: 600; }
         @keyframes shimmer { 0% { background-position: -250%; } 100% { background-position: 250%; } }
         .premium-link:hover::after { background-color: var(--gold-color); }
 
         /* --- Premium Page Specific Styles --- */
-        .premium-hero-title {
-            color: var(--gold-color);
-            text-shadow: 0 0 15px var(--gold-glow-1), 0 0 25px var(--gold-glow-2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-        .premium-hero-title::before {
-             content: '';
-             display: inline-block;
-             width: 1em;
-             height: 1em;
-             margin-right: 0.5em;
-             background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill="%23FFD700" d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>');
-             background-size: contain;
-             background-repeat: no-repeat;
-             background-position: center;
-             filter: drop-shadow(0 0 10px var(--gold-glow-2));
-             vertical-align: middle;
-             flex-shrink: 0;
-        }
+        .premium-hero-title { color: var(--gold-color); text-shadow: 0 0 15px var(--gold-glow-1), 0 0 25px var(--gold-glow-2); display: flex; align-items: center; justify-content: center; text-align: center; }
+        .premium-hero-title::before { content: ''; display: inline-block; width: 1em; height: 1em; margin-right: 0.5em; background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill="%23FFD700" d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>'); background-size: contain; background-repeat: no-repeat; background-position: center; filter: drop-shadow(0 0 10px var(--gold-glow-2)); vertical-align: middle; flex-shrink: 0; }
 
-        /* --- Premium Feature Box Styles --- */
-        .premium-feature-box {
-             background-color: rgba(40, 35, 0, 0.2);
-             border: 1px solid rgba(255, 215, 0, 0.2);
-             border-radius: 0.75rem;
-             padding: 2rem 1.5rem;
-             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-             transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-             backdrop-filter: blur(8px);
-             display: flex;
-             flex-direction: column;
-             align-items: center;
-             text-align: center;
-        }
-        .premium-feature-box:hover {
-             transform: translateY(-8px) scale(1.02);
-             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
-             border-color: rgba(255, 215, 0, 0.5);
-        }
-        .premium-feature-icon {
-             width: 3rem;
-             height: 3rem;
-             margin-bottom: 1.5rem;
-             flex-shrink: 0;
-             color: var(--gold-color);
-             filter: drop-shadow(0 0 10px var(--gold-glow-1));
-        }
-        .premium-feature-title {
-             color: var(--gold-color);
-             font-size: 1.3rem;
-             font-weight: 600;
-             margin-bottom: 0.75rem;
-        }
-        .premium-feature-text {
-             color: #e5e7eb;
-             opacity: 0.9;
-             line-height: 1.6;
-             font-size: 0.95rem;
-        }
+        .premium-feature-box { background-color: rgba(40, 35, 0, 0.2); border: 1px solid rgba(255, 215, 0, 0.2); border-radius: 0.75rem; padding: 2rem 1.5rem; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; backdrop-filter: blur(8px); display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .premium-feature-box:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6); border-color: rgba(255, 215, 0, 0.5); }
+        .premium-feature-icon { width: 3rem; height: 3rem; margin-bottom: 1.5rem; flex-shrink: 0; color: var(--gold-color); filter: drop-shadow(0 0 10px var(--gold-glow-1)); }
+        .premium-feature-title { color: var(--gold-color); font-size: 1.3rem; font-weight: 600; margin-bottom: 0.75rem; }
+        .premium-feature-text { color: #e5e7eb; opacity: 0.9; line-height: 1.6; font-size: 0.95rem; }
 
         /* --- Purchase Card Styles --- */
-        .purchase-card-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 4rem auto 6rem auto;
-            max-width: 450px;
-        }
-        /* Wrapper for positioning sparkles relative to card */
-         #purchase-card-wrapper {
-             position: relative;
-             width: 100%; /* Ensure wrapper takes width */
-         }
-        .bouncing-arrow {
-            color: var(--gold-color);
-            width: 2rem;
-            height: 2rem;
-            margin-bottom: 1rem;
-            animation: bounce 2s infinite ease-in-out;
-        }
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-15px); }
-            60% { transform: translateY(-8px); }
-        }
+        .purchase-card-container { display: flex; flex-direction: column; align-items: center; margin: 4rem auto 6rem auto; max-width: 450px; }
+        /* Added position: relative to wrapper */
+        #purchase-card-wrapper { position: relative; width: 100%; }
+        .bouncing-arrow { color: var(--gold-color); width: 2rem; height: 2rem; margin-bottom: 1rem; animation: bounce 2s infinite ease-in-out; }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-15px); } 60% { transform: translateY(-8px); } }
 
-        .purchase-card {
-            background-color: rgba(40, 35, 0, 0.3);
-            border: 1px solid rgba(255, 215, 0, 0.4);
-            border-radius: 0.75rem;
-            padding: 2.5rem;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            text-align: center;
-            width: 100%;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative; /* Needed for absolute sparkles */
-            overflow: hidden; /* Hide sparkles going too far out */
-        }
-        .purchase-card:hover {
-            transform: scale(1.03);
-            box-shadow: 0 12px 35px rgba(50, 40, 0, 0.7);
-        }
-        .purchase-card h3 {
-            color: var(--gold-color);
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-            text-shadow: 0 0 10px var(--gold-glow-2);
-        }
-        .purchase-card .price {
-            color: #ffffff;
-            font-size: 2.8rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            display: block;
-        }
-        .purchase-card .features-list {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 2rem 0;
-            color: #d1d5db;
-            font-size: 0.9rem;
-            text-align: left;
-            max-width: 85%;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .purchase-card .features-list li {
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-        }
-        .purchase-card .features-list li::before {
-            content: '★';
-            color: var(--gold-color);
-            margin-right: 0.75rem;
-            font-size: 1.1em;
-            line-height: 1; /* Adjust alignment */
-        }
-        .purchase-button {
-            background-color: var(--gold-color);
-            color: #000000;
-            padding: 0.75rem 2rem;
-            border-radius: 9999px;
-            font-weight: 600;
-            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, filter 0.3s ease, border-color 0.3s ease;
-            border: 2px solid #1a1a1a; /* Dark outline */
-            box-shadow: 0 0 20px var(--gold-glow-2);
-            display: inline-block;
-            text-decoration: none;
-        }
-        .purchase-button:hover {
-            background-color: var(--gold-darker);
-            color: #000000;
-            transform: scale(1.05);
-            box-shadow: 0 0 25px var(--gold-glow-1);
-            filter: brightness(1.1);
-             border-color: #000; /* Darker outline on hover */
-        }
+        .purchase-card { background-color: rgba(40, 35, 0, 0.3); border: 1px solid rgba(255, 215, 0, 0.4); border-radius: 0.75rem; padding: 2.5rem; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6); backdrop-filter: blur(10px); text-align: center; width: 100%; transition: transform 0.3s ease, box-shadow 0.3s ease; /* Removed overflow: hidden here to allow sparkles to go slightly out */ }
+        .purchase-card:hover { transform: scale(1.03); box-shadow: 0 12px 35px rgba(50, 40, 0, 0.7); }
+        .purchase-card h3 { color: var(--gold-color); font-size: 1.8rem; font-weight: 700; margin-bottom: 0.75rem; text-shadow: 0 0 10px var(--gold-glow-2); }
+        .purchase-card .price { color: #ffffff; font-size: 2.8rem; font-weight: 700; margin-bottom: 1.5rem; display: block; }
+        .purchase-card .features-list { list-style: none; padding: 0; margin: 0 0 2rem 0; color: #d1d5db; font-size: 0.9rem; text-align: left; max-width: 85%; margin-left: auto; margin-right: auto; }
+        .purchase-card .features-list li { margin-bottom: 0.5rem; display: flex; align-items: center; }
+        .purchase-card .features-list li::before { content: '★'; color: var(--gold-color); margin-right: 0.75rem; font-size: 1.1em; line-height: 1; }
+        .purchase-button { background-color: var(--gold-color); color: #000000; padding: 0.75rem 2rem; border-radius: 9999px; font-weight: 600; transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, filter 0.3s ease, border-color 0.3s ease; border: 2px solid #1a1a1a; box-shadow: 0 0 20px var(--gold-glow-2); display: inline-block; text-decoration: none; }
+        .purchase-button:hover { background-color: var(--gold-darker); color: #000000; transform: scale(1.05); box-shadow: 0 0 25px var(--gold-glow-1); filter: brightness(1.1); border-color: #000; }
 
         /* Sparkle Effect */
-        .sparkle-plus {
-            position: absolute;
-            color: var(--gold-color);
-            font-size: 1rem; /* Adjust size */
-            font-weight: bold;
-            user-select: none;
-            pointer-events: none;
-            z-index: 10; /* Above card content */
-            opacity: 0;
-            animation: sparkleAnim 1.2s ease-out forwards;
-        }
-
-        @keyframes sparkleAnim {
-            0% { opacity: 1; transform: translate(0, 0) scale(0.5); }
-            100% { opacity: 0; transform: translate(var(--tx, 0px), var(--ty, -40px)) scale(1.5); } /* Float up/out */
-        }
-        /* --- End Premium Styles --- */
+        .sparkle-plus { position: absolute; color: var(--gold-color); font-size: 1rem; font-weight: bold; user-select: none; pointer-events: none; z-index: -1; /* Behind card content, but visible through transparency */ opacity: 0; animation: sparkleAnim 1.2s ease-out forwards; }
+        @keyframes sparkleAnim { 0% { opacity: 1; transform: translate(0, 0) scale(0.5); } 100% { opacity: 0; transform: translate(var(--tx, 0px), var(--ty, -40px)) scale(1.5); } }
 
         .footer { background-color: #111111; color: #a0a0a0; border-top: 1px solid rgba(255, 215, 0, 0.2); }
-         .footer-credit {
-             color: var(--gold-color); /* Gold text */
-             font-size: 0.9rem;
-             margin-top: 0.5rem;
-             font-weight: 500;
-             text-shadow: 0 0 5px var(--gold-glow-2); /* Gold glow */
-         }
+         .footer-credit { color: var(--gold-color); font-size: 0.9rem; margin-top: 0.5rem; font-weight: 500; text-shadow: 0 0 5px var(--gold-glow-2); }
 
         .main-content { opacity: 0; transition: opacity 0.5s ease-in 0.2s; }
         .main-content.visible { opacity: 1; }
@@ -352,8 +177,8 @@
 
                     <div class="premium-feature-box">
                          <svg class="premium-feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                          </svg>
+                           <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                         </svg>
                          <h3 class="premium-feature-title">No Temporary Keys</h3>
                          <p class="premium-feature-text">Enjoy uninterrupted access without the hassle of renewing keys every 12 hours.</p>
                     </div>
@@ -367,9 +192,9 @@
                     </div>
 
                     <div class="premium-feature-box">
-                         <svg class="premium-feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                           <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" />
-                         </svg>
+                          <svg class="premium-feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 0 1-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 0 0 6.16-12.12A14.98 14.98 0 0 0 9.63 2.18a14.98 14.98 0 0 0-5.84 7.38m5.84 2.58a14.98 14.98 0 0 1 7.38 5.84m-7.38-5.84a14.98 14.98 0 0 0 5.84-7.38m-5.84 7.38a14.98 14.98 0 0 1-5.84 7.38m5.84-7.38a14.98 14.98 0 0 0-7.38 5.84m7.38-5.84a6 6 0 0 1-7.38-5.84m7.38 5.84a6 6 0 0 0 7.38 5.84m-7.38-5.84a6 6 0 0 1-5.84-7.38m5.84 7.38a6 6 0 0 0 5.84 7.38" />
+                          </svg>
                          <h3 class="premium-feature-title">Updates Before Free Users</h3>
                          <p class="premium-feature-text">Gain early access to the latest script updates and new features ahead of the curve.</p>
                     </div>
@@ -444,7 +269,7 @@
             const minLoadTime = 1500;
             setTimeout(() => {
                 if (loadingScreen) loadingScreen.classList.add('loaded');
-                document.body.style.overflowY = 'auto'; // Restore scrollbar visibility
+                document.body.style.overflowY = 'auto'; // Restore scrollbar
                 document.body.style.overflowX = 'hidden';
                 if (mainContent) mainContent.classList.add('visible');
             }, minLoadTime);
@@ -525,112 +350,99 @@
             }).catch(err => { console.error('Failed to copy: ', err); alert("Could not copy automatically. Please copy manually: " + discordId); });
         }
 
-        // --- Sparkle Effect for Purchase Card ---
-        const purchaseCardWrapper = document.getElementById('purchase-card-wrapper');
-        let sparkleInterval = null;
+         // --- Sparkle Effect for Purchase Card ---
+         const purchaseCardWrapper = document.getElementById('purchase-card-wrapper');
+         let sparkleInterval = null;
 
-        function createSparkle() {
-            if (!purchaseCardWrapper) return;
+         function createSparkle() {
+             if (!purchaseCardWrapper) return;
 
-            const sparkle = document.createElement('span');
-            sparkle.classList.add('sparkle-plus');
-            sparkle.innerHTML = '+'; // Use '+' character
+             const sparkle = document.createElement('span');
+             sparkle.classList.add('sparkle-plus');
+             sparkle.innerHTML = '+'; // Use '+' character
 
-            const wrapperRect = purchaseCardWrapper.getBoundingClientRect();
-            const cardElement = purchaseCardWrapper.querySelector('.purchase-card');
-            if (!cardElement) return; // Make sure card exists
-            const cardRect = cardElement.getBoundingClientRect();
+             const cardElement = purchaseCardWrapper.querySelector('.purchase-card');
+             if (!cardElement) return; // Card must exist
 
-            // Calculate position relative to the wrapper, but along the card's edge
-            const wrapperScrollX = window.scrollX;
-            const wrapperScrollY = window.scrollY;
+             // Dimensions of the card itself relative to the wrapper
+             const cardWidth = cardElement.offsetWidth;
+             const cardHeight = cardElement.offsetHeight;
+             // Assume card is positioned at 0,0 relative to wrapper (adjust if wrapper has padding)
+             const cardTopOffset = cardElement.offsetTop;
+             const cardLeftOffset = cardElement.offsetLeft;
 
-            const cardTop = cardRect.top + wrapperScrollY - wrapperRect.top;
-            const cardLeft = cardRect.left + wrapperScrollX - wrapperRect.left;
-            const cardWidth = cardRect.width;
-            const cardHeight = cardRect.height;
+             const side = Math.floor(Math.random() * 4); // 0: top, 1: right, 2: bottom, 3: left
+             let x, y;
+             const offset = 8; // How far out from the edge the sparkle starts (adjust)
 
-            const side = Math.floor(Math.random() * 4); // 0: top, 1: right, 2: bottom, 3: left
-            let x, y;
-            const offset = 10; // How far out the sparkle starts
+             switch (side) {
+                 case 0: // Top edge
+                     x = cardLeftOffset + Math.random() * cardWidth;
+                     y = cardTopOffset - offset;
+                     break;
+                 case 1: // Right edge
+                     x = cardLeftOffset + cardWidth + offset;
+                     y = cardTopOffset + Math.random() * cardHeight;
+                     break;
+                 case 2: // Bottom edge
+                     x = cardLeftOffset + Math.random() * cardWidth;
+                     y = cardTopOffset + cardHeight + offset;
+                     break;
+                 case 3: // Left edge
+                 default:
+                     x = cardLeftOffset - offset;
+                     y = cardTopOffset + Math.random() * cardHeight;
+                     break;
+             }
 
-            switch (side) {
-                case 0: // Top edge
-                    x = cardLeft + Math.random() * cardWidth;
-                    y = cardTop - offset;
-                    break;
-                case 1: // Right edge
-                    x = cardLeft + cardWidth + offset;
-                    y = cardTop + Math.random() * cardHeight;
-                    break;
-                case 2: // Bottom edge
-                    x = cardLeft + Math.random() * cardWidth;
-                    y = cardTop + cardHeight + offset;
-                    break;
-                case 3: // Left edge
-                default:
-                    x = cardLeft - offset;
-                    y = cardTop + Math.random() * cardHeight;
-                    break;
-            }
+              // Randomize animation direction slightly
+             const tx = (Math.random() - 0.5) * 50; // Horizontal drift +/- 25px
+             const ty = (Math.random() * -40) - 15; // Upward movement between -15px and -55px
 
-             // Randomize animation direction slightly
-            const tx = (Math.random() - 0.5) * 60; // Horizontal drift +/- 30px
-            const ty = (Math.random() * -50) - 20; // Upward movement between -20px and -70px
+             sparkle.style.left = `${x}px`;
+             sparkle.style.top = `${y}px`;
+             sparkle.style.setProperty('--tx', `${tx}px`);
+             sparkle.style.setProperty('--ty', `${ty}px`);
 
-            sparkle.style.left = `${x}px`;
-            sparkle.style.top = `${y}px`;
-            sparkle.style.setProperty('--tx', `${tx}px`);
-            sparkle.style.setProperty('--ty', `${ty}px`);
+             purchaseCardWrapper.appendChild(sparkle);
 
-            purchaseCardWrapper.appendChild(sparkle);
-
-            // Remove sparkle after animation
-            setTimeout(() => {
-                if (sparkle.parentNode === purchaseCardWrapper) {
-                   purchaseCardWrapper.removeChild(sparkle);
-                }
-            }, 1200); // Matches animation duration
-        }
-
-        // Start sparkles when the main content is visible after loading
-        const observer = new MutationObserver((mutationsList, observer) => {
-            for(let mutation of mutationsList) {
-                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                    const mainContent = document.getElementById('main-content');
-                    if (mainContent && mainContent.classList.contains('visible')) {
-                         if (!sparkleInterval && purchaseCardWrapper) { // Start only once
-                             sparkleInterval = setInterval(createSparkle, 150); // Generate sparkle every 150ms
-                             console.log("Sparkles started");
-                         }
-                         // Optional: Stop observing once started
-                         // observer.disconnect();
-                    } else {
-                        // Optional: Clear interval if content becomes hidden again?
-                         if (sparkleInterval) {
-                             clearInterval(sparkleInterval);
-                             sparkleInterval = null;
-                              console.log("Sparkles stopped");
-                         }
-                    }
-                }
-            }
-        });
-
-        // Observe the main content element for class changes
-        const mainContentElement = document.getElementById('main-content');
-        if(mainContentElement) {
-            observer.observe(mainContentElement, { attributes: true });
-        } else {
-             // Fallback: Start sparkles after a delay if observer fails
+             // Remove sparkle after animation
              setTimeout(() => {
-                 if (!sparkleInterval && purchaseCardWrapper) {
-                      sparkleInterval = setInterval(createSparkle, 150);
-                      console.log("Sparkles started via fallback timeout");
+                 // Check if the element still exists before removing
+                 if (sparkle.parentNode === purchaseCardWrapper) {
+                    purchaseCardWrapper.removeChild(sparkle);
                  }
-             }, 2500); // Start slightly after estimated load complete
-        }
+             }, 1200); // Matches animation duration
+         }
 
+         // Start/Stop sparkles based on visibility or interaction (optional)
+         // For simplicity, we start it when the script runs after load
+         // Ensure the purchase card wrapper exists before starting interval
+         const checkWrapperAndStartSparkles = () => {
+            const wrapper = document.getElementById('purchase-card-wrapper');
+            if (wrapper) {
+                if (!sparkleInterval) { // Prevent multiple intervals
+                   sparkleInterval = setInterval(createSparkle, 200); // Generate sparkle every 200ms
+                   console.log("Sparkles started");
+                }
+            } else {
+                // If wrapper not found yet, try again shortly
+                setTimeout(checkWrapperAndStartSparkles, 100);
+            }
+         };
+
+         // Wait until after loading screen logic might finish
+         setTimeout(checkWrapperAndStartSparkles, 2000); // Start after ~2s
+
+
+         // --- Script Image Tilt Effect (Placeholder - element not on this page) ---
+        // The element #script-image doesn't exist here, so this code block will simply
+        // log an error and do nothing, which is fine. It could be removed.
+        const scriptContainer = document.getElementById('script-container');
+        const scriptImage = document.getElementById('script-image');
+        if (!scriptContainer || !scriptImage) {
+            // console.log("Script image container/element not found on this page.");
+        } // else { /* ... original tilt logic ... */ }
 
     </script>
 </body>
