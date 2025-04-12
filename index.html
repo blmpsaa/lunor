@@ -12,10 +12,9 @@
         /* Custom CSS */
 
         html {
-             /* scroll-behavior: smooth; REMOVED - Handled by Lenis.js */
-             /* For Firefox (Limited Styling) */
-             scrollbar-width: auto;
-             scrollbar-color: rgba(255, 255, 255, 0.7) transparent;
+             /* For Firefox: Thumb Color, Track Color */
+             scrollbar-color: rgba(255, 255, 255, 0.85) transparent;
+             scrollbar-width: thin; /* Options: auto, thin, none */
         }
 
         /* --- Custom Windows-like Glowing Cursor w/ Contrast --- */
@@ -40,32 +39,38 @@
         ::selection { background: rgba(255, 255, 255, 0.3); color: white; text-shadow: none; }
         ::-moz-selection { background: rgba(255, 255, 255, 0.3); color: white; text-shadow: none; }
 
-        /* --- Custom Scrollbar Styles (WebKit) --- */
+        /* --- Custom Scrollbar Styles (WebKit) - Fully Custom --- */
         ::-webkit-scrollbar {
-            width: 22px;
+            width: 18px; /* Adjust thickness */
         }
+
         ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 11px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: transparent; /* Fully transparent track */
+            border: none;
+            border-radius: 0;
         }
+
         ::-webkit-scrollbar-thumb {
-            background-color: rgba(255, 255, 255, 0.7);
-            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.85); /* Slightly less transparent white */
+            border-radius: 9px; /* Rounded corners for thumb */
+            /* Border creates padding, making visual thumb thinner than scrollbar width */
             border: 4px solid transparent;
             background-clip: content-box;
-            /* Slightly enhanced base glow */
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 35px rgba(255, 255, 255, 0.6);
+            /* Stronger Glow */
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 25px rgba(255, 255, 255, 0.7);
             transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
+
         ::-webkit-scrollbar-thumb:hover {
-            background-color: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 0 25px rgba(255, 255, 255, 0.9), 0 0 40px rgba(255, 255, 255, 0.7);
+            background-color: rgba(255, 255, 255, 1); /* Solid white on hover */
+            /* Even stronger glow */
+            box-shadow: 0 0 20px rgba(255, 255, 255, 1), 0 0 35px rgba(255, 255, 255, 0.8);
         }
-         /* Hide up/down scrollbar buttons */
-         ::-webkit-scrollbar-button {
-             display: none;
-         }
+
+        /* Hide up/down scrollbar buttons */
+        ::-webkit-scrollbar-button {
+            display: none;
+        }
         /* --- End Custom Scrollbar Styles --- */
 
 
@@ -73,30 +78,27 @@
         #background-moon-container { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: -2; overflow: hidden; pointer-events: none; }
         #background-moon-svg { width: 65vw; height: auto; opacity: 0.15; filter: blur(20px) drop-shadow(0 0 50px rgba(210, 210, 255, 0.7)); transform: rotate(-15deg); }
 
-        /* --- Background Repeating Moons --- */
+        /* --- Background Static Dots --- */
         body::after {
             content: '';
             position: fixed;
             inset: 0;
-             /* Small moon SVG, white fill, viewbox defines size relative to background-size */
-             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width="10" height="10"><path fill="white" d="M9.66 6.65A4 4 0 013.35 0.35a4.001 4.001 0 106.31 6.3z"></path></svg>');
-             background-size: 40px 40px; /* Adjust spacing */
-             opacity: 0; /* Start hidden, fade in */
-             z-index: -1;
-             pointer-events: none;
-             /* Fade in and move diagonally */
-             animation: fadeInMoons 5s ease-in-out forwards, moveMoons 30s linear infinite;
+            /* Tiny white dots using radial gradient */
+            background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            /* Square grid spacing */
+            background-size: 30px 30px; /* Adjust size for desired density */
+            opacity: 0; /* Start hidden */
+            z-index: -1;
+            pointer-events: none;
+            /* Only fade in, no movement animation */
+            animation: fadeInDots 5s ease-in-out forwards;
         }
-        @keyframes fadeInMoons {
+        @keyframes fadeInDots {
              from { opacity: 0; }
-             to { opacity: 0.1; } /* Adjust final transparency */
+             to { opacity: 0.15; } /* Adjust final transparency */
         }
-        @keyframes moveMoons {
-             from { background-position: 0 0; }
-             /* Move towards bottom right */
-             to { background-position: 150px 150px; }
-        }
-        /* --- End Background Moons --- */
+        /* Removed moveMoons keyframes */
+        /* --- End Background Dots --- */
 
 
         /* Ensure main content is above the background */
@@ -310,8 +312,8 @@
 
             <section id="scripts" class="py-20">
                  <h2 class="text-4xl font-semibold text-white text-center mb-24 glowing-text section-title">Available Scripts</h2>
-                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12">
-                     <div class="game-card">
+                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-x-10 gap-y-12">
+                     <div class="game-card lg:col-span-2">
                          <img src="fisch.png" alt="Fisch Script" class="game-card-image-internal"
                               onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=Fisch';"
                               ondragstart="return false;" oncontextmenu="return false;">
@@ -330,7 +332,7 @@
                              </div>
                          </div>
                      </div>
-                     <div class="game-card">
+                     <div class="game-card lg:col-span-2">
                           <img src="arise.png" alt="Arise Crossover Script" class="game-card-image-internal"
                                onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=Arise';"
                                ondragstart="return false;" oncontextmenu="return false;">
@@ -349,7 +351,7 @@
                               </div>
                           </div>
                      </div>
-                     <div class="game-card">
+                     <div class="game-card lg:col-span-2">
                           <img src="rails.png" alt="Dead Rails Script" class="game-card-image-internal"
                                onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=Rails';"
                                ondragstart="return false;" oncontextmenu="return false;">
@@ -368,6 +370,47 @@
                               </div>
                           </div>
                      </div>
+
+                     <div class="game-card lg:col-start-2 lg:col-span-2">
+                          <img src="placeholder4.png" alt="New Script 1" class="game-card-image-internal"
+                               onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=Script+4';"
+                               ondragstart="return false;" oncontextmenu="return false;">
+                          <div class="game-card-content-area">
+                              <h3 class="game-card-title">New Script 1</h3>
+                              <div class="game-details">
+                                  <p class="text-gray-400 mb-3 text-sm">Script: Lunor Free & Premium</p>
+                                  <ul class="feature-list text-gray-200 space-y-1 text-sm">
+                                      <li>Placeholder</li>
+                                      <li>Placeholder</li>
+                                      <li>Placeholder</li>
+                                      <li>Placeholder</li>
+                                      <li>Placeholder</li>
+                                  </ul>
+                                   <button class="mt-4 w-full text-sm bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg transition-colors duration-300">Get Script</button>
+                              </div>
+                          </div>
+                     </div>
+
+                     <div class="game-card lg:col-start-4 lg:col-span-2">
+                          <img src="placeholder5.png" alt="New Script 2" class="game-card-image-internal"
+                               onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=Script+5';"
+                               ondragstart="return false;" oncontextmenu="return false;">
+                          <div class="game-card-content-area">
+                              <h3 class="game-card-title">New Script 2</h3>
+                              <div class="game-details">
+                                  <p class="text-gray-400 mb-3 text-sm">Script: Lunor Free & Premium</p>
+                                  <ul class="feature-list text-gray-200 space-y-1 text-sm">
+                                      <li>Placeholder</li>
+                                      <li>Placeholder</li>
+                                      <li>Placeholder</li>
+                                      <li>Placeholder</li>
+                                      <li>Placeholder</li>
+                                  </ul>
+                                   <button class="mt-4 w-full text-sm bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg transition-colors duration-300">Get Script</button>
+                              </div>
+                          </div>
+                     </div>
+
                  </div>
             </section>
 
@@ -445,7 +488,6 @@
             const minLoadTime = 2100;
             setTimeout(() => {
                 if (loadingScreen) loadingScreen.classList.add('loaded');
-                // Allow scrolling only after loading is visually done
                 document.body.style.overflowY = 'auto';
                 document.body.style.overflowX = 'hidden';
                 if (mainContent) mainContent.classList.add('visible');
@@ -461,7 +503,7 @@
                 mobileMenu.classList.toggle('hidden');
             });
             document.addEventListener('click', (event) => {
-                if (!mobileMenu.contains(event.target) && !mobileMenuButton.contains(event.target) && !mobileMenu.classList.contains('hidden')) {
+                if (mobileMenu && !mobileMenu.classList.contains('hidden') && !mobileMenu.contains(event.target) && !mobileMenuButton.contains(event.target)) {
                     mobileMenu.classList.add('hidden');
                 }
             });
@@ -471,40 +513,39 @@
         const yearSpan = document.getElementById('current-year');
         if (yearSpan) yearSpan.textContent = new Date().getFullYear();
 
-        // --- Smooth Scrolling for Navbar Links (Still useful for hash links) ---
+        // --- Smooth Scrolling for Navbar Links (Using Lenis Instance) ---
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
+                let targetElement = null;
+                try {
+                    targetElement = document.querySelector(targetId);
+                } catch (err) {
+                    console.warn(`Invalid selector for anchor: ${targetId}`);
+                    // Allow default behavior for potentially external links if selector is invalid
+                    return;
+                }
+
 
                 if (targetElement) {
                     e.preventDefault(); // Prevent default jump only if target exists
-                    // Lenis will handle the smooth scroll animation via its own mechanism if active
-                    // We might still need to trigger it if Lenis doesn't intercept hash links automatically
-                    // OR calculate offset manually if needed for fixed header
 
-                    // Example: Manually scroll with Lenis instance (if needed)
                      if (window.lenisInstance) {
                          const navbar = document.querySelector('.navbar');
-                         const navbarHeight = navbar ? navbar.offsetHeight : 60;
-                         // Lenis' scrollTo method usually takes target element and options like offset
+                         // Use 0 offset if navbar is not found or has no height
+                         const navbarHeight = navbar ? navbar.offsetHeight : 0;
                          window.lenisInstance.scrollTo(targetElement, { offset: -navbarHeight });
                      } else {
-                         // Fallback if Lenis fails or isn't used - basic scroll calculation
-                         const navbar = document.querySelector('.navbar');
-                         const navbarHeight = navbar ? navbar.offsetHeight : 60;
-                         const elementPosition = targetElement.getBoundingClientRect().top;
-                         const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
-                         window.scrollTo({ top: offsetPosition, behavior: "smooth" }); // Basic smooth if no Lenis
+                         // Basic fallback (less smooth, no offset handling without recalculating)
+                         targetElement.scrollIntoView({ behavior: 'smooth' });
                      }
 
                 } else if (targetId === '#premium' || targetId === '#') {
-                     e.preventDefault(); // Prevent default jump for non-scrolling links
+                     e.preventDefault();
                      console.log('Non-scrolling link clicked:', targetId);
                 }
-                 // If targetElement doesn't exist, allow default link behavior (might navigate away)
+                // Allow default behavior if targetElement is null (e.g., link to another page)
 
-                // Close mobile menu regardless
                 if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
                     mobileMenu.classList.add('hidden');
                 }
@@ -562,8 +603,8 @@
              // Handle cached images
              if (scriptImage.complete && scriptImage.naturalWidth > 0) {
                  scriptImage.onload();
-             } else if (scriptImage.complete && scriptImage.naturalWidth === 0) {
-                 // If cached but broken
+             } else if (scriptImage.complete && scriptImage.naturalWidth === 0 && scriptImage.src !== placeholderImageUrl) {
+                 // If cached but broken, and not already placeholder
                  scriptImage.onerror();
              }
 
@@ -573,40 +614,38 @@
 
         // --- Image Placeholders for Game Cards ---
         document.querySelectorAll('.game-card-image-internal').forEach(img => {
-            const originalSrc = img.src;
+            const originalSrc = img.getAttribute('src'); // Get initial src attribute
             const placeholderPrefix = 'https://placehold.co/';
 
              img.onerror = function() {
-                 if (this.src.startsWith(placeholderPrefix)) return;
+                 // Check if the current src is already a placeholder to prevent loops
+                 // Also check against originalSrc in case onerror fires multiple times quickly
+                 if (this.src.startsWith(placeholderPrefix) || this.src !== originalSrc) return;
 
                  const gameName = this.alt || 'Game';
-                 // Extract a simple name for the placeholder text (e.g., "Fisch" from "Fisch Script")
                  const placeholderText = gameName.split(' ')[0];
                  console.warn(`${gameName} image (${originalSrc}) failed to load. Displaying placeholder.`);
-                 // Generate placeholder URL
                  this.src = `${placeholderPrefix}600x360/1f2937/ffffff?text=${encodeURIComponent(placeholderText)}`;
                  this.alt = `${gameName} placeholder`;
              };
 
              // Check for already broken cached images after a short delay
              setTimeout(() => {
-                if (img.naturalWidth === 0 && img.naturalHeight === 0 && img.complete && !img.src.startsWith(placeholderPrefix)) {
+                // Check if src hasn't already been changed by onerror
+                if (img.naturalWidth === 0 && img.naturalHeight === 0 && img.complete && img.src === originalSrc) {
                     img.onerror();
                 }
-             }, 50);
+             }, 100); // Slightly increased delay
         });
 
 
         // --- Lenis Smooth Scrolling Initialization ---
         try {
-            // More specific configuration options for Lenis
             const lenis = new Lenis({
-                lerp: 0.08, // Lower = smoother, higher = more responsive (default 0.1)
-                wheelMultiplier: 0.8, // Adjust scroll speed (default 1)
-                smoothWheel: true, // Enable smooth wheel event handling
-                smoothTouch: true, // Enable smooth touch event handling
-                // duration: 1.2, // Optional: Duration for scroll events (overrides lerp)
-                // easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Optional: Custom easing function
+                lerp: 0.08,
+                wheelMultiplier: 0.8,
+                smoothWheel: true,
+                smoothTouch: true,
             });
 
             function raf(time) {
@@ -615,18 +654,12 @@
             }
 
             requestAnimationFrame(raf);
-
-            // Make instance globally available if needed for manual scrolling (e.g., hash links)
-            window.lenisInstance = lenis;
-
+            window.lenisInstance = lenis; // Make instance available for anchor link scrolling
             console.log("Lenis smooth scrolling initialized.");
 
         } catch (error) {
-            console.error("Failed to initialize Lenis smooth scrolling. Is the library included?", error);
-             // Fallback: Re-enable basic CSS smooth scrolling if Lenis fails
-             // document.documentElement.style.scrollBehavior = 'smooth';
+            console.error("Failed to initialize Lenis smooth scrolling:", error);
         }
-
 
     </script>
 </body>
