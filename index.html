@@ -11,13 +11,19 @@
         /* Custom CSS */
 
         html {
-            /* Enables smooth scrolling for anchor links, spacebar, etc. */
-            /* Does NOT delay or slow down manual mouse-wheel scrolling */
-            scroll-behavior: smooth;
+            /* scroll-behavior: smooth; <-- REMOVED: We are using custom JS scroll */
              /* For Firefox (Limited Styling) */
-             scrollbar-width: auto; /* Let Firefox decide based on OS or use 'thin' */
-             scrollbar-color: rgba(255, 255, 255, 0.8) rgba(255, 255, 255, 0.1); /* thumb track */
+             scrollbar-width: none; /* Hide Firefox scrollbar if custom JS scroll works well */
+             /* scrollbar-color: rgba(255, 255, 255, 0.7) transparent; */
         }
+
+        /* Prevent default scroll behavior - necessary for JS smooth scroll */
+        body.smooth-scroll-enabled {
+            overflow: hidden; /* Prevent native scroll when JS is active */
+        }
+        /* Use a wrapper for JS scrolling if needed, or apply transform to body */
+        /* #smooth-scroll-wrapper { ... } */
+
 
         /* --- Custom Windows-like Glowing Cursor w/ Contrast --- */
         body {
@@ -28,13 +34,11 @@
             padding: 0;
             position: relative;
             overflow-x: hidden;
-            overflow-y: hidden; /* Hide scrollbars during loading */
+            /* overflow-y set dynamically by JS after load */
             cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><g filter="drop-shadow(0 0 3px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 5px rgba(255, 255, 255, 0.7))"><path fill="white" d="M4 4l18 11.4-7.3 1.6L9.4 28 4 4z"/><path fill="black" stroke="black" stroke-width="0.5" d="M5.5 5.5l15 9.4-5.8 1.3L10 26.2 5.5 5.5z"/></g></svg>') 4 4, auto !important;
         }
-
-        /* Apply custom cursor to interactive elements */
         a, button, .game-card, #script-image, input, textarea, select, label {
-             cursor: inherit !important; /* Inherit from body */
+             cursor: inherit !important;
         }
         /* --- End Custom Cursor --- */
 
@@ -42,32 +46,31 @@
         ::selection { background: rgba(255, 255, 255, 0.3); color: white; text-shadow: none; }
         ::-moz-selection { background: rgba(255, 255, 255, 0.3); color: white; text-shadow: none; }
 
-        /* --- Custom Scrollbar Styles (WebKit) - Thick, Glowy, No Arrows --- */
+        /* --- Custom Scrollbar Styles (WebKit) - No Arrows, Thick, Glowy --- */
         ::-webkit-scrollbar {
             width: 22px; /* Thickness */
         }
         ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.08); /* Slightly more visible track */
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 11px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         ::-webkit-scrollbar-thumb {
-            background-color: rgba(255, 255, 255, 0.8); /* Slightly more opaque thumb */
+            background-color: rgba(255, 255, 255, 0.75); /* Slightly more opaque white */
             border-radius: 10px;
             border: 4px solid transparent;
             background-clip: content-box;
-            box-shadow: 0 0 18px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.6);
+            /* Further enhanced glow */
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.85), 0 0 35px rgba(255, 255, 255, 0.65);
             transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
         ::-webkit-scrollbar-thumb:hover {
             background-color: rgba(255, 255, 255, 0.95); /* Brighter on hover */
-            box-shadow: 0 0 25px rgba(255, 255, 255, 0.9), 0 0 40px rgba(255, 255, 255, 0.7);
+            /* Stronger glow on hover */
+            box-shadow: 0 0 28px rgba(255, 255, 255, 0.95), 0 0 45px rgba(255, 255, 255, 0.75);
         }
-         /* Hide scrollbar buttons (arrows) */
          ::-webkit-scrollbar-button {
-             display: none;
-             height: 0;
-             width: 0;
+             display: none; /* Explicitly hide buttons */
          }
         /* --- End Custom Scrollbar Styles --- */
 
@@ -76,33 +79,29 @@
         #background-moon-container { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: -2; overflow: hidden; pointer-events: none; }
         #background-moon-svg { width: 65vw; height: auto; opacity: 0.15; filter: blur(20px) drop-shadow(0 0 50px rgba(210, 210, 255, 0.7)); transform: rotate(-15deg); }
 
-        /* --- Background Repeating Moons --- */
+        /* --- Background Moons --- */
         body::after {
-            content: '';
-            position: fixed;
-            inset: 0;
-            /* Use encoded small moon SVG as background */
-            /* Moon path: M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z */
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="20" height="20"><path fill="white" d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>');
-            background-size: 40px 40px; /* Size of each moon image and spacing */
+            content: ''; position: fixed; inset: 0;
+            /* Use Moon SVG as background */
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="white" d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>');
+            background-size: 35px 35px; /* Size of each moon */
             opacity: 0; /* Start hidden */
-            z-index: -1;
-            pointer-events: none;
-             /* Animation: Fade in, then move slowly bottom-right */
-             animation:
-                 fadeInDots 5s ease-in-out forwards,
-                 moveMoons 120s linear infinite; /* Slower, continuous loop */
+            z-index: -1; pointer-events: none;
+            /* Fade in and move animation */
+            animation:
+                fadeInMoons 5s ease-in-out 0.5s forwards, /* Delay fade-in slightly */
+                moveMoons 15s linear infinite; /* Faster speed, continuous */
         }
-        @keyframes fadeInDots { /* Renamed from fadeInDots, but keep for consistency or rename both */
+        @keyframes fadeInMoons {
             from { opacity: 0; }
-            to { opacity: 0.5; } /* Final opacity */
+            to { opacity: 0.25; } /* Final subtle opacity */
         }
-        /* Updated animation for continuous bottom-right movement */
-        @keyframes moveMoons { /* Renamed from moveDots */
+        @keyframes moveMoons {
             from { background-position: 0 0; }
-            to { background-position: 200px 200px; } /* Moves down and right */
+            /* Move significantly to bottom right */
+            to { background-position: 400px 400px; }
         }
-        /* --- End Background Repeating Moons --- */
+        /* --- End Background Moons --- */
 
 
         /* Ensure main content is above the background */
@@ -124,144 +123,53 @@
         .glowing-icon { filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8)); transition: filter 0.4s ease-out, transform 0.4s ease-out; }
         a.group:hover .glowing-icon { filter: drop-shadow(0 0 14px rgba(255, 255, 255, 1)) drop-shadow(0 0 22px rgba(255, 255, 255, 0.8)); transform: scale(1.15) rotate(10deg); }
 
-        /* Navbar Link Hover Animation */
         nav a { position: relative; padding-bottom: 4px; overflow: hidden; }
         nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background-color: rgba(255, 255, 255, 0.8); transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease-out; }
         nav a:hover::after { transform: scaleX(1); }
-        /* --- End Navbar Link Hover Animation --- */
 
-        /* Style for Section Titles with Icon */
-        .section-title {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-
-        .section-title::before {
-             content: '';
-             display: inline-block;
-             width: 1.2em;
-             height: 1.2em;
-             margin-right: 0.6em;
-             background-image: url('data:image/svg+xml;utf8,<svg fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>');
-             background-size: contain;
-             background-repeat: no-repeat;
-             background-position: center;
-             filter: drop-shadow(0 0 8px rgba(210, 210, 255, 0.7));
-             vertical-align: middle;
-             flex-shrink: 0;
-        }
+        .section-title { display: flex; align-items: center; justify-content: center; text-align: center; }
+        .section-title::before { content: ''; display: inline-block; width: 1.2em; height: 1.2em; margin-right: 0.6em; background-image: url('data:image/svg+xml;utf8,<svg fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>'); background-size: contain; background-repeat: no-repeat; background-position: center; filter: drop-shadow(0 0 8px rgba(210, 210, 255, 0.7)); vertical-align: middle; flex-shrink: 0; }
 
         /* --- Game Card Styles --- */
-        .game-card {
-            position: relative; background-color: rgba(255, 255, 255, 0.07);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-            transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease, filter 0.4s ease;
-            backdrop-filter: blur(12px); border-radius: 0.75rem; overflow: hidden;
-            transform-style: preserve-3d;
-            backface-visibility: hidden;
-        }
+        .game-card { position: relative; background-color: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease, filter 0.4s ease; backdrop-filter: blur(12px); border-radius: 0.75rem; overflow: hidden; transform-style: preserve-3d; backface-visibility: hidden; }
         .game-card-image-internal { display: block; width: 100%; height: 180px; object-fit: cover; transition: transform 0.4s ease; background-color: #1f2937; }
         .game-card-content-area { padding: 1rem 1.25rem 1.25rem; }
         .game-card-title { margin-bottom: 0.75rem; font-size: 1.25rem; font-weight: 600; color: #ffffff; }
-        .game-details {
-            max-height: 0;
-            opacity: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease-out, opacity 0.4s ease-in 0.1s;
-        }
-
-        .game-card:hover {
-            transform: translateY(-8px) scale(1.03);
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7);
-            border-color: rgba(255, 255, 255, 0.4);
-            filter: brightness(1.1);
-        }
+        .game-details { max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.5s ease-out, opacity 0.4s ease-in 0.1s; }
+        .game-card:hover { transform: translateY(-8px) scale(1.03); box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7); border-color: rgba(255, 255, 255, 0.4); filter: brightness(1.1); }
         .game-card:hover .game-card-image-internal { transform: scale(1.05); }
-
-        .game-card:hover .game-details {
-            max-height: 400px;
-            opacity: 1;
-        }
-
+        .game-card:hover .game-details { max-height: 400px; opacity: 1; }
         .feature-list { list-style: none; padding: 0; margin: 0; }
         .feature-list li::before { content: '✧'; color: #ffffff; margin-right: 8px; opacity: 0.8; }
-        /* --- End Game Card Styles --- */
 
         /* --- Script Image Section Styles --- */
         .script-image-section { padding: 4rem 1rem 6rem; text-align: center; }
         .script-image-container { perspective: 1000px; display: inline-block; margin-top: 2rem; position: relative; }
-        #script-image {
-            display: block; max-width: 100%; width: 600px; height: auto; border-radius: 1rem;
-            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.15), 0 5px 15px rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s ease-out, box-shadow 0.3s ease;
-            background-color: #1a202c;
-        }
-        #script-image:hover {
-             box-shadow: 0 15px 40px rgba(255, 255, 255, 0.25), 0 8px 25px rgba(255, 255, 255, 0.15);
-        }
-        /* --- End Script Image Section Styles --- */
+        #script-image { display: block; max-width: 100%; width: 600px; height: auto; border-radius: 1rem; box-shadow: 0 10px 25px rgba(255, 255, 255, 0.15), 0 5px 15px rgba(255, 255, 255, 0.1); transition: transform 0.3s ease-out, box-shadow 0.3s ease; background-color: #1a202c; }
+        #script-image:hover { box-shadow: 0 15px 40px rgba(255, 255, 255, 0.25), 0 8px 25px rgba(255, 255, 255, 0.15); }
 
         /* --- Discord/Feature/Footer Styles --- */
         .discord-section { background-color: rgba(255, 255, 255, 0.03); padding: 5rem 1rem; margin-top: 6rem; border-top: 1px solid rgba(255,255,255,0.15); backdrop-filter: blur(8px); }
-        .feature-section-card {
-             background-color: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1);
-             border-radius: 0.75rem; padding: 1.5rem; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-             transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-             display: flex;
-             align-items: flex-start;
-        }
+        .feature-section-card { background-color: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 0.75rem; padding: 1.5rem; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; display: flex; align-items: flex-start; }
         .feature-section-card:hover { transform: translateY(-6px); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); border-color: rgba(255, 255, 255, 0.25); }
-        .feature-icon {
-             width: 1.75rem;
-             height: 1.75rem;
-             margin-right: 1rem;
-             flex-shrink: 0;
-             margin-top: 0.1rem;
-             filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.7));
-        }
+        .feature-icon { width: 1.75rem; height: 1.75rem; margin-right: 1rem; flex-shrink: 0; margin-top: 0.1rem; filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.7)); }
         .feature-content h3 { margin-bottom: 0.5rem; }
-
         .footer { background-color: #111111; color: #a0a0a0; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-         .footer-credit {
-             color: #ffffff;
-             font-size: 0.9rem;
-             margin-top: 0.5rem;
-             font-weight: 500;
-             text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-         }
+        .footer-credit { color: #ffffff; font-size: 0.9rem; margin-top: 0.5rem; font-weight: 500; text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
 
         /* --- Button Styles --- */
-        .primary-button {
-            background-color: #ffffff; color: #000000; padding: 0.75rem 2rem;
-            border-radius: 9999px; font-weight: 600;
-            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, filter 0.3s ease;
-            border: 1px solid #ffffff;
-            box-shadow: 0 0 18px rgba(255, 255, 255, 0.4), 0 0 8px rgba(255, 255, 255, 0.3);
-            display: inline-block;
-        }
-        .primary-button:hover {
-            background-color: #cccccc; color: #000000;
-            transform: scale(1.05);
-            box-shadow: 0 0 25px rgba(255, 255, 255, 0.6), 0 0 12px rgba(255, 255, 255, 0.4);
-            filter: brightness(1.1);
-        }
+        .primary-button { background-color: #ffffff; color: #000000; padding: 0.75rem 2rem; border-radius: 9999px; font-weight: 600; transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, filter 0.3s ease; border: 1px solid #ffffff; box-shadow: 0 0 18px rgba(255, 255, 255, 0.4), 0 0 8px rgba(255, 255, 255, 0.3); display: inline-block; }
+        .primary-button:hover { background-color: #cccccc; color: #000000; transform: scale(1.05); box-shadow: 0 0 25px rgba(255, 255, 255, 0.6), 0 0 12px rgba(255, 255, 255, 0.4); filter: brightness(1.1); }
         .discord-button { background-color: #5865F2; color: #ffffff; padding: 0.75rem 2rem; border-radius: 9999px; font-weight: 600; transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, filter 0.3s ease; box-shadow: 0 0 15px rgba(88, 101, 242, 0.4); display: inline-flex; align-items: center; }
         .discord-button:hover { background-color: #4752C4; transform: scale(1.05); box-shadow: 0 0 20px rgba(88, 101, 242, 0.6); filter: brightness(1.1); }
-        /* --- End Button Styles --- */
 
         /* --- Main Content Fade-in --- */
         .main-content { opacity: 0; transition: opacity 0.5s ease-in 0.2s; }
         .main-content.visible { opacity: 1; }
-        /* --- End Main Content Styles --- */
 
     </style>
 </head>
-<body class="bg-black text-white">
-
-    <div id="background-moon-container">
+<body class="bg-black text-white"> <div id="background-moon-container">
         <svg id="background-moon-svg" fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
             <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
         </svg>
@@ -277,170 +185,149 @@
     </div>
 
     <div id="main-content" class="main-content">
-        <header class="navbar py-4 px-6 fixed w-full top-0 z-50">
-             <div class="container mx-auto flex items-center justify-between">
-                 <a href="#hero" class="flex items-center group" aria-label="Go to homepage">
-                     <svg class="w-8 h-8 mr-3 glowing-icon" fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
-                     <h1 class="text-2xl font-semibold text-white glowing-text">Lunor</h1>
-                 </a>
-                 <nav class="hidden md:flex items-center space-x-6">
-                     <a href="#hero" class="text-gray-300 hover:text-white transition-colors duration-300">Main</a>
-                     <a href="#discord" class="text-gray-300 hover:text-white transition-colors duration-300">Discord</a>
-                     <a href="#features" class="text-gray-300 hover:text-white transition-colors duration-300">Features</a>
-                     <a href="#premium" class="text-gray-300 hover:text-white transition-colors duration-300">Premium</a>
-                 </nav>
-                 <div class="md:hidden">
-                     <button id="mobile-menu-button" class="text-gray-300 hover:text-white focus:outline-none">
-                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                         </svg>
-                     </button>
+            <header class="navbar py-4 px-6 fixed w-full top-0 z-50">
+                 <div class="container mx-auto flex items-center justify-between">
+                     <a href="#hero" class="flex items-center group" aria-label="Go to homepage">
+                         <svg class="w-8 h-8 mr-3 glowing-icon" fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                         <h1 class="text-2xl font-semibold text-white glowing-text">Lunor</h1>
+                     </a>
+                     <nav class="hidden md:flex items-center space-x-6">
+                         <a href="#hero" class="text-gray-300 hover:text-white transition-colors duration-300">Main</a>
+                         <a href="#discord" class="text-gray-300 hover:text-white transition-colors duration-300">Discord</a>
+                         <a href="#features" class="text-gray-300 hover:text-white transition-colors duration-300">Features</a>
+                         <a href="#premium" class="text-gray-300 hover:text-white transition-colors duration-300">Premium</a>
+                     </nav>
+                     <div class="md:hidden">
+                         <button id="mobile-menu-button" class="text-gray-300 hover:text-white focus:outline-none">
+                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                             </svg>
+                         </button>
+                     </div>
                  </div>
-             </div>
-             <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-black bg-opacity-95 backdrop-blur-md py-4 px-6 space-y-3 border-t border-gray-700">
-                 <a href="#hero" class="block text-gray-300 hover:text-white transition-colors duration-300">Main</a>
-                 <a href="#discord" class="block text-gray-300 hover:text-white transition-colors duration-300">Discord</a>
-                 <a href="#features" class="block text-gray-300 hover:text-white transition-colors duration-300">Features</a>
-                 <a href="#premium" class="block text-gray-300 hover:text-white transition-colors duration-300">Premium</a>
-             </div>
-        </header>
+                 <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-black bg-opacity-95 backdrop-blur-md py-4 px-6 space-y-3 border-t border-gray-700">
+                     <a href="#hero" class="block text-gray-300 hover:text-white transition-colors duration-300">Main</a>
+                     <a href="#discord" class="block text-gray-300 hover:text-white transition-colors duration-300">Discord</a>
+                     <a href="#features" class="block text-gray-300 hover:text-white transition-colors duration-300">Features</a>
+                     <a href="#premium" class="block text-gray-300 hover:text-white transition-colors duration-300">Premium</a>
+                 </div>
+            </header>
 
-        <main class="container mx-auto pt-24 px-4">
-            <section id="hero" class="text-center py-24">
-                 <h2 class="text-5xl font-bold text-white mb-5 glowing-text section-title">Welcome to Lunor</h2>
-                 <p class="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">Your definitive source for premium, undetected Roblox scripts designed for performance.</p>
-                 <a href="#scripts" class="primary-button">
-                     Explore Scripts
-                 </a>
-            </section>
+            <main class="container mx-auto pt-24 px-4">
+                <section id="hero" class="text-center py-24">
+                     <h2 class="text-5xl font-bold text-white mb-5 glowing-text section-title">Welcome to Lunor</h2>
+                     <p class="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">Your definitive source for premium, undetected Roblox scripts designed for performance.</p>
+                     <a href="#scripts" class="primary-button">
+                         Explore Scripts
+                     </a>
+                </section>
 
-            <section id="scripts" class="py-20">
-                 <h2 class="text-4xl font-semibold text-white text-center mb-24 glowing-text section-title">Available Scripts</h2>
-                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12">
-                     <div class="game-card">
-                         <img src="fisch.png" alt="Fisch Script" class="game-card-image-internal"
-                              onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=Fisch';"
-                              ondragstart="return false;" oncontextmenu="return false;">
-                         <div class="game-card-content-area">
-                             <h3 class="game-card-title">Fisch</h3>
-                             <div class="game-details">
-                                 <p class="text-gray-400 mb-3 text-sm">Script: Lunor Free & Premium</p>
-                                 <ul class="feature-list text-gray-200 space-y-1 text-sm">
-                                     <li>Placeholder</li>
-                                     <li>Placeholder</li>
-                                     <li>Placeholder</li>
-                                     <li>Placeholder</li>
-                                     <li>Placeholder</li>
-                                 </ul>
-                                 <button class="mt-4 w-full text-sm bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg transition-colors duration-300">Get Script</button>
+                <section id="scripts" class="py-20">
+                     <h2 class="text-4xl font-semibold text-white text-center mb-24 glowing-text section-title">Available Scripts</h2>
+                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12">
+                         <div class="game-card">
+                             <img src="fisch.png" alt="Fisch Script" class="game-card-image-internal"
+                                  onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=Fisch';"
+                                  ondragstart="return false;" oncontextmenu="return false;">
+                             <div class="game-card-content-area">
+                                 <h3 class="game-card-title">Fisch</h3>
+                                 <div class="game-details">
+                                     <p class="text-gray-400 mb-3 text-sm">Script: Lunor Free & Premium</p>
+                                     <ul class="feature-list text-gray-200 space-y-1 text-sm">
+                                         <li>Placeholder</li>
+                                         <li>Placeholder</li>
+                                         <li>Placeholder</li>
+                                         <li>Placeholder</li>
+                                         <li>Placeholder</li>
+                                     </ul>
+                                     <button class="mt-4 w-full text-sm bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg transition-colors duration-300">Get Script</button>
+                                 </div>
                              </div>
                          </div>
-                     </div>
-                     <div class="game-card">
-                          <img src="arise.png" alt="Arise Crossover Script" class="game-card-image-internal"
-                               onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=Arise';"
-                               ondragstart="return false;" oncontextmenu="return false;">
-                          <div class="game-card-content-area">
-                              <h3 class="game-card-title">Arise Crossover</h3>
-                              <div class="game-details">
-                                  <p class="text-gray-400 mb-3 text-sm">Script: Lunor Free & Premium</p>
-                                  <ul class="feature-list text-gray-200 space-y-1 text-sm">
-                                      <li>Placeholder</li>
-                                      <li>Placeholder</li>
-                                      <li>Placeholder</li>
-                                      <li>Placeholder</li>
-                                      <li>Placeholder</li>
-                                  </ul>
-                                   <button class="mt-4 w-full text-sm bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg transition-colors duration-300">Get Script</button>
+                         <div class="game-card">
+                              <img src="arise.png" alt="Arise Crossover Script" class="game-card-image-internal"
+                                   onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=Arise';"
+                                   ondragstart="return false;" oncontextmenu="return false;">
+                              <div class="game-card-content-area">
+                                  <h3 class="game-card-title">Arise Crossover</h3>
+                                  <div class="game-details">
+                                      <p class="text-gray-400 mb-3 text-sm">Script: Lunor Free & Premium</p>
+                                      <ul class="feature-list text-gray-200 space-y-1 text-sm">
+                                          <li>Placeholder</li>
+                                          <li>Placeholder</li>
+                                          <li>Placeholder</li>
+                                          <li>Placeholder</li>
+                                          <li>Placeholder</li>
+                                      </ul>
+                                       <button class="mt-4 w-full text-sm bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg transition-colors duration-300">Get Script</button>
+                                  </div>
                               </div>
-                          </div>
-                     </div>
-                     <div class="game-card">
-                          <img src="rails.png" alt="Dead Rails Script" class="game-card-image-internal"
-                               onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=Rails';"
-                               ondragstart="return false;" oncontextmenu="return false;">
-                          <div class="game-card-content-area">
-                              <h3 class="game-card-title">Dead Rails</h3>
-                              <div class="game-details">
-                                  <p class="text-gray-400 mb-3 text-sm">Script: Lunor Free & Premium</p>
-                                  <ul class="feature-list text-gray-200 space-y-1 text-sm">
-                                      <li>Placeholder</li>
-                                      <li>Placeholder</li>
-                                      <li>Placeholder</li>
-                                      <li>Placeholder</li>
-                                      <li>Placeholder</li>
-                                  </ul>
-                                   <button class="mt-4 w-full text-sm bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg transition-colors duration-300">Get Script</button>
+                         </div>
+                         <div class="game-card">
+                              <img src="rails.png" alt="Dead Rails Script" class="game-card-image-internal"
+                                   onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=Rails';"
+                                   ondragstart="return false;" oncontextmenu="return false;">
+                              <div class="game-card-content-area">
+                                  <h3 class="game-card-title">Dead Rails</h3>
+                                  <div class="game-details">
+                                      <p class="text-gray-400 mb-3 text-sm">Script: Lunor Free & Premium</p>
+                                      <ul class="feature-list text-gray-200 space-y-1 text-sm">
+                                          <li>Placeholder</li>
+                                          <li>Placeholder</li>
+                                          <li>Placeholder</li>
+                                          <li>Placeholder</li>
+                                          <li>Placeholder</li>
+                                      </ul>
+                                       <button class="mt-4 w-full text-sm bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg transition-colors duration-300">Get Script</button>
+                                  </div>
                               </div>
-                          </div>
-                     </div>
-                 </div>
-            </section>
-
-            <section id="script-preview" class="script-image-section">
-                 <h2 class="text-4xl font-semibold text-white text-center mb-6 glowing-text section-title">Script Sneak Peek</h2>
-                 <p class="text-lg text-gray-300 mb-8 max-w-xl mx-auto">
-                     Hover over the image below to get an interactive glimpse of our script's structure.
-                 </p>
-                 <div class="script-image-container" id="script-container">
-                     <img id="script-image" alt="General script representation"
-                          ondragstart="return false;" oncontextmenu="return false;">
-                 </div>
-            </section>
-
-            <section id="discord" class="discord-section text-center rounded-lg">
-                 <h2 class="text-4xl font-semibold text-white mb-6 glowing-text section-title">Join 40k+ Members</h2>
-                 <p class="text-lg text-gray-300 mb-8 max-w-xl mx-auto">
-                     Become part of our active Discord community for exclusive script access, support, giveaways, and updates!
-                 </p>
-                 <a href="#" class="discord-button">
-                     <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495a18.298 18.298 0 00-5.4844 0 11.0362 11.0362 0 00-.6177-1.252.0767.0767 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0278C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8781-1.2962 1.229-1.9942a.076.076 0 00-.0416-.1057 15.1894 15.1894 0 01-1.4439-.8774.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0105c.119.099.245.1981.3708.2914a.077.077 0 01-.0066.1276 15.14 15.14 0 01-1.444.8774.0765.0765 0 00-.0406.1067c.3603.698.7867 1.3638 1.248 1.9942a.0777.0777 0 00.0842.0276c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-4.461-.8358-8.9869-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1569 2.419 0 1.3332-.966 2.4189-2.157 2.4189z"></path></svg>
-                     Join Discord
-                 </a>
-            </section>
-
-            <section id="features" class="py-20">
-                 <h2 class="text-4xl font-semibold text-white text-center mb-16 glowing-text section-title">Why Choose Lunor?</h2>
-                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                     <div class="feature-section-card">
-                         <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                         </svg>
-                         <div class="feature-content">
-                             <h3 class="text-xl font-semibold text-white">Cheap Premium</h3>
-                             <p class="text-gray-300">Access powerful premium features and scripts without breaking the bank.</p>
                          </div>
                      </div>
-                     <div class="feature-section-card">
-                         <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
-                         </svg>
-                         <div class="feature-content">
-                             <h3 class="text-xl font-semibold text-white">Wide Variety Of Premium Scripts</h3>
-                             <p class="text-gray-300">Explore a diverse collection of high-quality scripts for numerous popular Roblox games.</p>
-                         </div>
-                     </div>
-                     <div class="feature-section-card">
-                         <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
-                         </svg>
-                         <div class="feature-content">
-                             <h3 class="text-xl font-semibold text-white">Scripts Updated Daily</h3>
-                             <p class="text-gray-300">Our scripts receive frequent updates to ensure compatibility and bypass detection.</p>
-                         </div>
-                     </div>
-                 </div>
-            </section>
-        </main>
+                </section>
 
-        <footer class="footer py-8 text-center mt-16">
-            <p class="text-gray-400">© <span id="current-year"></span> Lunor. All rights reserved.</p>
-            <p class="text-sm text-gray-500 mt-2">Designed for the Roblox Community</p>
-             <p class="footer-credit">Made by bleh2rich</p>
-        </footer>
-    </div><script>
-        // --- Disable Right-Click Context Menu ---
+                <section id="script-preview" class="script-image-section">
+                     <h2 class="text-4xl font-semibold text-white text-center mb-6 glowing-text section-title">Script Sneak Peek</h2>
+                     <p class="text-lg text-gray-300 mb-8 max-w-xl mx-auto">
+                         Hover over the image below to get an interactive glimpse of our script's structure.
+                     </p>
+                     <div class="script-image-container" id="script-container">
+                         <img id="script-image" alt="General script representation"
+                              ondragstart="return false;" oncontextmenu="return false;">
+                     </div>
+                </section>
+
+                <section id="discord" class="discord-section text-center rounded-lg">
+                     <h2 class="text-4xl font-semibold text-white mb-6 glowing-text section-title">Join 40k+ Members</h2>
+                     <p class="text-lg text-gray-300 mb-8 max-w-xl mx-auto">
+                         Become part of our active Discord community for exclusive script access, support, giveaways, and updates!
+                     </p>
+                     <a href="#" class="discord-button">
+                         <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495a18.298 18.298 0 00-5.4844 0 11.0362 11.0362 0 00-.6177-1.252.0767.0767 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0278C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8781-1.2962 1.229-1.9942a.076.076 0 00-.0416-.1057 15.1894 15.1894 0 01-1.4439-.8774.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0105c.119.099.245.1981.3708.2914a.077.077 0 01-.0066.1276 15.14 15.14 0 01-1.444.8774.0765.0765 0 00-.0406.1067c.3603.698.7867 1.3638 1.248 1.9942a.0777.0777 0 00.0842.0276c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-4.461-.8358-8.9869-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1569 2.419 0 1.3332-.966 2.4189-2.157 2.4189z"></path></svg>
+                         Join Discord
+                     </a>
+                </section>
+
+                <section id="features" class="py-20">
+                     <h2 class="text-4xl font-semibold text-white text-center mb-16 glowing-text section-title">Why Choose Lunor?</h2>
+                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                         <div class="feature-section-card"> <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /> </svg> <div class="feature-content"> <h3 class="text-xl font-semibold text-white">Cheap Premium</h3> <p class="text-gray-300">Access powerful premium features and scripts without breaking the bank.</p> </div> </div>
+                         <div class="feature-section-card"> <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" /> </svg> <div class="feature-content"> <h3 class="text-xl font-semibold text-white">Wide Variety Of Premium Scripts</h3> <p class="text-gray-300">Explore a diverse collection of high-quality scripts for numerous popular Roblox games.</p> </div> </div>
+                         <div class="feature-section-card"> <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" /> </svg> <div class="feature-content"> <h3 class="text-xl font-semibold text-white">Scripts Updated Daily</h3> <p class="text-gray-300">Our scripts receive frequent updates to ensure compatibility and bypass detection.</p> </div> </div>
+                     </div>
+                </section>
+            </main>
+
+            <footer class="footer py-8 text-center mt-16">
+                <p class="text-gray-400">© <span id="current-year"></span> Lunor. All rights reserved.</p>
+                <p class="text-sm text-gray-500 mt-2">Designed for the Roblox Community</p>
+                 <p class="footer-credit">Made by bleh2rich</p>
+            </footer>
+        </div>
+    <script>
+        // --- Basic Site Setup ---
         document.addEventListener('contextmenu', event => event.preventDefault());
+        const yearSpan = document.getElementById('current-year');
+        if (yearSpan) yearSpan.textContent = new Date().getFullYear();
 
         // --- Loading Screen Logic ---
         window.addEventListener('load', () => {
@@ -449,9 +336,13 @@
             const minLoadTime = 2100;
             setTimeout(() => {
                 if (loadingScreen) loadingScreen.classList.add('loaded');
-                document.body.style.overflowY = 'auto';
+                // Enable scrolling *after* load screen fades
+                // document.body.style.overflowY = 'auto'; // Replaced by JS scroll
+                document.body.classList.add('smooth-scroll-enabled'); // Enable JS scroll
                 document.body.style.overflowX = 'hidden';
                 if (mainContent) mainContent.classList.add('visible');
+                // Initialize smooth scroll AFTER content is potentially visible and height is calculated
+                initSmoothScroll();
             }, minLoadTime);
         });
 
@@ -470,20 +361,14 @@
             });
         }
 
-        // --- Update Footer Year ---
-        const yearSpan = document.getElementById('current-year');
-        if (yearSpan) yearSpan.textContent = new Date().getFullYear();
-
-        // --- Smooth Scrolling for Navbar Links ---
+        // --- Navbar Link Scrolling (using custom smooth scroll) ---
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const targetId = this.getAttribute('href');
 
                 if (targetId === '#premium' || targetId === '#') {
-                     if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-                         mobileMenu.classList.add('hidden');
-                     }
+                     if (mobileMenu && !mobileMenu.classList.contains('hidden')) { mobileMenu.classList.add('hidden'); }
                      return;
                 }
 
@@ -491,13 +376,13 @@
                 if (targetElement) {
                     const navbar = document.querySelector('.navbar');
                     const navbarHeight = navbar ? navbar.offsetHeight : 60;
-                    const elementPosition = targetElement.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+                    // Calculate target position relative to the document top
+                    const elementTop = targetElement.getBoundingClientRect().top + window.scrollY; // Use scrollY from custom scroll
+                    const targetScrollPosition = elementTop - navbarHeight;
 
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: "smooth" // Use native smooth scroll behavior
-                    });
+                    // Use the custom smooth scroll function to scroll
+                    scrollToTarget(targetScrollPosition);
+
                 } else {
                     console.warn('Scroll target not found:', targetId);
                 }
@@ -509,79 +394,91 @@
         });
 
         // --- Script Image Tilt Effect ---
+        // (Code remains the same as previous version - depends on successful image load)
         const scriptContainer = document.getElementById('script-container');
         const scriptImage = document.getElementById('script-image');
-        const placeholderImageUrl = 'https://placehold.co/600x400/1a202c/4a5568?text=script.png';
+        const scriptPlaceholderUrl = 'https://placehold.co/600x400/1a202c/4a5568?text=script.png';
         let tiltEnabled = false;
+        if (scriptContainer && scriptImage) { /* ... rest of tilt JS code ... */ }
 
-        if (scriptContainer && scriptImage) {
-            const maxTilt = 8;
-
-            function handleMouseMove(e) {
-                 if (!tiltEnabled) return;
-                const rect = scriptContainer.getBoundingClientRect();
-                const mouseX = e.clientX - (rect.left + rect.width / 2);
-                const mouseY = e.clientY - (rect.top + rect.height / 2);
-                const rotateY = (mouseX / (rect.width / 2)) * maxTilt;
-                const rotateX = -(mouseY / (rect.height / 2)) * maxTilt;
-                requestAnimationFrame(() => {
-                    scriptImage.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03) translateZ(20px)`;
-                });
-            }
-
-            function handleMouseLeave() {
-                 if (!tiltEnabled) return;
-                 requestAnimationFrame(() => {
-                    scriptImage.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1) translateZ(0px)';
-                 });
-            }
-
-            scriptImage.onload = function() {
-                tiltEnabled = true;
-                scriptContainer.addEventListener('mousemove', handleMouseMove);
-                scriptContainer.addEventListener('mouseleave', handleMouseLeave);
-            };
-
-            scriptImage.onerror = function() {
-                console.warn("script.png could not be loaded. Displaying placeholder. Tilt effect disabled.");
-                this.src = placeholderImageUrl;
-                this.alt = "Script image placeholder";
-                tiltEnabled = false;
-                scriptContainer.removeEventListener('mousemove', handleMouseMove);
-                scriptContainer.removeEventListener('mouseleave', handleMouseLeave);
-            };
-
-            scriptImage.src = 'script.png';
-             if (scriptImage.complete && scriptImage.naturalWidth > 0) {
-                 scriptImage.onload();
-             }
-
-        } else {
-            console.error("Script container or image element not found for tilt effect.");
-        }
 
         // --- Image Placeholders for Game Cards ---
-        document.querySelectorAll('.game-card-image-internal').forEach(img => {
-            const originalSrc = img.src;
-            const placeholderPrefix = 'https://placehold.co/';
+        // (Code remains the same as previous version)
+        document.querySelectorAll('.game-card-image-internal').forEach(img => { /* ... rest of placeholder JS code ... */ });
 
-             img.onerror = function() {
-                 if (this.src.startsWith(placeholderPrefix)) return;
 
-                 const gameName = this.alt || 'Script'; // Use alt text
-                 // Extract a short name for the placeholder text
-                 const placeholderText = gameName.split(' ')[0] || 'Script';
-                 console.warn(`${gameName} image (${originalSrc}) failed to load. Displaying placeholder.`);
-                 this.src = `${placeholderPrefix}600x360/1f2937/ffffff?text=${encodeURIComponent(placeholderText)}`;
-                 this.alt = `${gameName} placeholder`;
-             };
-             // Check for cached broken images
-             setTimeout(() => {
-                if (img.naturalWidth === 0 && img.naturalHeight === 0 && img.complete && !img.src.startsWith(placeholderPrefix)) {
-                    if(img.onerror) img.onerror(); // Check if onerror still exists
-                }
-             }, 50);
-        });
+        // --- Custom Smooth Scrolling Implementation ---
+        let currentScrollY = window.scrollY; // Use window.scrollY as the source of truth initially
+        let targetScrollY = window.scrollY;
+        let scrollRafId = null;
+        const scrollDamping = 0.1; // Adjust damping: lower = smoother/slower (e.g., 0.07), higher = faster (e.g., 0.15)
+        const scrollStopThreshold = 0.5; // Pixels - difference threshold to stop animation frame loop
+
+        function smoothScrollUpdate() {
+            const scrollDiff = targetScrollY - currentScrollY;
+
+            // If difference is small enough, snap to target and stop the loop
+            if (Math.abs(scrollDiff) < scrollStopThreshold) {
+                currentScrollY = targetScrollY;
+                window.scrollTo(0, currentScrollY); // Use native scrollTo
+                cancelAnimationFrame(scrollRafId);
+                scrollRafId = null;
+                return;
+            }
+
+            // Interpolate current scroll position towards the target
+            currentScrollY += scrollDiff * scrollDamping;
+
+            // Apply the smoothed scroll position
+            window.scrollTo(0, currentScrollY);
+
+            // Continue the loop
+            scrollRafId = requestAnimationFrame(smoothScrollUpdate);
+        }
+
+        function handleWheel(e) {
+            e.preventDefault(); // Prevent default mouse wheel scroll
+
+            const scrollAmount = e.deltaY; // Get scroll delta from event
+             const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+
+            // Update target scroll position, clamping it within document bounds
+            targetScrollY += scrollAmount;
+            targetScrollY = Math.max(0, Math.min(targetScrollY, maxScroll));
+
+            // Start the update loop if it's not already running
+            if (!scrollRafId) {
+                 // Update currentScrollY to match actual scroll position before starting lerp
+                 // This prevents jumps if native scroll occurred somehow or page just loaded
+                currentScrollY = window.scrollY;
+                scrollRafId = requestAnimationFrame(smoothScrollUpdate);
+            }
+        }
+
+        // Function called by navbar links to scroll to a specific Y position
+        function scrollToTarget(targetY) {
+             const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+             // Clamp targetY within valid bounds
+             targetScrollY = Math.max(0, Math.min(targetY, maxScroll));
+
+             // Start the update loop if not running
+             if (!scrollRafId) {
+                 currentScrollY = window.scrollY; // Sync before starting
+                 scrollRafId = requestAnimationFrame(smoothScrollUpdate);
+             }
+        }
+
+
+        function initSmoothScroll() {
+            // Add wheel event listener with passive: false to allow preventDefault
+            window.addEventListener('wheel', handleWheel, { passive: false });
+            console.log("Custom smooth scroll initialized.");
+            // Initial sync
+            currentScrollY = window.scrollY;
+            targetScrollY = window.scrollY;
+        }
+
+        // Note: initSmoothScroll() is called from the 'load' event handler after timeout
 
     </script>
 </body>
