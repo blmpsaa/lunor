@@ -223,11 +223,11 @@
         window.addEventListener('load', () => {
             const loadingScreen = document.getElementById('loading-screen');
             const mainContent = document.getElementById('main-content');
-            // Increased load time for 404 to allow for error animation
+        
             const minLoadTime = 2500;
             setTimeout(() => {
                 if (loadingScreen) loadingScreen.classList.add('loaded');
-                document.body.style.overflowY = 'auto'; // Restore scrollbar
+                document.body.style.overflowY = 'auto'; 
                 document.body.style.overflowX = 'hidden';
                 if (mainContent) mainContent.classList.add('visible');
             }, minLoadTime);
@@ -250,7 +250,7 @@
         const yearSpan = document.getElementById('current-year');
         if (yearSpan) yearSpan.textContent = new Date().getFullYear();
 
-        // Lenis Smooth Scrolling
+     
         try {
             const lenis = new Lenis({ lerp: 0.08, wheelMultiplier: 0.8, smoothWheel: true, smoothTouch: true });
             function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
@@ -258,7 +258,7 @@
             window.lenisInstance = lenis;
         } catch (error) { console.error("Failed to initialize Lenis:", error); }
 
-        // Copy Discord ID
+       
         function copyDiscordId() {
             const discordId = "1300475971081732127";
             navigator.clipboard.writeText(discordId).then(() => {
