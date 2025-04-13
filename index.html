@@ -163,6 +163,32 @@
     0% { opacity: 1; transform: translate(0, 0) scale(0.5); }
     100% { opacity: 0; transform: translate(var(--tx, 0px), var(--ty, -40px)) scale(1.5); } 
 }
+        .discord-icon-button {
+    background-color: #5865F2; 
+    color: #ffffff;
+    padding: 0.65rem; 
+    border-radius: 9999px; 
+    width: 2.75rem;
+    height: 2.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, filter 0.3s ease;
+    box-shadow: 0 0 15px rgba(88, 101, 242, 0.4);
+    overflow: hidden;
+}
+
+.discord-icon-button:hover {
+    background-color: #4752C4;
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(88, 101, 242, 0.6);
+    filter: brightness(1.1);
+}
+
+.discord-icon-button svg {
+    width: 1.25rem;
+    height: 1.25rem;
+}
     </style>
 </head>
 <body class="bg-black text-white">
@@ -259,6 +285,12 @@
             <section id="hero" class="text-center py-24">
     <h2 class="text-5xl font-bold text-white mb-5 glowing-text section-title">Welcome to Lunor</h2>
     <p class="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">Your full moon to roblox scripting.</p>
+    <a href="/discord" class="discord-icon-button" aria-label="Join our Discord server">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495a18.298 18.298 0 00-5.4844 0 11.0362 11.0362 0 00-.6177-1.252.0767.0767 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0278C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8781-1.2962 1.229-1.9942a.076.076 0 00-.0416-.1057 15.1894 15.1894 0 01-1.4439-.8774.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0105c.119.099.245.1981.3708.2914a.077.077 0 01-.0066.1276 15.14 15.14 0 01-1.444.8774.0765.0765 0 00-.0406.1067c.3603.698.7867 1.3638 1.248 1.9942a.0777.0777 0 00.0842.0276c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-4.461-.8358-8.9869-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1569 2.419 0 1.3332-.966 2.4189-2.157 2.4189z"/></svg>
+    </a>
+
+    <a href="#" id="copy-script-button" class="primary-button" onclick="copyLoaderScript(); return false;">Copy Script</a>
+
     <a href="/features" class="primary-button">
         Explore Features
     </a>
@@ -566,6 +598,45 @@
          document.addEventListener('DOMContentLoaded', positionTickerBar);
          window.addEventListener('load', positionTickerBar);
          window.addEventListener('resize', positionTickerBar);
+        function showCopyNotification(text) {
+    let existingNotification = document.getElementById('copy-notification');
+    if (existingNotification) {
+        document.body.removeChild(existingNotification);
+    }
+
+    const message = document.createElement('div');
+    message.id = 'copy-notification';
+    Object.assign(message.style, {
+        position: 'fixed', top: '20px', left: '50%', transform: 'translateX(-50%)',
+        backgroundColor: 'rgba(30, 30, 30, 0.85)', color: '#fff', padding: '10px 25px',
+        borderRadius: '8px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)', zIndex: '10000',
+        fontSize: '0.9rem', textAlign: 'center', opacity: '0',
+        transform: 'translate(-50%, -10px)', transition: 'opacity 0.3s ease-out, transform 0.3s ease-out'
+    });
+    message.textContent = text; // Use passed text
+    document.body.appendChild(message);
+
+    setTimeout(() => { message.style.opacity = '1'; message.style.transform = 'translate(-50%, 0)'; }, 50); // Animate in
+
+    setTimeout(() => { // Start fade out
+        message.style.opacity = '0'; message.style.transform = 'translate(-50%, -10px)';
+        setTimeout(() => { // Remove after fade out
+            if (message.parentNode === document.body) { document.body.removeChild(message); }
+        }, 300);
+    }, 2000); // Display duration
+}
+
+// Function to copy the script
+function copyLoaderScript() {
+    const scriptToCopy = `script_key = 'Insert Lunor Key Here';\n\nloadstring(game:HttpGet('https://raw.githubusercontent.com/Catto-YFCN/Lunor_Dependencies/refs/heads/main/Loader'))()`;
+
+    navigator.clipboard.writeText(scriptToCopy).then(() => {
+        showCopyNotification("Copied script!"); // Use notification function
+    }).catch(err => {
+        console.error('Failed to copy script: ', err);
+        alert("Failed to copy script. Please copy it manually."); // Fallback alert
+    });
+}
 
 
         
