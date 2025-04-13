@@ -26,7 +26,7 @@
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
     <style>
         :root {
-    --gold-color: #b802c8;
+    --gold-color: #;
             --gold-glow-1: rgba(184, 2, 200, 0.9);
             --gold-glow-2: rgba(70, 2, 204, 0.7);
             --gold-darker: #4602cc;
@@ -83,9 +83,9 @@
         nav a:hover::after { transform: scaleX(1); }
         .discord-link { color: #5865F2 !important; }
         .discord-link:hover::after { background-color: #5865F2; }
-        .premium-link { color: #FFD700 !important; background-image: linear-gradient( 90deg, rgba(255, 215, 0, 0.2) 25%, rgba(255, 215, 0, 1) 40%, rgba(255, 215, 0, 1) 60%, rgba(255, 215, 0, 0.2) 75% ); background-size: 250% auto; background-clip: text; -webkit-background-clip: text; text-fill-color: transparent; -webkit-text-fill-color: transparent; animation: shimmer 3s linear infinite; font-weight: 600; }
+         .premium-link { color: var(--gold-color) !important; background-image: linear-gradient( 90deg, rgba(184, 2, 200, 0.2) 25%, rgba(184, 2, 200, 1) 40%, rgba(184, 2, 200, 1) 60%, rgba(184, 2, 200, 0.2) 75% ); background-size: 250% auto; background-clip: text; -webkit-background-clip: text; text-fill-color: transparent; -webkit-text-fill-color: transparent; animation: shimmer 3s linear infinite; font-weight: 600; }
         @keyframes shimmer { 0% { background-position: -250%; } 100% { background-position: 250%; } }
-        .premium-link:hover::after { background-color: #FFD700; }
+        .premium-link:hover::after { background-color: var(--gold-color); }
         .section-title { display: flex; align-items: center; justify-content: center; text-align: center; }
         .section-title::before { content: ''; display: inline-block; width: 1.2em; height: 1.2em; margin-right: 0.6em; background-image: url('data:image/svg+xml;utf8,<svg fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>'); background-size: contain; background-repeat: no-repeat; background-position: center; filter: drop-shadow(0 0 8px rgba(210, 210, 255, 0.7)); vertical-align: middle; flex-shrink: 0; }
         #executor-ticker-bar { position: fixed; left: 0; width: 100%; background-color: rgba(10, 10, 10, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.1); z-index: 45; padding: 0.25rem 0; display: flex; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
@@ -138,7 +138,7 @@
     text-decoration: none;
 }
 .purchase-button:hover {
-    background-color: var(--gold-darker);
+    background-color: var(--gold-color);
     color: #000000;
     transform: scale(1.05);
     box-shadow: 0 0 25px var(--gold-glow-1);
