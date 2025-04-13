@@ -41,7 +41,7 @@
             color: #ffffff;
             margin: 0;
             padding: 0;
-            padding-top: 80px;
+            padding-top: 130px; /* Fallback */
             position: relative;
             overflow-x: hidden;
             overflow-y: hidden;
@@ -84,6 +84,16 @@
         .premium-link:hover::after { background-color: var(--gold-color); }
         .section-title { display: flex; align-items: center; justify-content: center; text-align: center; }
         .section-title::before { content: ''; display: inline-block; width: 1.2em; height: 1.2em; margin-right: 0.6em; background-image: url('data:image/svg+xml;utf8,<svg fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>'); background-size: contain; background-repeat: no-repeat; background-position: center; filter: drop-shadow(0 0 8px rgba(210, 210, 255, 0.7)); vertical-align: middle; flex-shrink: 0; }
+        #executor-ticker-bar { position: fixed; left: 0; width: 100%; background-color: rgba(10, 10, 10, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.1); z-index: 45; padding: 0.25rem 0; display: flex; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .ticker-label { color: #ffffff; text-shadow: 0 0 8px rgba(255, 255, 255, 0.7); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; padding-left: 1.5rem; padding-right: 1.5rem; flex-shrink: 0; white-space: nowrap; }
+        .ticker-wrap { flex-grow: 1; overflow: hidden; height: 1.6rem; display: flex; align-items: center; }
+        .ticker-content { display: flex; flex-wrap: nowrap; animation: ticker-scroll 125s linear infinite; }
+        .ticker-item { display: flex; align-items: center; padding: 0 1.5rem; opacity: 0.7; transition: opacity 0.3s ease; flex-shrink: 0; }
+        .ticker-item:hover { opacity: 1; }
+        .ticker-item img { width: 1.2em; height: 1.2em; object-fit: contain; margin-right: 0.5rem; flex-shrink: 0; vertical-align: middle; }
+        .ticker-item span { color: #e0e0e0; font-size: 0.85rem; font-weight: 500; white-space: nowrap; line-height: 1.2em; }
+        #executor-ticker-bar:hover .ticker-content { animation-play-state: paused; }
+        @keyframes ticker-scroll { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
         .game-card { position: relative; background-color: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease, filter 0.4s ease; backdrop-filter: blur(12px); border-radius: 0.75rem; overflow: hidden; transform-style: preserve-3d; backface-visibility: hidden; }
         .game-card-image-internal { display: block; width: 100%; height: 180px; object-fit: cover; transition: transform 0.4s ease; background-color: #1f2937; }
         .game-card-content-area { padding: 1rem 1.25rem 1.25rem; }
@@ -96,19 +106,9 @@
         .feature-list li::before { content: '✧'; color: #ffffff; margin-right: 8px; opacity: 0.8; }
         .premium-feature-item { color: var(--gold-color) !important; display: flex; align-items: baseline;}
         .premium-feature-item::before { content: '★'; color: var(--gold-color); margin-right: 8px; opacity: 1; font-size: 0.9em; line-height: inherit; }
-        .feature-category { margin-top: 1rem; }
+        .feature-category { margin-top: 1.25rem; }
         .feature-category:first-child { margin-top: 0; }
-        .feature-category-title {
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 0.5rem;
-            padding-bottom: 0.25rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-            text-align: left;
-        }
+        .feature-category-title { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(255, 255, 255, 0.6); margin-bottom: 0.6rem; padding-bottom: 0.3rem; border-bottom: 1px solid rgba(255, 255, 255, 0.15); text-align: left; }
         .premium-only-card { border-color: rgba(255, 215, 0, 0.4); }
         .premium-only-card:hover { border-color: rgba(255, 215, 0, 0.7); }
         #premium-card-wrapper-hunters { position: relative; display: block; }
@@ -127,18 +127,19 @@
         .purchase-button:hover { background-color: var(--gold-darker); color: #000000; transform: scale(1.05); box-shadow: 0 0 25px var(--gold-glow-1); filter: brightness(1.1); border-color: #000; }
         .sparkle-plus { position: absolute; color: var(--gold-color); font-size: 1rem; font-weight: bold; user-select: none; pointer-events: none; z-index: 10; opacity: 0; animation: sparkleAnim 1.2s ease-out forwards; }
         @keyframes sparkleAnim { 0% { opacity: 1; transform: translate(0, 0) scale(0.5); } 100% { opacity: 0; transform: translate(var(--tx, 0px), var(--ty, -40px)) scale(1.5); } }
+        .purchase-cta-container { text-align: center; padding: 3rem 1rem; }
+        .purchase-cta-container h3 { color: var(--gold-color); text-shadow: 0 0 10px var(--gold-glow-2); }
+        #purchase-button-wrapper { position: relative; display: inline-block; margin-top: 1.5rem; }
         .main-content { opacity: 0; transition: opacity 0.5s ease-in 0.2s; }
         .main-content.visible { opacity: 1; }
     </style>
 </head>
 <body class="bg-black text-white">
-
     <div id="background-moon-container">
         <svg id="background-moon-svg" fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
             <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
         </svg>
     </div>
-
     <div id="loading-screen">
         <img id="loading-icon" src="loadingicon.png" alt="Loading..."
              onerror="this.onerror=null; this.src='https://placehold.co/280x280/000000/ffffff?text=L';"
@@ -147,9 +148,8 @@
             <div id="loading-bar"></div>
         </div>
     </div>
-
     <div id="main-content" class="main-content">
-        <header class="navbar py-4 px-6 fixed w-full top-0 z-50">
+        <header class="navbar py-4 px-6">
              <div class="container mx-auto flex items-center justify-between">
                  <a href="/" class="flex items-center group" aria-label="Go to homepage">
                      <svg class="w-8 h-8 mr-3 glowing-icon" fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
@@ -176,230 +176,201 @@
                  <a href="/premium" class="block text-gray-300 hover:text-white transition-colors duration-300">Premium</a>
              </div>
         </header>
+         <div id="executor-ticker-bar">
+              <span class="ticker-label">EXECUTORS WE SUPPORT:</span>
+              <div class="ticker-wrap">
+                  <div class="ticker-content">
+                      <div class="ticker-item"><img src="/executors/exec1.png" alt="Wave" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Wave</span></div>
+                      <div class="ticker-item"><img src="/executors/exec2.png" alt="Nihon" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Nihon</span></div>
+                      <div class="ticker-item"><img src="/executors/exec3.png" alt="Synapse Z" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Synapse Z</span></div>
+                      <div class="ticker-item"><img src="/executors/exec4.png" alt="Sirhurt" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Sirhurt</span></div>
+                      <div class="ticker-item"><img src="/executors/exec5.png" alt="Cryptic" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Cryptic</span></div>
+                      <div class="ticker-item"><img src="/executors/exec6.png" alt="AWP.gg" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>AWP.gg</span></div>
+                      <div class="ticker-item"><img src="/executors/exec7.png" alt="Argon" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Argon</span></div>
+                      <div class="ticker-item"><img src="/executors/exec8.png" alt="Swift" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Swift</span></div>
+                      <div class="ticker-item"><img src="/executors/exec9.png" alt="Velocity" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Velocity</span></div>
+                      <div class="ticker-item"><img src="/executors/exec10.png" alt="Solara" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Solara</span></div>
+                      <div class="ticker-item"><img src="/executors/exec11.png" alt="Xeno" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Xeno</span></div>
+                      <div class="ticker-item"><img src="/executors/exec12.png" alt="Seliware" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Seliware</span></div>
+                      <div class="ticker-item"><img src="/executors/exec13.png" alt="KRNL" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>KRNL</span></div>
+                      <div class="ticker-item"><img src="/executors/exec14.png" alt="Vega X" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Vega X</span></div>
+                      <div class="ticker-item"><img src="/executors/exec15.png" alt="Codex" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Codex</span></div>
+                      <div class="ticker-item"><img src="/executors/exec16.png" alt="Delta" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Delta</span></div>
+                      <div class="ticker-item"><img src="/executors/exec17.png" alt="Nebula" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Nebula</span></div>
+                      <div class="ticker-item"><img src="/executors/exec18.png" alt="Arceus X" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Arceus X</span></div>
+                      <div class="ticker-item"><img src="/executors/exec19.png" alt="Subzero" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Subzero</span></div>
+                      <div class="ticker-item"><img src="/executors/exec20.png" alt="Macsploit" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Macsploit</span></div>
 
-        <main class="container mx-auto pt-24 px-4">
-             <section id="get-script-header" class="text-center pt-16 pb-10">
-                 <h2 class="text-4xl font-semibold text-white mb-6 glowing-text">Get the script now</h2>
-                 <a href="/discord" class="discord-button">
-                     <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495a18.298 18.298 0 00-5.4844 0 11.0362 11.0362 0 00-.6177-1.252.0767.0767 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0278C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8781-1.2962 1.229-1.9942a.076.076 0 00-.0416-.1057 15.1894 15.1894 0 01-1.4439-.8774.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0105c.119.099.245.1981.3708.2914a.077.077 0 01-.0066.1276 15.14 15.14 0 01-1.444.8774.0765.0765 0 00-.0406.1067c.3603.698.7867 1.3638 1.248 1.9942a.0777.0777 0 00.0842.0276c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-4.461-.8358-8.9869-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1569 2.419 0 1.3332-.966 2.4189-2.157 2.4189z"/></svg>
-                     Join Discord
+                      <div class="ticker-item"><img src="/executors/exec1.png" alt="Wave" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Wave</span></div>
+                      <div class="ticker-item"><img src="/executors/exec2.png" alt="Nihon" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Nihon</span></div>
+                      <div class="ticker-item"><img src="/executors/exec3.png" alt="Synapse Z" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Synapse Z</span></div>
+                      <div class="ticker-item"><img src="/executors/exec4.png" alt="Sirhurt" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Sirhurt</span></div>
+                      <div class="ticker-item"><img src="/executors/exec5.png" alt="Cryptic" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Cryptic</span></div>
+                      <div class="ticker-item"><img src="/executors/exec6.png" alt="AWP.gg" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>AWP.gg</span></div>
+                      <div class="ticker-item"><img src="/executors/exec7.png" alt="Argon" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Argon</span></div>
+                      <div class="ticker-item"><img src="/executors/exec8.png" alt="Swift" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Swift</span></div>
+                      <div class="ticker-item"><img src="/executors/exec9.png" alt="Velocity" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Velocity</span></div>
+                      <div class="ticker-item"><img src="/executors/exec10.png" alt="Solara" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Solara</span></div>
+                      <div class="ticker-item"><img src="/executors/exec11.png" alt="Xeno" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Xeno</span></div>
+                      <div class="ticker-item"><img src="/executors/exec12.png" alt="Seliware" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Seliware</span></div>
+                      <div class="ticker-item"><img src="/executors/exec13.png" alt="KRNL" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>KRNL</span></div>
+                      <div class="ticker-item"><img src="/executors/exec14.png" alt="Vega X" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Vega X</span></div>
+                      <div class="ticker-item"><img src="/executors/exec15.png" alt="Codex" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Codex</span></div>
+                      <div class="ticker-item"><img src="/executors/exec16.png" alt="Delta" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Delta</span></div>
+                      <div class="ticker-item"><img src="/executors/exec17.png" alt="Nebula" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Nebula</span></div>
+                      <div class="ticker-item"><img src="/executors/exec18.png" alt="Arceus X" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Arceus X</span></div>
+                      <div class="ticker-item"><img src="/executors/exec19.png" alt="Subzero" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Subzero</span></div>
+                      <div class="ticker-item"><img src="/executors/exec20.png" alt="Macsploit" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';"> <span>Macsploit</span></div>
+                  </div>
+              </div>
+         </div>
+        <main class="container mx-auto pt-0 px-4">
+            <section id="hero" class="text-center py-24">
+                 <h2 class="text-5xl font-bold text-white mb-5 glowing-text section-title">Welcome to Lunor</h2>
+                 <p class="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">Your full moon to roblox scripting.</p>
+                 <a href="/features" class="primary-button">
+                     Explore Features
                  </a>
             </section>
-
-            <section id="script-features" class="py-10">
-                 <h2 class="text-4xl font-semibold text-white text-center mb-16 glowing-text section-title">Script Features</h2>
+            <section id="scripts" class="py-20">
+                 <h2 class="text-4xl font-semibold text-white text-center mb-24 glowing-text section-title">Supported Games</h2>
                  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-x-10 gap-y-12">
                      <div class="game-card lg:col-span-2">
-                         <img src="/gameimages/fisch.png" alt="Fisch Script" class="game-card-image-internal"
+                         <img src="fisch.png" alt="Fisch Script" class="game-card-image-internal"
                               onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=Fisch';"
                               ondragstart="return false;" oncontextmenu="return false;">
                          <div class="game-card-content-area">
                              <h3 class="game-card-title">Fisch</h3>
                              <div class="game-details">
-                                <div class="feature-categories">
-                                    <div class="feature-category">
-                                        <h4 class="feature-category-title">Placeholder Category 1</h4>
-                                        <ul class="feature-list">
-                                            <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li>
-                                        </ul>
-                                    </div>
-                                    <div class="feature-category">
-                                        <h4 class="feature-category-title">Placeholder Category 2</h4>
-                                        <ul class="feature-list">
-                                            <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li>
-                                        </ul>
-                                    </div>
-                                    <div class="feature-category">
-                                        <h4 class="feature-category-title">Placeholder Category 3</h4>
-                                        <ul class="feature-list">
-                                            <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li>
-                                            <li class="premium-feature-item">Premium Placeholder</li>
-                                            <li class="premium-feature-item">Premium Placeholder</li>
-                                            <li class="premium-feature-item">Premium Placeholder</li>
-                                            <li class="premium-feature-item">Premium Placeholder</li>
-                                            <li class="premium-feature-item">Premium Placeholder</li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                 <p class="text-gray-400 mb-3 text-sm">Script: Lunor Free & Premium</p>
+                                 <ul class="feature-list text-gray-200 space-y-1 text-sm">
+                                     <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li>
+                                 </ul>
+                                 <a href="/discord" class="mt-4 block w-full text-sm bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg transition-colors duration-300 text-center">Get Script</a>
                              </div>
                          </div>
                      </div>
                      <div class="game-card lg:col-span-2">
-                          <img src="/gameimages/arise.png" alt="Arise Crossover Script" class="game-card-image-internal"
+                          <img src="arise.png" alt="Arise Crossover Script" class="game-card-image-internal"
                                onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=Arise';"
                                ondragstart="return false;" oncontextmenu="return false;">
                           <div class="game-card-content-area">
                               <h3 class="game-card-title">Arise Crossover</h3>
                               <div class="game-details">
-                                <div class="feature-categories">
-                                    <div class="feature-category">
-                                        <h4 class="feature-category-title">Placeholder Category 1</h4>
-                                        <ul class="feature-list">
-                                            <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li>
-                                        </ul>
-                                    </div>
-                                    <div class="feature-category">
-                                        <h4 class="feature-category-title">Placeholder Category 2</h4>
-                                        <ul class="feature-list">
-                                            <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li>
-                                        </ul>
-                                    </div>
-                                    <div class="feature-category">
-                                        <h4 class="feature-category-title">Placeholder Category 3</h4>
-                                        <ul class="feature-list">
-                                            <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li>
-                                            <li class="premium-feature-item">Premium Placeholder</li>
-                                            <li class="premium-feature-item">Premium Placeholder</li>
-                                            <li class="premium-feature-item">Premium Placeholder</li>
-                                            <li class="premium-feature-item">Premium Placeholder</li>
-                                            <li class="premium-feature-item">Premium Placeholder</li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                  <p class="text-gray-400 mb-3 text-sm">Script: Lunor Free & Premium</p>
+                                  <ul class="feature-list text-gray-200 space-y-1 text-sm">
+                                      <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li>
+                                  </ul>
+                                   <a href="/discord" class="mt-4 block w-full text-sm bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg transition-colors duration-300 text-center">Get Script</a>
                               </div>
                           </div>
                      </div>
                      <div class="game-card lg:col-span-2">
-                          <img src="/gameimages/rails.png" alt="Dead Rails Script" class="game-card-image-internal"
+                          <img src="rails.png" alt="Dead Rails Script" class="game-card-image-internal"
                                onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=Rails';"
                                ondragstart="return false;" oncontextmenu="return false;">
                           <div class="game-card-content-area">
                               <h3 class="game-card-title">Dead Rails</h3>
                               <div class="game-details">
-                                <div class="feature-categories">
-                                    <div class="feature-category">
-                                        <h4 class="feature-category-title">Placeholder Category 1</h4>
-                                        <ul class="feature-list">
-                                            <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li>
-                                        </ul>
-                                    </div>
-                                    <div class="feature-category">
-                                        <h4 class="feature-category-title">Placeholder Category 2</h4>
-                                        <ul class="feature-list">
-                                            <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li>
-                                        </ul>
-                                    </div>
-                                    <div class="feature-category">
-                                        <h4 class="feature-category-title">Placeholder Category 3</h4>
-                                        <ul class="feature-list">
-                                            <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li>
-                                            <li class="premium-feature-item">Premium Placeholder</li>
-                                            <li class="premium-feature-item">Premium Placeholder</li>
-                                            <li class="premium-feature-item">Premium Placeholder</li>
-                                            <li class="premium-feature-item">Premium Placeholder</li>
-                                            <li class="premium-feature-item">Premium Placeholder</li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                  <p class="text-gray-400 mb-3 text-sm">Script: Lunor Free & Premium</p>
+                                  <ul class="feature-list text-gray-200 space-y-1 text-sm">
+                                      <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li>
+                                  </ul>
+                                   <a href="/discord" class="mt-4 block w-full text-sm bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg transition-colors duration-300 text-center">Get Script</a>
                               </div>
                           </div>
                      </div>
-
                      <div class="game-card lg:col-start-2 lg:col-span-2">
-                          <img src="/gameimages/gum.png" alt="Bubble Gum Simulator Infinity" class="game-card-image-internal"
+                          <img src="gum.png" alt="Bubble Gum Simulator Infinity" class="game-card-image-internal"
                                onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=Gum';"
                                ondragstart="return false;" oncontextmenu="return false;">
                           <div class="game-card-content-area">
                               <h3 class="game-card-title">Bubble Gum Simulator Infinity</h3>
                               <div class="game-details">
-                                  <div class="feature-categories">
-                                    <div class="feature-category">
-                                        <h4 class="feature-category-title">Placeholder Category 1</h4>
-                                        <ul class="feature-list">
-                                            <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li>
-                                        </ul>
-                                    </div>
-                                    <div class="feature-category">
-                                        <h4 class="feature-category-title">Placeholder Category 2</h4>
-                                        <ul class="feature-list">
-                                            <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li>
-                                        </ul>
-                                    </div>
-                                    <div class="feature-category">
-                                        <h4 class="feature-category-title">Placeholder Category 3</h4>
-                                        <ul class="feature-list">
-                                            <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li>
-                                            <li class="premium-feature-item">Premium Placeholder</li>
-                                            <li class="premium-feature-item">Premium Placeholder</li>
-                                            <li class="premium-feature-item">Premium Placeholder</li>
-                                            <li class="premium-feature-item">Premium Placeholder</li>
-                                            <li class="premium-feature-item">Premium Placeholder</li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                  <p class="text-gray-400 mb-3 text-sm">Script: Lunor Free & Paid</p>
+                                  <ul class="feature-list text-gray-200 space-y-1 text-sm">
+                                     <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li>
+                                  </ul>
+                                   <a href="/discord" class="mt-4 block w-full text-sm bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg transition-colors duration-300 text-center">Get Script</a>
                               </div>
                           </div>
                      </div>
-                     <div id="premium-card-wrapper-hunters" class="lg:col-start-4 lg:col-span-2 block relative">
-                          <div class="game-card premium-only-card">
-                              <img src="/gameimages/hunters.png" alt="Hunters" class="game-card-image-internal"
-                                   onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=Hunter';"
-                                   ondragstart="return false;" oncontextmenu="return false;">
-                              <div class="game-card-content-area">
-                                  <h3 class="game-card-title">Hunters (Premium Only)</h3>
-                                  <div class="game-details">
-                                       <div class="feature-categories">
-                                            <div class="feature-category">
-                                                <h4 class="feature-category-title premium-category-title">Placeholder Category 1</h4>
-                                                <ul class="feature-list">
-                                                    <li class="premium-feature-item">Premium Placeholder</li>
-                                                    <li class="premium-feature-item">Premium Placeholder</li>
-                                                    <li class="premium-feature-item">Premium Placeholder</li>
-                                                    <li class="premium-feature-item">Premium Placeholder</li>
-                                                    <li class="premium-feature-item">Premium Placeholder</li>
-                                                    <li class="premium-feature-item">Premium Placeholder</li>
-                                                    <li class="premium-feature-item">Premium Placeholder</li>
-                                                </ul>
-                                            </div>
-                                            <div class="feature-category">
-                                                <h4 class="feature-category-title premium-category-title">Placeholder Category 2</h4>
-                                                <ul class="feature-list">
-                                                     <li class="premium-feature-item">Premium Placeholder</li>
-                                                    <li class="premium-feature-item">Premium Placeholder</li>
-                                                    <li class="premium-feature-item">Premium Placeholder</li>
-                                                    <li class="premium-feature-item">Premium Placeholder</li>
-                                                    <li class="premium-feature-item">Premium Placeholder</li>
-                                                    <li class="premium-feature-item">Premium Placeholder</li>
-                                                    <li class="premium-feature-item">Premium Placeholder</li>
-                                                </ul>
-                                            </div>
-                                            <div class="feature-category">
-                                                <h4 class="feature-category-title premium-category-title">Placeholder Category 3</h4>
-                                                <ul class="feature-list">
-                                                     <li class="premium-feature-item">Premium Placeholder</li>
-                                                    <li class="premium-feature-item">Premium Placeholder</li>
-                                                    <li class="premium-feature-item">Premium Placeholder</li>
-                                                    <li class="premium-feature-item">Premium Placeholder</li>
-                                                    <li class="premium-feature-item">Premium Placeholder</li>
-                                                     <li class="premium-feature-item">Premium Placeholder</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                  </div>
+                     <div class="game-card lg:col-start-4 lg:col-span-2">
+                          <img src="hunters.png" alt="Hunters" class="game-card-image-internal"
+                               onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=Hunter';"
+                               ondragstart="return false;" oncontextmenu="return false;">
+                          <div class="game-card-content-area">
+                              <h3 class="game-card-title">Hunters</h3>
+                              <div class="game-details">
+                                  <p class="text-gray-400 mb-3 text-sm">Script: Lunor Free & Paid</p>
+                                  <ul class="feature-list text-gray-200 space-y-1 text-sm">
+                                      <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li>
+                                  </ul>
+                                   <a href="/discord" class="mt-4 block w-full text-sm bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg transition-colors duration-300 text-center">Get Script</a>
                               </div>
                           </div>
                      </div>
                  </div>
             </section>
-
-            <section id="purchase-cta" class="text-center py-20 px-4">
-                 <div class="purchase-card-container max-w-lg mx-auto p-8 bg-gradient-to-br from-[rgba(40,35,0,0.4)] to-[rgba(60,50,0,0.5)] rounded-lg border border-[rgba(255,215,0,0.5)] shadow-lg backdrop-blur-md">
-                    <h3 class="text-3xl font-bold text-[var(--gold-color)] mb-3 text-shadow-[0_0_10px_rgba(255,215,0,0.6)]">Wanna unlock the extras?</h3>
-                    <div id="purchase-button-wrapper" class="relative inline-block mt-6">
-                         <a href="/premium" class="purchase-button">Buy premium now!</a>
-                    </div>
+            <section id="script-preview" class="script-image-section">
+                 <h2 class="text-4xl font-semibold text-white text-center mb-6 glowing-text section-title">Script Sneak Peek</h2>
+                 <p class="text-lg text-gray-300 mb-8 max-w-xl mx-auto">
+                     A quick glimpse at the script and it's amazing UI.
+                 </p>
+                 <div class="script-image-container" id="script-container">
+                     <img id="script-image" alt="General script representation"
+                          ondragstart="return false;" oncontextmenu="return false;">
                  </div>
             </section>
-
+            <section id="discord" class="discord-section text-center rounded-lg">
+                 <h2 class="text-4xl font-semibold text-white mb-6 glowing-text section-title">Join 40k+ Members</h2>
+                 <p class="text-lg text-gray-300 mb-8 max-w-xl mx-auto">
+                     Become part of our active Discord community for exclusive script access, support, giveaways, and updates!
+                 </p>
+                 <a href="/discord" class="discord-button">
+                     <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495a18.298 18.298 0 00-5.4844 0 11.0362 11.0362 0 00-.6177-1.252.0767.0767 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0278C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8781-1.2962 1.229-1.9942a.076.076 0 00-.0416-.1057 15.1894 15.1894 0 01-1.4439-.8774.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0105c.119.099.245.1981.3708.2914a.077.077 0 01-.0066.1276 15.14 15.14 0 01-1.444.8774.0765.0765 0 00-.0406.1067c.3603.698.7867 1.3638 1.248 1.9942a.0777.0777 0 00.0842.0276c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-4.461-.8358-8.9869-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1569 2.419 0 1.3332-.966 2.4189-2.157 2.4189z"/></svg>
+                     Join Discord
+                 </a>
+            </section>
+            <section id="features" class="py-20">
+                 <h2 class="text-4xl font-semibold text-white text-center mb-16 glowing-text section-title">Why Choose Lunor?</h2>
+                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                     <div class="feature-section-card">
+                         <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                         </svg>
+                         <div class="feature-content">
+                             <h3 class="text-xl font-semibold text-white">Cheap Premium</h3>
+                             <p class="text-gray-300">Our cheap premium for the exchange of more scripts and no keys offers a much better experience.</p>
+                         </div>
+                     </div>
+                     <div class="feature-section-card">
+                         <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+                         </svg>
+                         <div class="feature-content">
+                             <h3 class="text-xl font-semibold text-white">Wide Variety Of Premium Scripts</h3>
+                             <p class="text-gray-300">We support all of your favorite roblox games and more soon!.</p>
+                         </div>
+                     </div>
+                     <div class="feature-section-card">
+                         <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                         </svg>
+                         <div class="feature-content">
+                             <h3 class="text-xl font-semibold text-white">Scripts Updated Daily</h3>
+                             <p class="text-gray-300">Our scripts are updated daily for your experience to be better daily.</p>
+                         </div>
+                     </div>
+                 </div>
+            </section>
         </main>
-
         <footer class="footer py-8 text-center mt-16">
             <p class="text-gray-400">© <span id="current-year"></span> Lunor. All rights reserved.</p>
-            <p class="text-sm text-gray-500 mt-2">Designed for the Roblox Community</p>
+            <p class="text-sm text-gray-500 mt-2">Best Roblox Script Hub</p>
              <p class="footer-credit" onclick="copyDiscordId()">Made by bleh2rich</p>
         </footer>
     </div>
-
     <script>
         document.addEventListener('contextmenu', event => event.preventDefault());
         window.addEventListener('load', () => {
@@ -411,7 +382,9 @@
                 document.body.style.overflowY = 'auto';
                 document.body.style.overflowX = 'hidden';
                 if (mainContent) mainContent.classList.add('visible');
+                positionTickerBar();
             }, minLoadTime);
+             setTimeout(positionTickerBar, minLoadTime + 500);
         });
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
@@ -436,24 +409,77 @@
                     if (targetId && targetId.length > 1 && targetId.startsWith('#')) {
                         targetElement = document.querySelector(targetId);
                     }
-                } catch (err) { return; }
+                } catch (err) {
+                    return;
+                }
                 if (targetElement) {
                     e.preventDefault();
                      if (window.lenisInstance) {
                          const navbar = document.querySelector('.navbar');
                          const navbarHeight = navbar ? navbar.offsetHeight : 0;
-                         window.lenisInstance.scrollTo(targetElement, { offset: -navbarHeight });
+                         const tickerBar = document.getElementById('executor-ticker-bar');
+                         const totalOffset = navbarHeight + (tickerBar ? tickerBar.offsetHeight : 0);
+                         window.lenisInstance.scrollTo(targetElement, { offset: -totalOffset });
                      } else {
                          const navbar = document.querySelector('.navbar');
                          const navbarHeight = navbar ? navbar.offsetHeight : 0;
+                         const tickerBar = document.getElementById('executor-ticker-bar');
+                         const totalOffset = navbarHeight + (tickerBar ? tickerBar.offsetHeight : 0);
                          const elementPosition = targetElement.getBoundingClientRect().top;
-                         const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+                         const offsetPosition = elementPosition + window.pageYOffset - totalOffset;
                          window.scrollTo({ top: offsetPosition, behavior: "smooth" });
                      }
-                } else if (targetId === '#') { e.preventDefault(); }
-                if (mobileMenu && !mobileMenu.classList.contains('hidden')) { mobileMenu.classList.add('hidden'); }
+                } else if (targetId === '#') {
+                     e.preventDefault();
+                }
+                if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
             });
         });
+        const scriptContainer = document.getElementById('script-container');
+        const scriptImage = document.getElementById('script-image');
+        const scriptImageUrl = 'script.png';
+        const placeholderImageUrl = 'https://placehold.co/600x400/1a202c/4a5568?text=Preview';
+        let tiltEnabled = false;
+        if (scriptContainer && scriptImage) {
+            const maxTilt = 8;
+            function handleMouseMove(e) {
+                 if (!tiltEnabled) return;
+                const rect = scriptContainer.getBoundingClientRect();
+                const mouseX = e.clientX - (rect.left + rect.width / 2);
+                const mouseY = e.clientY - (rect.top + rect.height / 2);
+                const rotateY = (mouseX / (rect.width / 2)) * maxTilt;
+                const rotateX = -(mouseY / (rect.height / 2)) * maxTilt;
+                requestAnimationFrame(() => {
+                    scriptImage.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03) translateZ(20px)`;
+                });
+            }
+            function handleMouseLeave() {
+                 if (!tiltEnabled) return;
+                 requestAnimationFrame(() => {
+                    scriptImage.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1) translateZ(0px)';
+                 });
+            }
+            scriptImage.onload = function() {
+                tiltEnabled = true;
+                scriptContainer.addEventListener('mousemove', handleMouseMove);
+                scriptContainer.addEventListener('mouseleave', handleMouseLeave);
+            };
+            scriptImage.onerror = function() {
+                this.src = placeholderImageUrl;
+                this.alt = "Script image placeholder";
+                tiltEnabled = false;
+                scriptContainer.removeEventListener('mousemove', handleMouseMove);
+                scriptContainer.removeEventListener('mouseleave', handleMouseLeave);
+            };
+            scriptImage.src = scriptImageUrl;
+             if (scriptImage.complete && scriptImage.naturalWidth > 0) {
+                 scriptImage.onload();
+             } else if (scriptImage.complete && scriptImage.naturalWidth === 0 && scriptImage.src !== placeholderImageUrl) {
+                 scriptImage.onerror();
+             }
+        }
         document.querySelectorAll('.game-card-image-internal').forEach(img => {
             const originalSrc = img.getAttribute('src');
             const placeholderPrefix = 'https://placehold.co/';
@@ -464,7 +490,11 @@
                  this.src = `${placeholderPrefix}600x360/1f2937/ffffff?text=${encodeURIComponent(placeholderText)}`;
                  this.alt = `${gameName} placeholder`;
              };
-             setTimeout(() => { if (img.naturalWidth === 0 && img.naturalHeight === 0 && img.complete && img.src === originalSrc) { img.onerror(); } }, 100);
+             setTimeout(() => {
+                if (img.naturalWidth === 0 && img.naturalHeight === 0 && img.complete && img.src === originalSrc) {
+                    img.onerror();
+                }
+             }, 100);
         });
         try {
             const lenis = new Lenis({ lerp: 0.08, wheelMultiplier: 0.8, smoothWheel: true, smoothTouch: true });
@@ -489,70 +519,18 @@
                 }, 2000);
             }).catch(err => { console.error('Failed to copy: ', err); alert("Could not copy automatically. Please copy manually: " + discordId); });
         }
-         const premiumCardWrapper = document.getElementById('premium-card-wrapper-hunters');
-         let premiumSparkleInterval = null;
-         function createPremiumCardSparkle() {
-             if (!premiumCardWrapper) return;
-             const sparkle = document.createElement('span');
-             sparkle.classList.add('sparkle-plus');
-             sparkle.innerHTML = '+';
-             const cardElement = premiumCardWrapper.querySelector('.premium-only-card');
-             if (!cardElement) return;
-             const cardWidth = cardElement.offsetWidth; const cardHeight = cardElement.offsetHeight;
-             const cardTopOffset = cardElement.offsetTop; const cardLeftOffset = cardElement.offsetLeft;
-             const side = Math.floor(Math.random() * 4);
-             let x, y; const offset = 8;
-             switch (side) {
-                 case 0: x = cardLeftOffset + Math.random() * cardWidth; y = cardTopOffset - offset; break;
-                 case 1: x = cardLeftOffset + cardWidth + offset; y = cardTopOffset + Math.random() * cardHeight; break;
-                 case 2: x = cardLeftOffset + Math.random() * cardWidth; y = cardTopOffset + cardHeight + offset; break;
-                 case 3: default: x = cardLeftOffset - offset; y = cardTopOffset + Math.random() * cardHeight; break;
+         function positionTickerBar() {
+             const navbar = document.querySelector('.navbar');
+             const tickerBar = document.getElementById('executor-ticker-bar');
+             if (navbar && tickerBar) {
+                 const navbarHeight = navbar.offsetHeight;
+                 tickerBar.style.top = `${navbarHeight}px`;
+                 document.body.style.paddingTop = `${navbarHeight + tickerBar.offsetHeight}px`;
              }
-             const tx = (Math.random() - 0.5) * 50; const ty = (Math.random() * -40) - 15;
-             sparkle.style.left = `${x}px`; sparkle.style.top = `${y}px`;
-             sparkle.style.setProperty('--tx', `${tx}px`); sparkle.style.setProperty('--ty', `${ty}px`);
-             premiumCardWrapper.appendChild(sparkle);
-             setTimeout(() => { if (sparkle.parentNode === premiumCardWrapper) { premiumCardWrapper.removeChild(sparkle); } }, 1200);
          }
-          const checkPremiumWrapperAndStartSparkles = () => {
-            const wrapper = document.getElementById('premium-card-wrapper-hunters');
-            if(wrapper) { if (!premiumSparkleInterval) { premiumSparkleInterval = setInterval(createPremiumCardSparkle, 200); } }
-            else { setTimeout(checkPremiumWrapperAndStartSparkles, 100); }
-          };
-          setTimeout(checkPremiumWrapperAndStartSparkles, 2500);
-
-          const purchaseBtnWrapper = document.getElementById('purchase-button-wrapper');
-          let purchaseSparkleInterval = null;
-          function createPurchaseButtonSparkle() {
-             if (!purchaseBtnWrapper) return;
-             const sparkle = document.createElement('span');
-             sparkle.classList.add('sparkle-plus');
-             sparkle.innerHTML = '+';
-             const btnElement = purchaseBtnWrapper.querySelector('.purchase-button');
-             if (!btnElement) return;
-             const btnWidth = btnElement.offsetWidth; const btnHeight = btnElement.offsetHeight;
-             const btnTopOffset = btnElement.offsetTop; const btnLeftOffset = btnElement.offsetLeft;
-             const side = Math.floor(Math.random() * 4);
-             let x, y; const offset = 6;
-             switch (side) {
-                 case 0: x = btnLeftOffset + Math.random() * btnWidth; y = btnTopOffset - offset; break;
-                 case 1: x = btnLeftOffset + btnWidth + offset; y = btnTopOffset + Math.random() * btnHeight; break;
-                 case 2: x = btnLeftOffset + Math.random() * btnWidth; y = btnTopOffset + btnHeight + offset; break;
-                 case 3: default: x = btnLeftOffset - offset; y = btnTopOffset + Math.random() * btnHeight; break;
-             }
-             const tx = (Math.random() - 0.5) * 40; const ty = (Math.random() * -30) - 10;
-             sparkle.style.left = `${x}px`; sparkle.style.top = `${y}px`;
-             sparkle.style.setProperty('--tx', `${tx}px`); sparkle.style.setProperty('--ty', `${ty}px`);
-             purchaseBtnWrapper.appendChild(sparkle);
-             setTimeout(() => { if (sparkle.parentNode === purchaseBtnWrapper) { purchaseBtnWrapper.removeChild(sparkle); } }, 1200);
-         }
-          const checkPurchaseWrapperAndStartSparkles = () => {
-             const wrapper = document.getElementById('purchase-button-wrapper');
-             if(wrapper) { if (!purchaseSparkleInterval) { purchaseSparkleInterval = setInterval(createPurchaseButtonSparkle, 180); } }
-             else { setTimeout(checkPurchaseWrapperAndStartSparkles, 100); }
-          };
-          setTimeout(checkPurchaseWrapperAndStartSparkles, 2500);
-
+         document.addEventListener('DOMContentLoaded', positionTickerBar);
+         window.addEventListener('load', positionTickerBar);
+         window.addEventListener('resize', positionTickerBar);
     </script>
 </body>
 </html>
