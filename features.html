@@ -88,29 +88,30 @@
         .game-card-image-internal { display: block; width: 100%; height: 180px; object-fit: cover; transition: transform 0.4s ease; background-color: #1f2937; }
         .game-card-content-area { padding: 1rem 1.25rem 1.25rem; }
         .game-card-title { margin-bottom: 0.75rem; font-size: 1.25rem; font-weight: 600; color: #ffffff; }
-        .game-details { max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.5s ease-out, opacity 0.4s ease-in 0.1s; will-change: max-height, opacity; }
+        .game-details { max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.5s ease-out, opacity 0.4s ease-in 0.1s; will-change: max-height, opacity; padding-top: 0.5rem; }
         .game-card:hover { transform: translateY(-8px) scale(1.03); box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7); border-color: rgba(255, 255, 255, 0.4); filter: brightness(1.1); }
         .game-card:hover .game-card-image-internal { transform: scale(1.05); }
-        .game-card:hover .game-details { max-height: 600px; opacity: 1; }
-        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .game-card:hover .game-details { max-height: 800px; opacity: 1; }
+        .feature-list { list-style: none; padding: 0; margin: 0 0 1rem 0; }
         .feature-list li::before { content: '✧'; color: #ffffff; margin-right: 8px; opacity: 0.8; }
-        .premium-feature-item { color: var(--gold-color) !important; display: flex; align-items: baseline;} /* Use flex for better alignment */
+        .premium-feature-item { color: var(--gold-color) !important; display: flex; align-items: baseline;}
         .premium-feature-item::before { content: '★'; color: var(--gold-color); margin-right: 8px; opacity: 1; font-size: 0.9em; line-height: inherit; }
-        .feature-type-divider {
-            font-size: 0.75rem;
-            font-weight: 600;
+        .feature-category { margin-top: 1rem; }
+        .feature-category:first-child { margin-top: 0; }
+        .feature-category-title {
+            font-size: 0.8rem;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            color: rgba(255, 255, 255, 0.5);
-            padding: 1rem 0 0.5rem 0;
-            margin-top: 0.75rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
-            text-align: left; /* Align divider text left */
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.25rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            text-align: left;
         }
-        .feature-type-divider:first-child { margin-top: 0; border-top: none; padding-top: 0;} /* Remove top margin/border for the first divider */
         .premium-only-card { border-color: rgba(255, 215, 0, 0.4); }
         .premium-only-card:hover { border-color: rgba(255, 215, 0, 0.7); }
-        #premium-card-wrapper-hunters { position: relative; display: block; } /* Use block to ensure it takes grid space */
+        #premium-card-wrapper-hunters { position: relative; display: block; }
         .discord-section { background-color: rgba(255, 255, 255, 0.03); padding: 5rem 1rem; margin-top: 6rem; border-top: 1px solid rgba(255,255,255,0.15); backdrop-filter: blur(8px); }
         .feature-section-card { background-color: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 0.75rem; padding: 1.5rem; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; display: flex; align-items: flex-start; }
         .feature-section-card:hover { transform: translateY(-6px); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); border-color: rgba(255, 255, 255, 0.25); }
@@ -178,8 +179,7 @@
 
         <main class="container mx-auto pt-24 px-4">
              <section id="get-script-header" class="text-center pt-16 pb-10">
-                 <h2 class="text-4xl font-semibold text-white mb-4 glowing-text">Get the script now</h2>
-                 <p class="text-sm text-gray-400 mb-6">And complete your full moon to roblox scripting.</p>
+                 <h2 class="text-4xl font-semibold text-white mb-6 glowing-text">Get the script now</h2>
                  <a href="/discord" class="discord-button">
                      <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495a18.298 18.298 0 00-5.4844 0 11.0362 11.0362 0 00-.6177-1.252.0767.0767 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0278C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8781-1.2962 1.229-1.9942a.076.076 0 00-.0416-.1057 15.1894 15.1894 0 01-1.4439-.8774.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0105c.119.099.245.1981.3708.2914a.077.077 0 01-.0066.1276 15.14 15.14 0 01-1.444.8774.0765.0765 0 00-.0406.1067c.3603.698.7867 1.3638 1.248 1.9942a.0777.0777 0 00.0842.0276c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-4.461-.8358-8.9869-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1569 2.419 0 1.3332-.966 2.4189-2.157 2.4189z"/></svg>
                      Join Discord
@@ -196,20 +196,31 @@
                          <div class="game-card-content-area">
                              <h3 class="game-card-title">Fisch</h3>
                              <div class="game-details">
-                                 <div class="feature-type-divider">FREE FEATURES</div>
-                                 <ul class="feature-list text-gray-200 space-y-1 text-sm">
-                                     <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li>
-                                     <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li>
-                                     <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li>
-                                 </ul>
-                                 <div class="feature-type-divider">PREMIUM FEATURES</div>
-                                  <ul class="feature-list text-gray-200 space-y-1 text-sm mb-4">
-                                     <li class="premium-feature-item">Premium Placeholder</li>
-                                     <li class="premium-feature-item">Premium Placeholder</li>
-                                     <li class="premium-feature-item">Premium Placeholder</li>
-                                     <li class="premium-feature-item">Premium Placeholder</li>
-                                     <li class="premium-feature-item">Premium Placeholder</li>
-                                 </ul>
+                                <div class="feature-categories">
+                                    <div class="feature-category">
+                                        <h4 class="feature-category-title">Placeholder Category 1</h4>
+                                        <ul class="feature-list">
+                                            <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li>
+                                        </ul>
+                                    </div>
+                                    <div class="feature-category">
+                                        <h4 class="feature-category-title">Placeholder Category 2</h4>
+                                        <ul class="feature-list">
+                                            <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li>
+                                        </ul>
+                                    </div>
+                                    <div class="feature-category">
+                                        <h4 class="feature-category-title">Placeholder Category 3</h4>
+                                        <ul class="feature-list">
+                                            <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li>
+                                            <li class="premium-feature-item">Premium Placeholder</li>
+                                            <li class="premium-feature-item">Premium Placeholder</li>
+                                            <li class="premium-feature-item">Premium Placeholder</li>
+                                            <li class="premium-feature-item">Premium Placeholder</li>
+                                            <li class="premium-feature-item">Premium Placeholder</li>
+                                        </ul>
+                                    </div>
+                                </div>
                              </div>
                          </div>
                      </div>
@@ -220,20 +231,31 @@
                           <div class="game-card-content-area">
                               <h3 class="game-card-title">Arise Crossover</h3>
                               <div class="game-details">
-                                   <div class="feature-type-divider">FREE FEATURES</div>
-                                   <ul class="feature-list text-gray-200 space-y-1 text-sm">
-                                      <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li>
-                                      <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li>
-                                      <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li>
-                                  </ul>
-                                  <div class="feature-type-divider">PREMIUM FEATURES</div>
-                                  <ul class="feature-list text-gray-200 space-y-1 text-sm mb-4">
-                                      <li class="premium-feature-item">Premium Placeholder</li>
-                                      <li class="premium-feature-item">Premium Placeholder</li>
-                                      <li class="premium-feature-item">Premium Placeholder</li>
-                                      <li class="premium-feature-item">Premium Placeholder</li>
-                                      <li class="premium-feature-item">Premium Placeholder</li>
-                                  </ul>
+                                <div class="feature-categories">
+                                    <div class="feature-category">
+                                        <h4 class="feature-category-title">Placeholder Category 1</h4>
+                                        <ul class="feature-list">
+                                            <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li>
+                                        </ul>
+                                    </div>
+                                    <div class="feature-category">
+                                        <h4 class="feature-category-title">Placeholder Category 2</h4>
+                                        <ul class="feature-list">
+                                            <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li>
+                                        </ul>
+                                    </div>
+                                    <div class="feature-category">
+                                        <h4 class="feature-category-title">Placeholder Category 3</h4>
+                                        <ul class="feature-list">
+                                            <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li>
+                                            <li class="premium-feature-item">Premium Placeholder</li>
+                                            <li class="premium-feature-item">Premium Placeholder</li>
+                                            <li class="premium-feature-item">Premium Placeholder</li>
+                                            <li class="premium-feature-item">Premium Placeholder</li>
+                                            <li class="premium-feature-item">Premium Placeholder</li>
+                                        </ul>
+                                    </div>
+                                </div>
                               </div>
                           </div>
                      </div>
@@ -244,20 +266,31 @@
                           <div class="game-card-content-area">
                               <h3 class="game-card-title">Dead Rails</h3>
                               <div class="game-details">
-                                   <div class="feature-type-divider">FREE FEATURES</div>
-                                   <ul class="feature-list text-gray-200 space-y-1 text-sm">
-                                      <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li>
-                                      <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li>
-                                      <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li>
-                                  </ul>
-                                  <div class="feature-type-divider">PREMIUM FEATURES</div>
-                                  <ul class="feature-list text-gray-200 space-y-1 text-sm mb-4">
-                                      <li class="premium-feature-item">Premium Placeholder</li>
-                                      <li class="premium-feature-item">Premium Placeholder</li>
-                                      <li class="premium-feature-item">Premium Placeholder</li>
-                                      <li class="premium-feature-item">Premium Placeholder</li>
-                                      <li class="premium-feature-item">Premium Placeholder</li>
-                                  </ul>
+                                <div class="feature-categories">
+                                    <div class="feature-category">
+                                        <h4 class="feature-category-title">Placeholder Category 1</h4>
+                                        <ul class="feature-list">
+                                            <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li>
+                                        </ul>
+                                    </div>
+                                    <div class="feature-category">
+                                        <h4 class="feature-category-title">Placeholder Category 2</h4>
+                                        <ul class="feature-list">
+                                            <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li>
+                                        </ul>
+                                    </div>
+                                    <div class="feature-category">
+                                        <h4 class="feature-category-title">Placeholder Category 3</h4>
+                                        <ul class="feature-list">
+                                            <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li>
+                                            <li class="premium-feature-item">Premium Placeholder</li>
+                                            <li class="premium-feature-item">Premium Placeholder</li>
+                                            <li class="premium-feature-item">Premium Placeholder</li>
+                                            <li class="premium-feature-item">Premium Placeholder</li>
+                                            <li class="premium-feature-item">Premium Placeholder</li>
+                                        </ul>
+                                    </div>
+                                </div>
                               </div>
                           </div>
                      </div>
@@ -269,24 +302,34 @@
                           <div class="game-card-content-area">
                               <h3 class="game-card-title">Bubble Gum Simulator Infinity</h3>
                               <div class="game-details">
-                                   <div class="feature-type-divider">FREE FEATURES</div>
-                                   <ul class="feature-list text-gray-200 space-y-1 text-sm">
-                                      <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li>
-                                      <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li>
-                                      <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li> <li>Placeholder</li>
-                                  </ul>
-                                  <div class="feature-type-divider">PREMIUM FEATURES</div>
-                                  <ul class="feature-list text-gray-200 space-y-1 text-sm mb-4">
-                                      <li class="premium-feature-item">Premium Placeholder</li>
-                                      <li class="premium-feature-item">Premium Placeholder</li>
-                                      <li class="premium-feature-item">Premium Placeholder</li>
-                                      <li class="premium-feature-item">Premium Placeholder</li>
-                                      <li class="premium-feature-item">Premium Placeholder</li>
-                                  </ul>
+                                  <div class="feature-categories">
+                                    <div class="feature-category">
+                                        <h4 class="feature-category-title">Placeholder Category 1</h4>
+                                        <ul class="feature-list">
+                                            <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li>
+                                        </ul>
+                                    </div>
+                                    <div class="feature-category">
+                                        <h4 class="feature-category-title">Placeholder Category 2</h4>
+                                        <ul class="feature-list">
+                                            <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li>
+                                        </ul>
+                                    </div>
+                                    <div class="feature-category">
+                                        <h4 class="feature-category-title">Placeholder Category 3</h4>
+                                        <ul class="feature-list">
+                                            <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li>
+                                            <li class="premium-feature-item">Premium Placeholder</li>
+                                            <li class="premium-feature-item">Premium Placeholder</li>
+                                            <li class="premium-feature-item">Premium Placeholder</li>
+                                            <li class="premium-feature-item">Premium Placeholder</li>
+                                            <li class="premium-feature-item">Premium Placeholder</li>
+                                        </ul>
+                                    </div>
+                                </div>
                               </div>
                           </div>
                      </div>
-
                      <div id="premium-card-wrapper-hunters" class="lg:col-start-4 lg:col-span-2 block relative">
                           <div class="game-card premium-only-card">
                               <img src="/gameimages/hunters.png" alt="Hunters" class="game-card-image-internal"
@@ -295,29 +338,43 @@
                               <div class="game-card-content-area">
                                   <h3 class="game-card-title">Hunters (Premium Only)</h3>
                                   <div class="game-details">
-                                       <div class="feature-type-divider">PREMIUM FEATURES</div>
-                                      <ul class="feature-list text-gray-200 space-y-1 text-sm mb-4">
-                                          <li class="premium-feature-item">Premium Placeholder 1</li>
-                                          <li class="premium-feature-item">Premium Placeholder 2</li>
-                                          <li class="premium-feature-item">Premium Placeholder 3</li>
-                                          <li class="premium-feature-item">Premium Placeholder 4</li>
-                                          <li class="premium-feature-item">Premium Placeholder 5</li>
-                                          <li class="premium-feature-item">Premium Placeholder 6</li>
-                                          <li class="premium-feature-item">Premium Placeholder 7</li>
-                                          <li class="premium-feature-item">Premium Placeholder 8</li>
-                                          <li class="premium-feature-item">Premium Placeholder 9</li>
-                                          <li class="premium-feature-item">Premium Placeholder 10</li>
-                                          <li class="premium-feature-item">Premium Placeholder 11</li>
-                                          <li class="premium-feature-item">Premium Placeholder 12</li>
-                                          <li class="premium-feature-item">Premium Placeholder 13</li>
-                                          <li class="premium-feature-item">Premium Placeholder 14</li>
-                                          <li class="premium-feature-item">Premium Placeholder 15</li>
-                                          <li class="premium-feature-item">Premium Placeholder 16</li>
-                                          <li class="premium-feature-item">Premium Placeholder 17</li>
-                                          <li class="premium-feature-item">Premium Placeholder 18</li>
-                                          <li class="premium-feature-item">Premium Placeholder 19</li>
-                                          <li class="premium-feature-item">Premium Placeholder 20</li>
-                                      </ul>
+                                       <div class="feature-categories">
+                                            <div class="feature-category">
+                                                <h4 class="feature-category-title premium-category-title">Placeholder Category 1</h4>
+                                                <ul class="feature-list">
+                                                    <li class="premium-feature-item">Premium Placeholder</li>
+                                                    <li class="premium-feature-item">Premium Placeholder</li>
+                                                    <li class="premium-feature-item">Premium Placeholder</li>
+                                                    <li class="premium-feature-item">Premium Placeholder</li>
+                                                    <li class="premium-feature-item">Premium Placeholder</li>
+                                                    <li class="premium-feature-item">Premium Placeholder</li>
+                                                    <li class="premium-feature-item">Premium Placeholder</li>
+                                                </ul>
+                                            </div>
+                                            <div class="feature-category">
+                                                <h4 class="feature-category-title premium-category-title">Placeholder Category 2</h4>
+                                                <ul class="feature-list">
+                                                     <li class="premium-feature-item">Premium Placeholder</li>
+                                                    <li class="premium-feature-item">Premium Placeholder</li>
+                                                    <li class="premium-feature-item">Premium Placeholder</li>
+                                                    <li class="premium-feature-item">Premium Placeholder</li>
+                                                    <li class="premium-feature-item">Premium Placeholder</li>
+                                                    <li class="premium-feature-item">Premium Placeholder</li>
+                                                    <li class="premium-feature-item">Premium Placeholder</li>
+                                                </ul>
+                                            </div>
+                                            <div class="feature-category">
+                                                <h4 class="feature-category-title premium-category-title">Placeholder Category 3</h4>
+                                                <ul class="feature-list">
+                                                     <li class="premium-feature-item">Premium Placeholder</li>
+                                                    <li class="premium-feature-item">Premium Placeholder</li>
+                                                    <li class="premium-feature-item">Premium Placeholder</li>
+                                                    <li class="premium-feature-item">Premium Placeholder</li>
+                                                    <li class="premium-feature-item">Premium Placeholder</li>
+                                                     <li class="premium-feature-item">Premium Placeholder</li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                   </div>
                               </div>
                           </div>
@@ -325,12 +382,11 @@
                  </div>
             </section>
 
-            <section id="purchase-cta" class="text-center py-16 px-4">
-                 <div class="purchase-card-container max-w-md mx-auto">
-                    <h3 class="text-3xl font-bold glowing-text mb-3">Get the script now</h3>
-                    <p class="text-md text-gray-400 mb-8">And complete your full moon to roblox scripting.</p>
-                    <div id="purchase-button-wrapper" class="relative inline-block">
-                         <a href="/premium" class="purchase-button">Buy Premium</a>
+            <section id="purchase-cta" class="text-center py-20 px-4">
+                 <div class="purchase-card-container max-w-lg mx-auto p-8 bg-gradient-to-br from-[rgba(40,35,0,0.4)] to-[rgba(60,50,0,0.5)] rounded-lg border border-[rgba(255,215,0,0.5)] shadow-lg backdrop-blur-md">
+                    <h3 class="text-3xl font-bold text-[var(--gold-color)] mb-3 text-shadow-[0_0_10px_rgba(255,215,0,0.6)]">Wanna unlock the extras?</h3>
+                    <div id="purchase-button-wrapper" class="relative inline-block mt-6">
+                         <a href="/premium" class="purchase-button">Buy premium now!</a>
                     </div>
                  </div>
             </section>
@@ -435,17 +491,15 @@
         }
          const premiumCardWrapper = document.getElementById('premium-card-wrapper-hunters');
          let premiumSparkleInterval = null;
-         function createPremiumSparkle() {
+         function createPremiumCardSparkle() {
              if (!premiumCardWrapper) return;
              const sparkle = document.createElement('span');
              sparkle.classList.add('sparkle-plus');
              sparkle.innerHTML = '+';
              const cardElement = premiumCardWrapper.querySelector('.premium-only-card');
              if (!cardElement) return;
-             const cardWidth = cardElement.offsetWidth;
-             const cardHeight = cardElement.offsetHeight;
-             const cardTopOffset = cardElement.offsetTop;
-             const cardLeftOffset = cardElement.offsetLeft;
+             const cardWidth = cardElement.offsetWidth; const cardHeight = cardElement.offsetHeight;
+             const cardTopOffset = cardElement.offsetTop; const cardLeftOffset = cardElement.offsetLeft;
              const side = Math.floor(Math.random() * 4);
              let x, y; const offset = 8;
              switch (side) {
@@ -462,14 +516,14 @@
          }
           const checkPremiumWrapperAndStartSparkles = () => {
             const wrapper = document.getElementById('premium-card-wrapper-hunters');
-            if (wrapper) { if (!premiumSparkleInterval) { premiumSparkleInterval = setInterval(createPremiumSparkle, 200); } }
+            if(wrapper) { if (!premiumSparkleInterval) { premiumSparkleInterval = setInterval(createPremiumCardSparkle, 200); } }
             else { setTimeout(checkPremiumWrapperAndStartSparkles, 100); }
-         };
-         setTimeout(checkPremiumWrapperAndStartSparkles, 2500);
+          };
+          setTimeout(checkPremiumWrapperAndStartSparkles, 2500);
 
-         const purchaseBtnWrapper = document.getElementById('purchase-button-wrapper');
-         let purchaseSparkleInterval = null;
-         function createPurchaseButtonSparkle() {
+          const purchaseBtnWrapper = document.getElementById('purchase-button-wrapper');
+          let purchaseSparkleInterval = null;
+          function createPurchaseButtonSparkle() {
              if (!purchaseBtnWrapper) return;
              const sparkle = document.createElement('span');
              sparkle.classList.add('sparkle-plus');
