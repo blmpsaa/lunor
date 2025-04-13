@@ -164,68 +164,67 @@
     100% { opacity: 0; transform: translate(var(--tx, 0px), var(--ty, -40px)) scale(1.5); } 
 }
  
-/* Ensure Discord button style exists */
+
 .discord-icon-button {
-    background-color: #5865F2; color: #ffffff; padding: 0.75rem; /* p-3 */
-    border-radius: 9999px; width: 2.75rem; height: 2.75rem; /* Explicit size */
+    background-color: #5865F2; color: #ffffff; padding: 0.75rem; 
+    border-radius: 9999px; width: 2.75rem; height: 2.75rem; 
     display: inline-flex; align-items: center; justify-content: center;
     transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, filter 0.3s ease;
     box-shadow: 0 0 15px rgba(88, 101, 242, 0.4); overflow: hidden;
 }
 .discord-icon-button:hover { background-color: #4752C4; transform: scale(1.05); box-shadow: 0 0 20px rgba(88, 101, 242, 0.6); filter: brightness(1.1); }
-.discord-icon-button svg { width: 1.25rem; height: 1.25rem; } /* w-5 h-5 */
+.discord-icon-button svg { width: 1.25rem; height: 1.25rem; } 
 
-/* New styles for the script preview box */
+
 .script-preview-container {
-    /* Inherits most styles from the classes added in HTML */
-    /* Add max-width if needed */
-    max-width: 350px; /* Adjust as needed */
-    cursor: default !important; /* Make the box itself not feel clickable */
+
+    max-width: 350px; 
+    cursor: default !important; 
 }
 
 .script-text-preview {
-    flex-grow: 1; /* Take available space */
+    flex-grow: 1;
     overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis; /* Add ... if text overflows */
+    text-overflow: ellipsis; 
     font-family: monospace;
-    font-size: 0.8rem; /* Smaller font for code */
-    color: #d1d5db; /* Lighter gray than black */
-    margin-right: 0.5rem; /* Space before copy icon */
-    line-height: 1.4; /* Adjust line height */
+    font-size: 0.8rem;
+    color: #d1d5db; 
+    margin-right: 0.5rem; 
+    line-height: 1.4; 
 }
 .script-text-preview code {
-    display: block; /* Ensure code takes block layout */
+    display: block; 
 }
 
 
 .copy-icon-button {
     background-color: rgba(255, 255, 255, 0.1);
     color: #ffffff;
-    padding: 0.5rem; /* Smaller padding for icon button */
+    padding: 0.5rem; 
     border-radius: 9999px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0; /* Prevent shrinking */
+    flex-shrink: 0; 
     transition: background-color 0.2s ease, transform 0.2s ease;
-    margin-left: auto; /* Pushes it to the right */
+    margin-left: auto; 
 }
 .copy-icon-button:hover {
     background-color: rgba(255, 255, 255, 0.2);
     transform: scale(1.1);
 }
 .copy-icon-button svg {
-    width: 1rem; /* Smaller icon */
+    width: 1rem; 
     height: 1rem;
 }
 
-/* Ensure other buttons have consistent alignment if needed */
+
 .primary-button, .purchase-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    /* Ensure padding is py-3 px-8 or equivalent */
+    
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
     padding-left: 2rem;
@@ -234,20 +233,20 @@
 }
 
 .script-preview-box {
-    background-color: #4b5563; /* gray-600 */
-    color: #e5e7eb; /* gray-200 */
-    border: 1px solid #6b7280; /* gray-500 */
-    border-right: none; /* Remove border between box and button */
-    padding: 0.75rem 1rem 0.75rem 1.5rem; /* py-3 pl-6 pr-4 */
+    background-color: #4b5563; 
+    color: #e5e7eb;
+    border: 1px solid #6b7280;
+    border-right: none; 
+    padding: 0.75rem 1rem 0.75rem 1.5rem;
     border-top-left-radius: 9999px;
     border-bottom-left-radius: 9999px;
-    max-width: 300px; /* Adjust max width */
-    overflow: hidden; /* Needed for ellipsis */
+    max-width: 300px; 
+    overflow: hidden; 
     display: flex;
     align-items: center;
 }
 .script-copy-wrapper {
-    vertical-align: middle; /* Helps align with other buttons if needed */
+    vertical-align: middle;
 }
 .script-preview-box pre {
     font-family: monospace;
@@ -257,36 +256,36 @@
     text-overflow: ellipsis;
     margin: 0;
     padding: 0;
-    line-height: 1.25; /* Adjust for vertical centering */
+    line-height: 1.25; 
 }
 
 .script-copy-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: #6b7280; /* gray-500 */
+    background-color: #6b7280; 
     color: #ffffff;
-    padding: 0.75rem; /* p-3 */
+    padding: 0.75rem; 
     border: 1px solid #6b7280;
     border-left: none;
     border-top-right-radius: 9999px;
     border-bottom-right-radius: 9999px;
     transition: background-color 0.2s ease;
-    height: 100%; /* Make button fill wrapper height */
+    height: 100%; 
 }
 
 .script-copy-button:hover {
-    background-color: #4b5563; /* gray-600 */
+    background-color: #4b5563; 
 }
 
 .script-copy-button svg {
-    width: 1.25rem; /* w-5 */
-    height: 1.25rem; /* h-5 */
+    width: 1.25rem;
+    height: 1.25rem; 
 }
 
-/* Ensure consistent height for all button-like elements in the group */
+
 .flex > a, .flex > .script-copy-wrapper {
-    min-height: 2.75rem; /* Match py-3 + line-height approx */
+    min-height: 2.75rem; 
 }
     </style>
 </head>
@@ -734,28 +733,28 @@
         fontSize: '0.9rem', textAlign: 'center', opacity: '0',
         transform: 'translate(-50%, -10px)', transition: 'opacity 0.3s ease-out, transform 0.3s ease-out'
     });
-    message.textContent = text; // Use passed text
+    message.textContent = text; 
     document.body.appendChild(message);
 
     setTimeout(() => { message.style.opacity = '1'; message.style.transform = 'translate(-50%, 0)'; }, 50); // Animate in
 
-    setTimeout(() => { // Start fade out
+    setTimeout(() => { 
         message.style.opacity = '0'; message.style.transform = 'translate(-50%, -10px)';
-        setTimeout(() => { // Remove after fade out
+        setTimeout(() => { 
             if (message.parentNode === document.body) { document.body.removeChild(message); }
         }, 300);
-    }, 2000); // Display duration
+    }, 2000);
 }
 
-// Function to copy the script
+
 function copyLoaderScript() {
     const scriptToCopy = `script_key = 'Insert Lunor Key Here';\n\nloadstring(game:HttpGet('https://raw.githubusercontent.com/Catto-YFCN/Lunor_Dependencies/refs/heads/main/Loader'))()`;
 
     navigator.clipboard.writeText(scriptToCopy).then(() => {
-        showCopyNotification("Copied script!"); // Use notification function
+        showCopyNotification("Copied script!"); 
     }).catch(err => {
         console.error('Failed to copy script: ', err);
-        alert("Failed to copy script. Please copy it manually."); // Fallback alert
+        alert("Failed to copy script. Please copy it manually.");
     });
 }
 
