@@ -25,6 +25,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
     <style>
+        :root {
+            --gold-color: #FFD700;
+                --gold-glow-1: rgba(255, 215, 0, 0.9);
+                --gold-glow-2: rgba(255, 215, 0, 0.7);
+                --gold-darker: #FFC300;
+            }
         body::-webkit-scrollbar { width: 12px; }
         body::-webkit-scrollbar-track { background: #050505; border-radius: 6px; }
         body::-webkit-scrollbar-thumb { background-color: #ffffff; border-radius: 6px; border: 2px solid #1a1a2e; box-shadow: 0 0 10px rgba(0, 245, 212, 0.6); }
@@ -119,6 +125,44 @@
         .discord-button:hover { background-color: #4752C4; transform: scale(1.05); box-shadow: 0 0 20px rgba(88, 101, 242, 0.6); filter: brightness(1.1); }
         .main-content { opacity: 0; transition: opacity 0.5s ease-in 0.2s; }
         .main-content.visible { opacity: 1; }
+    .purchase-button {
+    background-color: var(--gold-color);
+    color: #000000;
+    padding: 0.75rem 2rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, filter 0.3s ease, border-color 0.3s ease;
+    border: 2px solid #1a1a1a; 
+    box-shadow: 0 0 20px var(--gold-glow-2);
+    display: inline-block;
+    text-decoration: none;
+}
+.purchase-button:hover {
+    background-color: var(--gold-darker);
+    color: #000000;
+    transform: scale(1.05);
+    box-shadow: 0 0 25px var(--gold-glow-1);
+    filter: brightness(1.1);
+    border-color: #000;
+}
+
+
+.sparkle-plus {
+    position: absolute;
+    color: var(--gold-color);
+    font-size: 1rem;
+    font-weight: bold;
+    user-select: none;
+    pointer-events: none;
+    z-index: -1; 
+    opacity: 0;
+    animation: sparkleAnim 1.2s ease-out forwards;
+}
+
+@keyframes sparkleAnim {
+    0% { opacity: 1; transform: translate(0, 0) scale(0.5); }
+    100% { opacity: 0; transform: translate(var(--tx, 0px), var(--ty, -40px)) scale(1.5); } 
+}
     </style>
 </head>
 <body class="bg-black text-white">
@@ -219,6 +263,9 @@
                      Explore Features
                  </a>
             </section>
+            <div id="hero-premium-button-wrapper" class="relative inline-block mt-4">
+                 <a href="/premium" id="hero-buy-premium" class="purchase-button">Buy Premium</a>
+            </div>
             <section id="scripts" class="py-20">
                  <h2 class="text-4xl font-semibold text-white text-center mb-24 glowing-text section-title">Supported Games</h2>
                  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-x-10 gap-y-12">
@@ -518,6 +565,59 @@
          document.addEventListener('DOMContentLoaded', positionTickerBar);
          window.addEventListener('load', positionTickerBar);
          window.addEventListener('resize', positionTickerBar);
+
+
+        
+function createButtonSparkle(wrapperId, sparkleClass, sparkleContent) {
+    const wrapper = document.getElementById(wrapperId);
+    if (!wrapper) return;
+    const sparkle = document.createElement('span');
+    sparkle.classList.add(sparkleClass); 
+    sparkle.innerHTML = sparkleContent;
+    const btnElement = wrapper.querySelector('a');
+    if (!btnElement) return;
+    const btnWidth = btnElement.offsetWidth; const btnHeight = btnElement.offsetHeight;
+   
+    const btnTopOffset = 0; const btnLeftOffset = 0;
+    const side = Math.floor(Math.random() * 4);
+    let x, y; const offset = 6; 
+    switch (side) {
+        case 0: x = btnLeftOffset + Math.random() * btnWidth; y = btnTopOffset - offset; break;
+        case 1: x = btnLeftOffset + btnWidth + offset; y = btnTopOffset + Math.random() * btnHeight; break;
+        case 2: x = btnLeftOffset + Math.random() * btnWidth; y = btnTopOffset + btnHeight + offset; break;
+        case 3: default: x = btnLeftOffset - offset; y = btnTopOffset + Math.random() * btnHeight; break;
+    }
+    const tx = (Math.random() - 0.5) * 40; const ty = (Math.random() * -30) - 10;
+    sparkle.style.left = `${x}px`; sparkle.style.top = `${y}px`;
+    sparkle.style.setProperty('--tx', `${tx}px`);
+    sparkle.style.setProperty('--ty', `${ty}px`);
+    wrapper.appendChild(sparkle);
+    setTimeout(() => { if (sparkle.parentNode === wrapper) { wrapper.removeChild(sparkle); } }, 1200);
+}
+
+
+const heroPremiumBtnWrapper = document.getElementById('hero-premium-button-wrapper');
+let heroPremiumSparkleInterval = null;
+
+
+const checkHeroWrapperAndStartSparkles = () => {
+   const wrapper = document.getElementById('hero-premium-button-wrapper');
+   if(wrapper) {
+       if (!heroPremiumSparkleInterval) {
+            heroPremiumSparkleInterval = setInterval(
+                () => createButtonSparkle('hero-premium-button-wrapper', 'sparkle-plus', '+'),
+                180 
+            );
+           console.log("Hero premium button sparkles started.");
+       }
+   } else {
+    
+       setTimeout(checkHeroWrapperAndStartSparkles, 100);
+   }
+};
+
+
+setTimeout(checkHeroWrapperAndStartSparkles, 2500);
     </script>
 </body>
 </html>
