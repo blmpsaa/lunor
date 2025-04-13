@@ -120,7 +120,7 @@
         .purchase-card:hover { transform: scale(1.03); box-shadow: 0 12px 35px rgba(70, 2, 204, 0.7); }
         .purchase-card h3 { color: var(--gold-color); font-size: 1.8rem; font-weight: 700; margin-bottom: 0.75rem; text-shadow: 0 0 10px var(--gold-glow-2); }
         .purchase-button { background-color: var(--gold-color); color: #000000; padding: 0.75rem 2rem; border-radius: 9999px; font-weight: 600; transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, filter 0.3s ease, border-color 0.3s ease; border: 2px solid #1a1a1a; box-shadow: 0 0 20px var(--gold-glow-2); display: inline-block; text-decoration: none; }
-        .purchase-button:hover { background-color: var(--gold-darker); color: #000000; transform: scale(1.05); box-shadow: 0 0 25px var(--gold-glow-1); filter: brightness(1.1); border-color: #000; }
+        .purchase-button:hover { background-color: var(--gold-color); color: #000000; transform: scale(1.05); box-shadow: 0 0 25px var(--gold-glow-1); filter: brightness(1.1); border-color: #000; }
         .sparkle-plus { position: absolute; color: var(--gold-color); font-size: 1rem; font-weight: bold; user-select: none; pointer-events: none; z-index: 10; opacity: 0; animation: sparkleAnim 1.2s ease-out forwards; }
         @keyframes sparkleAnim { 0% { opacity: 1; transform: translate(0, 0) scale(0.5); } 100% { opacity: 0; transform: translate(var(--tx, 0px), var(--ty, -40px)) scale(1.5); } }
         .footer { background-color: #111111; color: #a0a0a0; border-top: 1px solid rgba(255, 255, 255, 0.1); }
@@ -370,39 +370,41 @@
                               </div>
                           </div>
                      </div>
-                     <div id="premium-card-wrapper-hunters" class="lg:col-start-4 lg:col-span-2 block relative">
-                          <div class="game-card premium-only-card">
-                              <img src="/gameimages/hunters.png" alt="Hunters" class="game-card-image-internal"
+                     <div class="game-card lg:col-start-2 lg:col-span-2">
+                         <img src="/gameimages/hunters.png" alt="Hunters" class="game-card-image-internal"
                                    onerror="this.onerror=null; this.src='https://placehold.co/600x360/1f2937/ffffff?text=Hunter';"
                                    ondragstart="return false;" oncontextmenu="return false;">
                               <div class="game-card-content-area">
-                                  <h3 class="game-card-title">Hunters (Premium Only)</h3>
-                                  <div class="game-details">
-                                       <div class="feature-categories">
-                                            <div class="feature-category">
-                                                <h4 class="feature-category-title premium-category-title">Placeholder Category 1</h4>
-                                                <ul class="feature-list">
-                                                    <li class="premium-feature-item">Premium Placeholder</li> <li class="premium-feature-item">Premium Placeholder</li> <li class="premium-feature-item">Premium Placeholder</li> <li class="premium-feature-item">Premium Placeholder</li> <li class="premium-feature-item">Premium Placeholder</li> <li class="premium-feature-item">Premium Placeholder</li> <li class="premium-feature-item">Premium Placeholder</li>
-                                                </ul>
-                                            </div>
-                                            <div class="feature-category">
-                                                <h4 class="feature-category-title premium-category-title">Placeholder Category 2</h4>
-                                                <ul class="feature-list">
-                                                     <li class="premium-feature-item">Premium Placeholder</li> <li class="premium-feature-item">Premium Placeholder</li> <li class="premium-feature-item">Premium Placeholder</li> <li class="premium-feature-item">Premium Placeholder</li> <li class="premium-feature-item">Premium Placeholder</li> <li class="premium-feature-item">Premium Placeholder</li> <li class="premium-feature-item">Premium Placeholder</li>
-                                                </ul>
-                                            </div>
-                                            <div class="feature-category">
-                                                <h4 class="feature-category-title premium-category-title">Placeholder Category 3</h4>
-                                                <ul class="feature-list">
-                                                     <li class="premium-feature-item">Premium Placeholder</li> <li class="premium-feature-item">Premium Placeholder</li> <li class="premium-feature-item">Premium Placeholder</li> <li class="premium-feature-item">Premium Placeholder</li> <li class="premium-feature-item">Premium Placeholder</li> <li class="premium-feature-item">Premium Placeholder</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                  </div>
+                                <h3 class="game-card-title">Hunters</h3>
+                              <div class="game-details">
+                                  <div class="feature-categories">
+                                    <div class="feature-category">
+                                        <h4 class="feature-category-title">Placeholder Category 1</h4>
+                                        <ul class="feature-list">
+                                            <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li>
+                                        </ul>
+                                    </div>
+                                    <div class="feature-category">
+                                        <h4 class="feature-category-title">Placeholder Category 2</h4>
+                                        <ul class="feature-list">
+                                            <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li>
+                                        </ul>
+                                    </div>
+                                    <div class="feature-category">
+                                        <h4 class="feature-category-title">Placeholder Category 3</h4>
+                                        <ul class="feature-list">
+                                            <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li> <li>Placeholder Feature</li>
+                                            <li class="premium-feature-item">Premium Placeholder</li>
+                                            <li class="premium-feature-item">Premium Placeholder</li>
+                                            <li class="premium-feature-item">Premium Placeholder</li>
+                                            <li class="premium-feature-item">Premium Placeholder</li>
+                                            <li class="premium-feature-item">Premium Placeholder</li>
+                                        </ul>
+                                    </div>
+                                </div>
                               </div>
                           </div>
                      </div>
-                 </div>
             </section>
             <section id="purchase-cta" class="text-center py-20 px-4">
                  <div class="purchase-card-container max-w-lg mx-auto">
